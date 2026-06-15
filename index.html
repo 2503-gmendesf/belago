@@ -69,24 +69,86 @@ html,body{
   box-shadow:0 0 0 1px rgba(0,0,0,.06),0 8px 40px rgba(0,0,0,.12);
 }
 
-/* ── Em celulares reais: sem margem, sem sombra, sem status bar falsa ── */
+/* ── Em celulares reais ── */
 @media (max-width:430px){
   html,body{ background:var(--bg) }
-  .app{
-    width:100%;
-    box-shadow:none;
-    border-radius:0;
-  }
+  .app{ width:100%;box-shadow:none;border-radius:0 }
   .status-bar{ display:none }
-  .screen{ padding-bottom:calc(68px + env(safe-area-inset-bottom,0px)) }
-  .tab-bar{
-    height:calc(56px + env(safe-area-inset-bottom,0px));
-    padding-bottom:env(safe-area-inset-bottom,0px);
-  }
-  .tab-center-icon{ margin-top:-16px }
-  /* Scroll suave nativo no iOS */
-  .screen{ -webkit-overflow-scrolling:touch }
+  .screen{ padding-bottom:calc(64px + env(safe-area-inset-bottom,0px));-webkit-overflow-scrolling:touch }
+  .tab-bar{ height:calc(58px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px) }
+  .tab-center-icon{ margin-top:-14px;width:44px;height:44px }
+
+  /* ── Fontes menores para facilitar navegação ── */
+  [style*="font-size:22px"]{font-size:18px!important}
+  [style*="font-size:20px"]{font-size:17px!important}
+  [style*="font-size:18px"]{font-size:15px!important}
+  [style*="font-size:17px"]{font-size:15px!important}
+  [style*="font-size:16px"]{font-size:14px!important}
+  [style*="font-size:15px"]{font-size:13px!important}
+  [style*="font-size:14px"]{font-size:13px!important}
+  [style*="font-size:13px"]{font-size:12px!important}
+  [style*="font-size:12px"]{font-size:11px!important}
+  [style*="font-size:11px"]{font-size:10px!important}
+
+  /* Classe CSS */
+  .section-title{font-size:14px!important}
+  .display{font-size:17px!important}
+  .chip{font-size:11px!important;padding:6px 11px!important}
+  .badge{font-size:10px!important;padding:2px 7px!important}
+  .btn{font-size:13px!important}
+  .btn-primary{padding:12px 18px!important}
+  .btn-primary-sm{padding:8px 14px!important;font-size:12px!important}
+  .btn-secondary{padding:12px 18px!important}
+  .btn-secondary-sm{padding:8px 13px!important;font-size:12px!important}
+  .cat-item .cat-emoji{font-size:20px!important}
+  .cat-item .cat-label{font-size:10px!important}
+  .cat-item{padding:11px 6px!important}
+  .tab-lbl{font-size:9px!important}
+  .tab-btn svg{width:20px!important;height:20px!important}
+  .menu-row-lbl{font-size:14px!important}
+  .stars{font-size:11px!important}
+  .card-p{padding:12px!important}
+  .appt-card{padding:12px!important}
+  .promo-card{padding:12px!important}
+  .sheet{border-radius:20px 20px 0 0!important}
+  .sec-hd{margin:14px 0 10px!important}
+  .form-input{padding:10px 12px!important;font-size:13px!important}
+  .pay-opt{padding:11px!important}
+  .toggle-row{padding:11px!important}
+  .menu-row{padding:12px 16px!important}
+  .menu-icon-wrap{width:32px!important;height:32px!important}
 }
+
+/* ── Onboarding ── */
+#onboard{
+  position:absolute;inset:0;z-index:998;background:var(--surface);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.ob-slides{display:flex;transition:transform .4s cubic-bezier(.4,0,.2,1);width:300%}
+.ob-slide{width:33.333%;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;text-align:center}
+.ob-dots{display:flex;gap:6px;justify-content:center;margin-bottom:24px}
+.ob-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:all .3s}
+.ob-dot.active{width:20px;border-radius:3px;background:var(--primary)}
+
+/* ── Chat ── */
+.msg-bubble{
+  max-width:78%;padding:10px 13px;border-radius:18px;
+  font-size:14px;line-height:1.45;word-break:break-word;
+}
+.msg-out{background:var(--primary);color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
+.msg-in{background:var(--surface2);color:var(--text);border-bottom-left-radius:4px;align-self:flex-start}
+.msg-time{font-size:10px;color:var(--text3);margin-top:3px}
+
+/* ── Rastreamento ── */
+.track-step{display:flex;align-items:center;gap:12px;padding:12px 0}
+.track-dot{
+  width:14px;height:14px;border-radius:50%;flex-shrink:0;
+  border:2px solid var(--border);background:var(--surface);transition:all .3s;
+}
+.track-dot.done{background:var(--green);border-color:var(--green)}
+.track-dot.active{background:var(--primary);border-color:var(--primary);box-shadow:0 0 0 4px rgba(232,68,138,.2)}
+.track-line{width:2px;height:28px;background:var(--border);margin-left:6px;transition:background .3s}
+.track-line.done{background:var(--green)}
 
 /* ── STATUS BAR ── */
 .status-bar{
@@ -439,6 +501,134 @@ h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
 </head>
 <body>
 <div class="app">
+
+<!-- ── ONBOARDING ── -->
+<div id="onboard">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;flex-shrink:0">
+    <p style="font-family:var(--font-display);font-style:italic;font-size:20px;color:var(--text)">BelaGo</p>
+    <button onclick="skipOnboard()" style="font-size:13px;color:var(--text2);font-weight:600;background:none;border:none;cursor:pointer;font-family:var(--font)">Pular</button>
+  </div>
+
+  <div class="ob-slides" id="ob-slides">
+    <!-- Slide 1 -->
+    <div class="ob-slide">
+      <div style="font-size:80px;margin-bottom:24px;line-height:1">💆</div>
+      <h2 style="font-family:var(--font-display);font-style:italic;font-size:26px;color:var(--text);margin-bottom:12px;line-height:1.2">Sua beleza,<br>do seu jeito</h2>
+      <p style="font-size:15px;color:var(--text2);line-height:1.6">Agende manicure, maquiagem, cabelo e muito mais. As melhores profissionais chegam até você.</p>
+    </div>
+    <!-- Slide 2 -->
+    <div class="ob-slide">
+      <div style="font-size:80px;margin-bottom:24px;line-height:1">🛡️</div>
+      <h2 style="font-family:var(--font-display);font-style:italic;font-size:26px;color:var(--text);margin-bottom:12px;line-height:1.2">Profissionais<br>verificadas</h2>
+      <p style="font-size:15px;color:var(--text2);line-height:1.6">Todas as profissionais passam por verificação de identidade, portfólio e avaliação de clientes.</p>
+    </div>
+    <!-- Slide 3 -->
+    <div class="ob-slide">
+      <div style="font-size:80px;margin-bottom:24px;line-height:1">⚡</div>
+      <h2 style="font-family:var(--font-display);font-style:italic;font-size:26px;color:var(--text);margin-bottom:12px;line-height:1.2">Agende<br>em segundos</h2>
+      <p style="font-size:15px;color:var(--text2);line-height:1.6">Escolha, agende e pague — tudo pelo app. Confirmação instantânea, sem burocracia.</p>
+    </div>
+  </div>
+
+  <div style="flex:1"></div>
+  <div style="padding:0 24px 40px;flex-shrink:0">
+    <div class="ob-dots" id="ob-dots">
+      <div class="ob-dot active"></div>
+      <div class="ob-dot"></div>
+      <div class="ob-dot"></div>
+    </div>
+
+    <!-- Botão próximo/entrar -->
+    <button class="btn btn-primary btn-full" style="padding:16px;font-size:16px;margin-bottom:12px" id="ob-next-btn" onclick="obNext()">Próximo</button>
+    <button style="width:100%;padding:13px;font-size:14px;background:none;border:1.5px solid var(--border2);border-radius:var(--r-md);color:var(--text2);font-family:var(--font);font-weight:500;cursor:pointer" onclick="skipOnboard()">Já tenho conta — entrar</button>
+  </div>
+</div>
+
+<!-- ── TELA DE LOGIN ── -->
+<div id="login-screen" style="position:absolute;inset:0;z-index:997;background:var(--surface);display:none;flex-direction:column">
+  <div style="padding:20px 20px 0;display:flex;align-items:center;gap:12px">
+    <button onclick="backToOnboard()" style="width:36px;height:36px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <p style="font-family:var(--font-display);font-style:italic;font-size:20px;color:var(--text)">BelaGo</p>
+  </div>
+
+  <div style="padding:32px 24px;flex:1;overflow-y:auto">
+    <h1 style="font-family:var(--font-display);font-style:italic;font-size:26px;color:var(--text);margin-bottom:6px">Bem-vinda de volta</h1>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:28px">Entre para agendar com as melhores profissionais</p>
+
+    <!-- Google -->
+    <button onclick="loginWith('Google')" style="width:100%;padding:14px;border-radius:var(--r-md);border:1.5px solid var(--border2);background:var(--surface);font-family:var(--font);font-size:14px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px">
+      <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Continuar com Google
+    </button>
+    <button onclick="loginWith('Apple')" style="width:100%;padding:14px;border-radius:var(--r-md);border:none;background:#000;font-family:var(--font);font-size:14px;font-weight:600;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:24px">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      Continuar com Apple
+    </button>
+
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+      <span style="font-size:12px;color:var(--text3);font-weight:500">ou use seu e-mail</span>
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">E-mail</label>
+      <input class="form-input" type="email" placeholder="seu@email.com" id="login-email">
+    </div>
+    <div class="form-group" style="position:relative">
+      <label class="form-label">Senha</label>
+      <input class="form-input" type="password" placeholder="••••••••" id="login-pass">
+      <button onclick="togglePass()" style="position:absolute;right:12px;bottom:10px;background:none;border:none;cursor:pointer;color:var(--text2)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <div style="text-align:right;margin-bottom:24px">
+      <span style="font-size:13px;color:var(--primary);font-weight:600;cursor:pointer" onclick="toast('Link de recuperação enviado para seu e-mail')">Esqueceu a senha?</span>
+    </div>
+
+    <button class="btn btn-primary btn-full" style="padding:15px;font-size:15px;margin-bottom:16px" onclick="loginWith('email')">Entrar</button>
+
+    <p style="text-align:center;font-size:13px;color:var(--text2)">
+      Não tem conta?
+      <span style="color:var(--primary);font-weight:600;cursor:pointer" onclick="showRegister()"> Cadastre-se grátis</span>
+    </p>
+  </div>
+</div>
+
+<!-- ── TELA DE CADASTRO ── -->
+<div id="register-screen" style="position:absolute;inset:0;z-index:996;background:var(--surface);display:none;flex-direction:column">
+  <div style="padding:20px 20px 0;display:flex;align-items:center;gap:12px">
+    <button onclick="backToLogin()" style="width:36px;height:36px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <p style="font-size:16px;font-weight:700;color:var(--text)">Criar conta</p>
+  </div>
+  <div style="padding:24px;flex:1;overflow-y:auto">
+    <p style="font-size:14px;color:var(--text2);margin-bottom:24px">Crie sua conta e agende em minutos</p>
+    <div class="form-group">
+      <label class="form-label">Nome completo</label>
+      <input class="form-input" type="text" placeholder="Seu nome completo">
+    </div>
+    <div class="form-group">
+      <label class="form-label">E-mail</label>
+      <input class="form-input" type="email" placeholder="seu@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Telefone</label>
+      <input class="form-input" type="tel" placeholder="(11) 99999-9999">
+    </div>
+    <div class="form-group" style="margin-bottom:24px">
+      <label class="form-label">Senha</label>
+      <input class="form-input" type="password" placeholder="Mínimo 8 caracteres">
+    </div>
+    <div style="background:var(--surface2);border-radius:var(--r-md);padding:14px;margin-bottom:24px">
+      <p style="font-size:12px;color:var(--text2);line-height:1.6">Ao criar sua conta você concorda com os <span style="color:var(--primary);font-weight:600;cursor:pointer">Termos de Uso</span> e a <span style="color:var(--primary);font-weight:600;cursor:pointer">Política de Privacidade</span> do BelaGo.</p>
+    </div>
+    <button class="btn btn-primary btn-full" style="padding:15px;font-size:15px" onclick="loginWith('register')">Criar conta</button>
+  </div>
+</div>
 
 <!-- ── SPLASH ── -->
 <div id="splash">
@@ -1076,9 +1266,224 @@ h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
       </div>
     </div>
     <span class="badge badge-confirmed" style="font-size:12px;padding:5px 12px;margin-bottom:20px">Confirmado</span>
-    <div style="display:flex;gap:10px;margin-top:8px">
-      <button class="btn btn-secondary" style="flex:1;padding:13px" onclick="closeOv('ov-appt-detail');openCancel()">Cancelar</button>
-      <button class="btn btn-primary" style="flex:1;padding:13px" onclick="closeOv('ov-appt-detail')">Fechar</button>
+    <div style="display:flex;gap:8px;margin-top:12px;margin-bottom:10px">
+      <button onclick="closeOv('ov-appt-detail');openChat('Fernanda Costa','av-a','FC')" style="flex:1;padding:11px;border-radius:var(--r-md);border:1.5px solid var(--border2);background:var(--surface);font-family:var(--font);font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Chat
+      </button>
+      <button onclick="closeOv('ov-appt-detail');openTrack()" style="flex:1;padding:11px;border-radius:var(--r-md);border:none;background:var(--grad);font-family:var(--font);font-size:13px;font-weight:600;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>Rastrear
+      </button>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-secondary" style="flex:1;padding:12px;font-size:13px" onclick="closeOv('ov-appt-detail');openCancel()">Cancelar</button>
+      <button class="btn" style="flex:1;padding:12px;font-size:13px;background:var(--surface2);border:none;border-radius:var(--r-md);color:var(--text2);font-family:var(--font);font-weight:600;cursor:pointer" onclick="closeOv('ov-appt-detail');document.getElementById('ov-receipt').classList.add('open')">Comprovante</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── OVERLAY: CHAT ── -->
+<div class="overlay" id="ov-chat" onclick="closeOv('ov-chat',event)">
+  <div class="sheet" style="height:92vh;display:flex;flex-direction:column;padding:0">
+    <div class="sheet-handle" style="margin:12px auto 0"></div>
+    <!-- Header -->
+    <div style="padding:10px 16px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0">
+      <div class="av av-a" style="width:40px;height:40px;font-size:14px" id="chat-av">FC</div>
+      <div style="flex:1">
+        <p style="font-size:15px;font-weight:700;color:var(--text)" id="chat-name">Fernanda Costa</p>
+        <div style="display:flex;align-items:center;gap:5px">
+          <div style="width:7px;height:7px;border-radius:50%;background:var(--green)"></div>
+          <p style="font-size:12px;color:var(--text2)">Online agora</p>
+        </div>
+      </div>
+      <button onclick="closeOv('ov-chat')" style="width:32px;height:32px;border-radius:50%;background:var(--surface2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- Mensagens -->
+    <div id="chat-msgs" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;scrollbar-width:none">
+      <!-- mensagens injetadas por JS -->
+    </div>
+
+    <!-- Quick replies -->
+    <div id="chat-quick" style="padding:8px 12px 6px;border-top:1px solid var(--border);display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0">
+      <button class="chip" style="white-space:nowrap;font-size:12px;padding:6px 12px" onclick="sendQuick('Olá! Tenho uma dúvida sobre o agendamento.')">Dúvida sobre agendamento</button>
+      <button class="chip" style="white-space:nowrap;font-size:12px;padding:6px 12px" onclick="sendQuick('Você atende em domicílio?')">Atende em domicílio?</button>
+      <button class="chip" style="white-space:nowrap;font-size:12px;padding:6px 12px" onclick="sendQuick('Pode confirmar o horário?')">Confirmar horário</button>
+    </div>
+
+    <!-- Input -->
+    <div style="padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--border);display:flex;align-items:flex-end;gap:8px;flex-shrink:0;background:var(--surface)">
+      <textarea id="chat-in" placeholder="Mensagem..." rows="1" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,96)+'px'" style="flex:1;resize:none;background:var(--surface2);border:1.5px solid var(--border);border-radius:20px;padding:9px 14px;font-family:var(--font);font-size:14px;color:var(--text);outline:none;line-height:1.4;max-height:96px;overflow-y:auto;transition:border-color .2s" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+      <button onclick="sendChatMsg()" style="width:40px;height:40px;border-radius:50%;background:var(--grad);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── OVERLAY: RASTREAMENTO ── -->
+<div class="overlay" id="ov-track" onclick="closeOv('ov-track',event)">
+  <div class="sheet" style="padding:8px 0 32px">
+    <div class="sheet-handle" style="margin-bottom:4px"></div>
+    <!-- Mapa simulado -->
+    <div style="margin:0 20px 16px;height:200px;border-radius:var(--r-lg);overflow:hidden;position:relative;background:linear-gradient(160deg,#E8F4F0,#F0EDF8,#F8EEF3);border:1px solid var(--border)">
+      <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.2" viewBox="0 0 390 200" preserveAspectRatio="none">
+        <line x1="0" y1="60" x2="390" y2="60" stroke="#9B5DE5" stroke-width="2"/>
+        <line x1="0" y1="130" x2="390" y2="130" stroke="#9B5DE5" stroke-width="3"/>
+        <line x1="90" y1="0" x2="90" y2="200" stroke="#9B5DE5" stroke-width="2"/>
+        <line x1="200" y1="0" x2="200" y2="200" stroke="#9B5DE5" stroke-width="3"/>
+        <line x1="310" y1="0" x2="310" y2="200" stroke="#9B5DE5" stroke-width="2"/>
+        <rect x="110" y="70" width="70" height="50" rx="4" fill="#C8C8CE" opacity=".5"/>
+        <rect x="215" y="70" width="80" height="50" rx="4" fill="#C8C8CE" opacity=".5"/>
+        <rect x="30" y="140" width="45" height="40" rx="4" fill="#C8C8CE" opacity=".4"/>
+      </svg>
+      <!-- Rota pontilhada -->
+      <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 390 200" preserveAspectRatio="none">
+        <path d="M80 160 Q130 120 200 100 Q270 80 310 80" stroke="var(--primary)" stroke-width="3" fill="none" stroke-dasharray="8,5" opacity=".6"/>
+      </svg>
+      <!-- Pin profissional -->
+      <div id="track-pin" style="position:absolute;left:22%;top:72%;transition:all 2s ease">
+        <div style="background:var(--primary);color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:12px;white-space:nowrap;box-shadow:var(--shadow-md)">FC</div>
+        <div style="width:2px;height:6px;background:var(--primary);margin:0 auto"></div>
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--primary);margin:0 auto"></div>
+      </div>
+      <!-- Pin destino (usuária) -->
+      <div style="position:absolute;right:18%;top:32%">
+        <div style="width:14px;height:14px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 5px rgba(232,68,138,.15)"></div>
+      </div>
+      <!-- ETA badge -->
+      <div style="position:absolute;top:10px;left:10px;background:var(--surface);border-radius:12px;padding:6px 12px;box-shadow:var(--shadow-md);border:1px solid var(--border)">
+        <p style="font-size:11px;color:var(--text2)">Chegada prevista</p>
+        <p style="font-size:16px;font-weight:700;color:var(--primary)" id="track-eta">~18 min</p>
+      </div>
+    </div>
+
+    <!-- Info profissional -->
+    <div style="padding:0 20px">
+      <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface2);border-radius:var(--r-lg);margin-bottom:16px">
+        <div class="av av-a" style="width:48px;height:48px;font-size:17px">FC</div>
+        <div style="flex:1">
+          <p style="font-size:15px;font-weight:700;color:var(--text)">Fernanda Costa</p>
+          <p style="font-size:13px;color:var(--text2)">Design de Sobrancelha · 45min</p>
+          <div style="display:flex;align-items:center;gap:4px;margin-top:2px">
+            <span class="stars" style="font-size:12px">★</span>
+            <span style="font-size:12px;font-weight:700;color:var(--text)">4.9</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button onclick="openChat('Fernanda Costa','av-a','FC')" style="width:38px;height:38px;border-radius:50%;background:var(--surface);border:1.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </button>
+          <button onclick="toast('Ligando para Fernanda...')" style="width:38px;height:38px;border-radius:50%;background:var(--surface);border:1.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5 19.79 19.79 0 0 1 1.61 5 2 2 0 0 1 3.59 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.6a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 18z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Progress steps -->
+      <p style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.5px;margin-bottom:12px">STATUS DO ATENDIMENTO</p>
+      <div id="track-steps">
+        <div class="track-step">
+          <div>
+            <div class="track-dot done"></div>
+            <div class="track-line done"></div>
+          </div>
+          <div><p style="font-size:14px;font-weight:600;color:var(--green)">Agendamento confirmado</p><p style="font-size:12px;color:var(--text2)">Hoje às 13h45</p></div>
+        </div>
+        <div class="track-step">
+          <div>
+            <div class="track-dot active"></div>
+            <div class="track-line"></div>
+          </div>
+          <div><p style="font-size:14px;font-weight:600;color:var(--primary)">A caminho</p><p style="font-size:12px;color:var(--text2)" id="track-sub">Fernanda está a 2,1km de você</p></div>
+        </div>
+        <div class="track-step">
+          <div>
+            <div class="track-dot"></div>
+            <div class="track-line"></div>
+          </div>
+          <div><p style="font-size:14px;color:var(--text2)">Chegou</p></div>
+        </div>
+        <div class="track-step">
+          <div><div class="track-dot"></div></div>
+          <div><p style="font-size:14px;color:var(--text2)">Atendimento iniciado</p></div>
+        </div>
+      </div>
+
+      <button class="btn btn-secondary btn-full" style="margin-top:20px;padding:13px" onclick="closeOv('ov-track');openCancel()">Cancelar atendimento</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── OVERLAY: COMPROVANTE ── -->
+<div class="overlay" id="ov-receipt" onclick="closeOv('ov-receipt',event)">
+  <div class="sheet" style="padding:8px 20px 36px">
+    <div class="sheet-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <h2 style="font-size:18px;font-weight:700;color:var(--text)">Comprovante</h2>
+      <div style="display:flex;gap:8px">
+        <button onclick="toast('Comprovante compartilhado!')" style="width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </button>
+        <button onclick="closeOv('ov-receipt')" style="width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Logo + status -->
+    <div style="text-align:center;padding:20px 0 24px;border-bottom:1px dashed var(--border)">
+      <div style="width:56px;height:56px;border-radius:50%;background:var(--green-bg);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <p style="font-size:18px;font-weight:700;color:var(--text)">Pagamento confirmado</p>
+      <p style="font-size:13px;color:var(--text2);margin-top:4px">15 de junho de 2026 · 14h12</p>
+    </div>
+
+    <!-- Itens -->
+    <div style="padding:16px 0;border-bottom:1px dashed var(--border)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div class="av av-a" style="width:40px;height:40px;font-size:14px">FC</div>
+        <div>
+          <p style="font-size:14px;font-weight:700;color:var(--text)">Fernanda Costa</p>
+          <p style="font-size:12px;color:var(--text2)">Sobrancelha e Cílios</p>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between"><span style="font-size:13px;color:var(--text2)">Serviço</span><span style="font-size:13px;font-weight:500;color:var(--text)">Design de Sobrancelha</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="font-size:13px;color:var(--text2)">Data</span><span style="font-size:13px;font-weight:500;color:var(--text)">Amanhã · 14h00</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="font-size:13px;color:var(--text2)">Local</span><span style="font-size:13px;font-weight:500;color:var(--text)">No espaço · 1.2km</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="font-size:13px;color:var(--text2)">Duração</span><span style="font-size:13px;font-weight:500;color:var(--text)">45 min</span></div>
+      </div>
+    </div>
+
+    <!-- Valores -->
+    <div style="padding:16px 0;border-bottom:1px dashed var(--border)">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:var(--text2)">Subtotal</span><span style="font-size:13px;color:var(--text)">R$45,00</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:var(--text2)">Taxa de serviço</span><span style="font-size:13px;color:var(--text)">R$0,00</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:var(--green)">Desconto (1ª vez)</span><span style="font-size:13px;color:var(--green)">-R$5,00</span></div>
+      <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
+        <span style="font-size:15px;font-weight:700;color:var(--text)">Total pago</span>
+        <span style="font-size:17px;font-weight:700;color:var(--primary)">R$40,00</span>
+      </div>
+    </div>
+
+    <!-- Pagamento -->
+    <div style="padding:14px 0;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:13px;color:var(--text2)">Método de pagamento</span>
+        <div style="display:flex;align-items:center;gap:6px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          <span style="font-size:13px;font-weight:600;color:var(--text)">PIX</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ID do pedido -->
+    <div style="background:var(--surface2);border-radius:var(--r-sm);padding:10px 14px;text-align:center">
+      <p style="font-size:11px;color:var(--text2);margin-bottom:2px">ID do pedido</p>
+      <p style="font-size:12px;font-weight:700;color:var(--text);letter-spacing:.5px">#BLG-2026-00847</p>
     </div>
   </div>
 </div>
@@ -1981,11 +2386,149 @@ function toast(msg){
   setTimeout(()=>t.remove(),2500);
 }
 
+/* ── ONBOARDING ── */
+let obStep=0;
+function obNext(){
+  if(obStep<2){
+    obStep++;
+    document.getElementById('ob-slides').style.transform=`translateX(-${obStep*33.333}%)`;
+    document.querySelectorAll('.ob-dot').forEach((d,i)=>d.classList.toggle('active',i===obStep));
+    if(obStep===2) document.getElementById('ob-next-btn').textContent='Começar';
+  } else {
+    showLogin();
+  }
+}
+function skipOnboard(){ showLogin() }
+function showLogin(){
+  document.getElementById('onboard').style.display='none';
+  const ls=document.getElementById('login-screen');
+  ls.style.display='flex';
+  ls.style.animation='slideIn .3s ease';
+}
+function backToOnboard(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('onboard').style.display='flex';
+}
+function showRegister(){
+  document.getElementById('login-screen').style.display='none';
+  const rs=document.getElementById('register-screen');
+  rs.style.display='flex';
+  rs.style.animation='slideIn .3s ease';
+}
+function backToLogin(){
+  document.getElementById('register-screen').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+}
+function loginWith(method){
+  const screens=['onboard','login-screen','register-screen'];
+  screens.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){ el.style.opacity='0'; el.style.transition='opacity .3s'; setTimeout(()=>el.remove(),300); }
+  });
+}
+function togglePass(){
+  const i=document.getElementById('login-pass');
+  i.type=i.type==='password'?'text':'password';
+}
+
+/* ── CHAT ── */
+const CHAT_INIT=[
+  {out:false, text:'Olá, Juliana! Tudo bem? Confirmo que estou disponível amanhã às 14h para o seu design de sobrancelha 😊', time:'13:40'},
+  {out:true,  text:'Oi, Fernanda! Que ótimo! Tenho o endereço certo? Rua das Flores, 142?', time:'13:42'},
+  {out:false, text:'Sim, exatamente! Fica no 2° andar, estúdio 8. Tem interfone. Me avisa quando estiver chegando!', time:'13:43'},
+  {out:true,  text:'Perfeito, vou avisar. Preciso trazer alguma coisa?', time:'13:44'},
+  {out:false, text:'Não precisa! Tudo que precisa está aqui. Só venha confortável 🌸', time:'13:45'},
+];
+let chatMsgs=[...CHAT_INIT];
+
+function openChat(name, avClass, initials){
+  document.getElementById('chat-name').textContent=name;
+  document.getElementById('chat-av').className='av '+avClass;
+  document.getElementById('chat-av').style.cssText='width:40px;height:40px;font-size:14px';
+  document.getElementById('chat-av').textContent=initials;
+  renderChatMsgs();
+  document.getElementById('ov-chat').classList.add('open');
+  setTimeout(()=>{
+    const msgs=document.getElementById('chat-msgs');
+    msgs.scrollTop=msgs.scrollHeight;
+  },100);
+}
+
+function renderChatMsgs(){
+  document.getElementById('chat-msgs').innerHTML=chatMsgs.map(m=>`
+    <div style="display:flex;flex-direction:column;align-items:${m.out?'flex-end':'flex-start'}">
+      <div class="msg-bubble ${m.out?'msg-out':'msg-in'}">${m.text}</div>
+      <p class="msg-time" style="text-align:${m.out?'right':'left'}">${m.time}</p>
+    </div>
+  `).join('');
+}
+
+function sendChatMsg(){
+  const input=document.getElementById('chat-in');
+  const text=input.value.trim();
+  if(!text) return;
+  const now=new Date();
+  const time=now.getHours()+':'+(now.getMinutes()+'').padStart(2,'0');
+  chatMsgs.push({out:true,text,time});
+  input.value=''; input.style.height='auto';
+  renderChatMsgs();
+  const msgs=document.getElementById('chat-msgs');
+  msgs.scrollTop=msgs.scrollHeight;
+  // resposta automática simulada
+  setTimeout(()=>{
+    const respostas=[
+      'Claro, sem problema! 😊','Perfeito, te vejo amanhã!','Combinado! Qualquer dúvida estou aqui.','Ótimo! Vai ficar lindo 🌸'];
+    chatMsgs.push({out:false,text:respostas[Math.floor(Math.random()*respostas.length)],time});
+    renderChatMsgs();
+    msgs.scrollTop=msgs.scrollHeight;
+  },1200);
+}
+
+function sendQuick(text){
+  document.getElementById('chat-in').value=text;
+  sendChatMsg();
+}
+
+/* ── RASTREAMENTO ── */
+let trackInterval=null;
+let trackEta=18;
+
+function openTrack(){
+  trackEta=18;
+  document.getElementById('track-eta').textContent='~'+trackEta+' min';
+  document.getElementById('track-pin').style.left='22%';
+  document.getElementById('track-pin').style.top='72%';
+  document.getElementById('ov-track').classList.add('open');
+  clearInterval(trackInterval);
+  trackInterval=setInterval(()=>{
+    if(trackEta<=0){ clearInterval(trackInterval); arrivedTrack(); return; }
+    trackEta--;
+    document.getElementById('track-eta').textContent=trackEta===0?'Chegando!':`~${trackEta} min`;
+    // anima pin ao longo da rota
+    const prog=1-(trackEta/18);
+    const x=22+prog*58; const y=72-prog*38;
+    document.getElementById('track-pin').style.left=x+'%';
+    document.getElementById('track-pin').style.top=y+'%';
+    const sub=document.getElementById('track-sub');
+    if(sub) sub.textContent=`Fernanda está a ${(2.1*(1-prog)).toFixed(1)}km de você`;
+  },800);
+}
+
+function arrivedTrack(){
+  document.getElementById('track-eta').textContent='Chegou!';
+  document.getElementById('track-eta').style.color='var(--green)';
+  const dots=document.querySelectorAll('#track-steps .track-dot');
+  const lines=document.querySelectorAll('#track-steps .track-line');
+  if(dots[2]) { dots[2].classList.add('done'); }
+  if(lines[1]) { lines[1].classList.add('done'); }
+  toast('Fernanda chegou! Boa sessão ✨');
+}
+
 /* ── SPLASH ── */
 function initSplash(){
   const s=document.getElementById('splash');
   if(!s) return;
-  setTimeout(()=>{s.style.opacity='0';setTimeout(()=>s.remove(),400);},2000);
+  setTimeout(()=>{ s.style.transition='opacity .4s'; s.style.opacity='0'; setTimeout(()=>s.remove(),400); },2200);
 }
 
 /* ── INIT ── */
