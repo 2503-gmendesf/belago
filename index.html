@@ -1,0 +1,2542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="BelaGo">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="BelaGo — O Uber da Beleza. Conectamos você às melhores profissionais de beleza perto de você.">
+<meta property="og:title" content="BelaGo — O Uber da Beleza">
+<meta property="og:description" content="Agende manicure, maquiagem, sobrancelha, cílios, cabelo e muito mais. Rápido, fácil e seguro.">
+<meta property="og:type" content="website">
+<title>BelaGo — O Uber da Beleza</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#F7F7F9;
+  --surface:#FFFFFF;
+  --surface2:#F2F2F4;
+  --border:#E8E8EC;
+  --border2:#D8D8DE;
+  --primary:#E8448A;
+  --primary-light:#FF85B3;
+  --primary-bg:#FFF0F6;
+  --purple:#9B5DE5;
+  --green:#16A34A;
+  --green-bg:#F0FDF4;
+  --amber:#D97706;
+  --amber-bg:#FFFBEB;
+  --red:#DC2626;
+  --text:#0F0F0F;
+  --text2:#6B6B80;
+  --text3:#A0A0B0;
+  --grad:linear-gradient(135deg,#E8448A 0%,#9B5DE5 100%);
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.05);
+  --shadow-md:0 4px 16px rgba(0,0,0,.1),0 1px 4px rgba(0,0,0,.06);
+  --font-display:'Playfair Display',serif;
+  --font:'DM Sans',sans-serif;
+  --r-sm:10px;
+  --r-md:14px;
+  --r-lg:18px;
+  --r-xl:24px;
+}
+html,body{
+  height:100%;
+  background:#D8D8E0;
+  font-family:var(--font);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.app{
+  width:430px;
+  max-width:100%;
+  margin:0 auto;
+  height:100dvh;
+  min-height:100vh;
+  background:var(--bg);
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+  /* Sombra decorativa apenas em desktop */
+  box-shadow:0 0 0 1px rgba(0,0,0,.06),0 8px 40px rgba(0,0,0,.12);
+}
+
+/* ── Em celulares reais ── */
+@media (max-width:430px){
+  html,body{ background:var(--bg) }
+  .app{ width:100%;box-shadow:none;border-radius:0 }
+  .status-bar{ display:none }
+  .screen{ padding-bottom:calc(64px + env(safe-area-inset-bottom,0px));-webkit-overflow-scrolling:touch }
+  .tab-bar{ height:calc(58px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px) }
+  .tab-center-icon{ margin-top:-14px;width:44px;height:44px }
+
+  /* ── Fontes menores para facilitar navegação ── */
+  [style*="font-size:22px"]{font-size:18px!important}
+  [style*="font-size:20px"]{font-size:17px!important}
+  [style*="font-size:18px"]{font-size:15px!important}
+  [style*="font-size:17px"]{font-size:15px!important}
+  [style*="font-size:16px"]{font-size:14px!important}
+  [style*="font-size:15px"]{font-size:13px!important}
+  [style*="font-size:14px"]{font-size:13px!important}
+  [style*="font-size:13px"]{font-size:12px!important}
+  [style*="font-size:12px"]{font-size:11px!important}
+  [style*="font-size:11px"]{font-size:10px!important}
+
+  /* Classe CSS */
+  .section-title{font-size:14px!important}
+  .display{font-size:17px!important}
+  .chip{font-size:11px!important;padding:6px 11px!important}
+  .badge{font-size:10px!important;padding:2px 7px!important}
+  .btn{font-size:13px!important}
+  .btn-primary{padding:12px 18px!important}
+  .btn-primary-sm{padding:8px 14px!important;font-size:12px!important}
+  .btn-secondary{padding:12px 18px!important}
+  .btn-secondary-sm{padding:8px 13px!important;font-size:12px!important}
+  .cat-item .cat-emoji{font-size:20px!important}
+  .cat-item .cat-label{font-size:10px!important}
+  .cat-item{padding:11px 6px!important}
+  .tab-lbl{font-size:9px!important}
+  .tab-btn svg{width:20px!important;height:20px!important}
+  .menu-row-lbl{font-size:14px!important}
+  .stars{font-size:11px!important}
+  .card-p{padding:12px!important}
+  .appt-card{padding:12px!important}
+  .promo-card{padding:12px!important}
+  .sheet{border-radius:20px 20px 0 0!important}
+  .sec-hd{margin:14px 0 10px!important}
+  .form-input{padding:10px 12px!important;font-size:13px!important}
+  .pay-opt{padding:11px!important}
+  .toggle-row{padding:11px!important}
+  .menu-row{padding:12px 16px!important}
+  .menu-icon-wrap{width:32px!important;height:32px!important}
+}
+
+/* ── Onboarding ── */
+#onboard{
+  position:absolute;inset:0;z-index:998;background:var(--surface);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.ob-slides{display:flex;transition:transform .4s cubic-bezier(.4,0,.2,1);width:300%}
+.ob-slide{width:33.333%;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;text-align:center}
+.ob-dots{display:flex;gap:6px;justify-content:center;margin-bottom:24px}
+.ob-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:all .3s}
+.ob-dot.active{width:20px;border-radius:3px;background:var(--primary)}
+
+/* ── Chat ── */
+.msg-bubble{
+  max-width:78%;padding:10px 13px;border-radius:18px;
+  font-size:14px;line-height:1.45;word-break:break-word;
+}
+.msg-out{background:var(--primary);color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
+.msg-in{background:var(--surface2);color:var(--text);border-bottom-left-radius:4px;align-self:flex-start}
+.msg-time{font-size:10px;color:var(--text3);margin-top:3px}
+
+/* ── Rastreamento ── */
+.track-step{display:flex;align-items:center;gap:12px;padding:12px 0}
+.track-dot{
+  width:14px;height:14px;border-radius:50%;flex-shrink:0;
+  border:2px solid var(--border);background:var(--surface);transition:all .3s;
+}
+.track-dot.done{background:var(--green);border-color:var(--green)}
+.track-dot.active{background:var(--primary);border-color:var(--primary);box-shadow:0 0 0 4px rgba(232,68,138,.2)}
+.track-line{width:2px;height:28px;background:var(--border);margin-left:6px;transition:background .3s}
+.track-line.done{background:var(--green)}
+
+/* ── STATUS BAR ── */
+.status-bar{
+  background:var(--surface);
+  padding:8px 20px 6px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;border-bottom:1px solid var(--border);
+}
+.status-bar .time{font-size:13px;font-weight:700;color:var(--text)}
+.status-bar .icons{display:flex;align-items:center;gap:5px}
+.status-bar .icons svg{width:15px;height:11px}
+
+/* ── SCREENS ── */
+.screen{flex:1;overflow-y:auto;overflow-x:hidden;display:none;flex-direction:column;padding-bottom:72px;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.screen.active{display:flex}
+
+/* ── TAB BAR ── */
+.tab-bar{
+  position:absolute;bottom:0;left:0;right:0;
+  background:var(--surface);border-top:1px solid var(--border);
+  display:flex;height:70px;z-index:100;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.tab-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;cursor:pointer;border:none;background:none;padding:8px 4px;
+}
+.tab-btn svg{width:22px;height:22px;stroke:var(--text3);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+.tab-btn .tab-lbl{font-size:10px;font-weight:500;color:var(--text3);transition:color .2s}
+.tab-btn.active svg{stroke:var(--primary)}
+.tab-btn.active .tab-lbl{color:var(--primary);font-weight:600}
+.tab-center-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;cursor:pointer;border:none;background:none;padding:4px;
+}
+.tab-center-icon{
+  width:48px;height:48px;border-radius:50%;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;margin-top:-20px;
+  box-shadow:0 4px 14px rgba(232,68,138,.35);
+}
+.tab-center-icon svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tab-center-btn .tab-lbl{font-size:10px;font-weight:600;color:var(--primary)}
+
+/* ── TYPOGRAPHY ── */
+.display{font-family:var(--font-display);font-style:italic}
+h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
+.section-title{font-size:16px;font-weight:700;color:var(--text)}
+.label-sm{font-size:12px;font-weight:500;color:var(--text2)}
+
+/* ── COMPONENTS ── */
+.card{background:var(--surface);border-radius:var(--r-lg);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+.card-p{padding:16px}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  border:none;cursor:pointer;font-family:var(--font);font-weight:600;
+  border-radius:var(--r-md);transition:opacity .15s,transform .1s;
+  white-space:nowrap;
+}
+.btn:active{transform:scale(.97);opacity:.9}
+.btn-primary{background:var(--grad);color:#fff;padding:13px 22px;font-size:14px}
+.btn-primary-sm{background:var(--grad);color:#fff;padding:10px 18px;font-size:13px;border-radius:var(--r-sm)}
+.btn-secondary{background:var(--surface);color:var(--text);border:1.5px solid var(--border2);padding:13px 22px;font-size:14px}
+.btn-secondary-sm{background:var(--surface);color:var(--text);border:1.5px solid var(--border2);padding:10px 16px;font-size:13px;border-radius:var(--r-sm)}
+.btn-ghost{background:var(--primary-bg);color:var(--primary);padding:10px 18px;font-size:13px;border-radius:var(--r-sm)}
+.btn-full{width:100%;border-radius:var(--r-md)}
+.btn-danger{background:transparent;color:var(--red);border:1.5px solid var(--red);padding:13px 22px;font-size:14px}
+
+/* Avatar */
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0;font-family:var(--font)}
+.av-a{background:linear-gradient(135deg,#E8448A,#FF85B3)}
+.av-b{background:linear-gradient(135deg,#9B5DE5,#C084FC)}
+.av-c{background:linear-gradient(135deg,#0EA5E9,#38BDF8)}
+.av-d{background:linear-gradient(135deg,#F97316,#FDBA74)}
+.av-e{background:linear-gradient(135deg,#F43F5E,#FB7185)}
+.av-f{background:linear-gradient(135deg,#6366F1,#A5B4FC)}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-green{background:var(--green-bg);color:var(--green)}
+.badge-amber{background:var(--amber-bg);color:var(--amber)}
+.badge-primary{background:var(--primary-bg);color:var(--primary)}
+.badge-gray{background:var(--surface2);color:var(--text2)}
+.badge-confirmed{background:#ECFDF5;color:#059669}
+.badge-pending{background:#FFFBEB;color:#D97706}
+.badge-cancelled{background:#FEF2F2;color:#DC2626}
+
+/* Input */
+.input{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-md);
+  padding:12px 16px;font-family:var(--font);font-size:15px;color:var(--text);
+  outline:none;width:100%;transition:border-color .2s;
+}
+.input:focus{border-color:var(--primary)}
+.input::placeholder{color:var(--text3)}
+
+/* Divider */
+.divider{height:1px;background:var(--border);margin:0}
+
+/* Scroll row */
+.hscroll{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.hscroll::-webkit-scrollbar{display:none}
+
+/* Stars */
+.stars{color:#F59E0B;font-size:13px;letter-spacing:1px}
+
+/* Section header */
+.sec-hd{display:flex;align-items:center;justify-content:space-between;padding:0 20px;margin:20px 0 12px}
+.see-all{font-size:13px;color:var(--primary);font-weight:600;cursor:pointer;border:none;background:none;font-family:var(--font)}
+
+/* Category grid */
+.cat-item{
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  padding:14px 6px;background:var(--surface);border-radius:var(--r-md);
+  border:1.5px solid var(--border);cursor:pointer;transition:all .2s;
+}
+.cat-item:active,.cat-item:hover{border-color:var(--primary);background:var(--primary-bg)}
+.cat-item .cat-emoji{font-size:24px;line-height:1}
+.cat-item .cat-label{font-size:11px;font-weight:600;color:var(--text2);text-align:center}
+
+/* Chips */
+.chip{
+  flex-shrink:0;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:500;
+  cursor:pointer;border:1.5px solid var(--border2);background:var(--surface);color:var(--text2);
+  font-family:var(--font);transition:all .15s;
+}
+.chip.active{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:600}
+
+/* Promo card */
+.promo-card{
+  min-width:240px;background:var(--surface);border:1.5px solid var(--border);
+  border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);
+}
+.promo-timer{
+  display:flex;align-items:center;gap:6px;background:var(--primary-bg);
+  border-radius:var(--r-sm);padding:7px 12px;margin-top:10px;
+}
+
+/* Modal */
+.overlay{
+  position:absolute;inset:0;background:rgba(15,15,20,.5);
+  display:none;align-items:flex-end;z-index:200;
+  backdrop-filter:blur(3px);
+}
+.overlay.open{display:flex}
+.sheet{
+  background:var(--surface);border-radius:28px 28px 0 0;
+  width:100%;max-height:92vh;overflow-y:auto;scrollbar-width:none;
+  animation:slideUp .3s cubic-bezier(.32,.07,.46,.99);
+}
+.sheet::-webkit-scrollbar{display:none}
+.sheet-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:12px auto 4px}
+
+/* Step bar */
+.step-track{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.step-fill{height:100%;background:var(--grad);border-radius:2px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+
+/* Calendar */
+.cal-day{
+  flex-shrink:0;width:54px;display:flex;flex-direction:column;align-items:center;
+  gap:3px;padding:10px 4px;border-radius:14px;cursor:pointer;transition:all .2s;
+  border:1.5px solid var(--border);background:var(--surface);
+}
+.cal-day:hover{border-color:var(--primary)}
+.cal-day.sel{background:var(--primary);border-color:var(--primary)}
+.cal-day.sel .cal-dname,.cal-day.sel .cal-dnum{color:#fff}
+.cal-day.disabled{opacity:.3;pointer-events:none}
+.cal-dname{font-size:11px;font-weight:500;color:var(--text2)}
+.cal-dnum{font-size:18px;font-weight:700;color:var(--text)}
+
+/* Time slot */
+.tslot{
+  padding:11px 8px;border-radius:var(--r-sm);font-size:13px;font-weight:600;
+  border:1.5px solid var(--border2);background:var(--surface);color:var(--text);
+  cursor:pointer;text-align:center;transition:all .15s;font-family:var(--font);
+}
+.tslot:hover{border-color:var(--primary)}
+.tslot.sel{background:var(--primary);border-color:var(--primary);color:#fff}
+.tslot.taken{opacity:.3;pointer-events:none;color:var(--text2)}
+
+/* Pay option */
+.pay-opt{
+  display:flex;align-items:center;gap:12px;padding:14px;
+  border:1.5px solid var(--border);border-radius:var(--r-md);cursor:pointer;
+  transition:all .15s;background:var(--surface);margin-bottom:8px;
+}
+.pay-opt.sel{border-color:var(--primary);background:var(--primary-bg)}
+.pay-radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--border2);flex-shrink:0;transition:all .2s;margin-left:auto}
+.pay-opt.sel .pay-radio{border-color:var(--primary);background:var(--primary)}
+
+/* Toggle */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:14px;background:var(--surface2);border-radius:var(--r-md)}
+.toggle{position:relative;width:44px;height:26px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.tslider{position:absolute;inset:0;background:var(--border2);border-radius:13px;cursor:pointer;transition:.3s}
+.tslider::before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.toggle input:checked+.tslider{background:var(--primary)}
+.toggle input:checked+.tslider::before{transform:translateX(18px)}
+
+/* Rating stars */
+.rstar{font-size:34px;cursor:pointer;color:var(--border2);transition:color .1s,transform .1s;line-height:1}
+.rstar.lit{color:#F59E0B}
+.rstar:active{transform:scale(1.15)}
+
+/* Menu row */
+.menu-row{
+  display:flex;align-items:center;gap:14px;padding:15px 20px;
+  border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;
+}
+.menu-row:hover{background:var(--surface2)}
+.menu-icon-wrap{width:36px;height:36px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.menu-icon-wrap svg{width:18px;height:18px;stroke:var(--text2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.menu-row-lbl{flex:1;font-size:15px;color:var(--text);font-weight:400}
+.menu-chevron{width:16px;height:16px;stroke:var(--text3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Service item */
+.svc-item{
+  display:flex;align-items:center;padding:14px;background:var(--surface);
+  border-radius:var(--r-md);border:1.5px solid var(--border);cursor:pointer;transition:all .15s;
+}
+.svc-item:hover,.svc-item.sel{border-color:var(--primary);background:var(--primary-bg)}
+.svc-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--border2);flex-shrink:0;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.svc-item.sel .svc-check{background:var(--primary);border-color:var(--primary)}
+
+/* Location option */
+.loc-opt{
+  flex:1;display:flex;align-items:center;gap:10px;padding:14px;
+  border:1.5px solid var(--border);border-radius:var(--r-md);cursor:pointer;transition:all .15s;
+  background:var(--surface);
+}
+.loc-opt.sel{border-color:var(--primary);background:var(--primary-bg)}
+.loc-icon-wrap{width:34px;height:34px;border-radius:8px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.loc-opt.sel .loc-icon-wrap{background:var(--primary-bg)}
+
+/* Inner tab */
+.itab-bar{display:flex;border-bottom:1.5px solid var(--border);padding:0 20px}
+.itab{flex:1;padding:12px 0;font-size:14px;font-weight:500;color:var(--text2);text-align:center;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1.5px;transition:all .2s;font-family:var(--font)}
+.itab.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:700}
+
+/* Appt card */
+.appt-card{background:var(--surface);border-radius:var(--r-lg);border:1px solid var(--border);box-shadow:var(--shadow);padding:16px;margin:0 20px 12px}
+
+/* Photo grid */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;border-radius:var(--r-sm);overflow:hidden}
+.photo-cell{aspect-ratio:1}
+
+/* Toast */
+.toast{
+  position:absolute;bottom:86px;left:50%;transform:translateX(-50%);
+  background:var(--text);color:#fff;padding:11px 22px;border-radius:30px;
+  font-size:13px;font-weight:600;z-index:999;white-space:nowrap;pointer-events:none;
+  animation:fadeUp .3s ease;
+}
+
+/* Animations */
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,68,138,.3)}50%{box-shadow:0 0 0 7px rgba(232,68,138,0)}}
+@keyframes splashFade{0%{opacity:1}80%{opacity:1}100%{opacity:0;pointer-events:none}}
+@keyframes logoUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes screenSlideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+/* Splash */
+#splash{
+  position:absolute;inset:0;z-index:999;
+  background:var(--surface);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  animation:splashFade 2.4s ease forwards;
+  pointer-events:none;
+}
+#splash .splash-logo{
+  width:80px;height:80px;border-radius:24px;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(232,68,138,.3);
+  animation:logoUp .5s ease .2s both;
+}
+#splash .splash-name{
+  font-family:var(--font-display);font-style:italic;font-size:28px;color:var(--text);
+  animation:logoUp .5s ease .4s both;
+}
+#splash .splash-tag{
+  font-size:13px;color:var(--text2);font-weight:500;
+  animation:logoUp .5s ease .5s both;
+}
+#splash .splash-bar{
+  width:120px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;
+  animation:logoUp .4s ease .6s both;margin-top:8px;
+}
+#splash .splash-prog{
+  height:100%;background:var(--grad);border-radius:2px;
+  animation:splashLoad 1.6s ease .6s both;
+}
+@keyframes splashLoad{from{width:0}to{width:100%}}
+
+/* Screen transition */
+.screen.active{animation:screenSlideIn .25s ease}
+
+/* Map view */
+.map-pin{
+  position:absolute;transform:translate(-50%,-100%);cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;
+  transition:transform .15s;
+}
+.map-pin:active{transform:translate(-50%,-100%) scale(.9)}
+.pin-bubble{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:20px;padding:5px 10px;font-size:12px;font-weight:700;color:var(--text);
+  box-shadow:var(--shadow-md);white-space:nowrap;
+}
+.pin-bubble.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.pin-tail{width:2px;height:8px;background:var(--border);margin:0 auto}
+.pin-dot{width:8px;height:8px;border-radius:50%;background:var(--border);margin:0 auto}
+
+/* Price range slider */
+.range-wrap{position:relative;height:4px;background:var(--border);border-radius:2px;margin:8px 0 16px}
+.range-fill{position:absolute;height:100%;background:var(--grad);border-radius:2px}
+.range-thumb{
+  position:absolute;top:50%;transform:translate(-50%,-50%);
+  width:20px;height:20px;border-radius:50%;background:var(--surface);
+  border:2px solid var(--primary);box-shadow:0 2px 6px rgba(0,0,0,.15);cursor:pointer;
+}
+
+/* Edit profile form */
+.form-group{margin-bottom:16px}
+.form-label{font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.4px;margin-bottom:6px;display:block;text-transform:uppercase}
+.form-input{
+  width:100%;background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:var(--r-md);padding:12px 14px;font-family:var(--font);
+  font-size:14px;color:var(--text);outline:none;transition:border-color .2s;
+}
+.form-input:focus{border-color:var(--primary);background:var(--surface)}
+
+/* Filter badge */
+.filter-badge{
+  position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;
+  background:var(--primary);border-radius:8px;font-size:10px;font-weight:700;
+  color:#fff;display:flex;align-items:center;justify-content:center;padding:0 4px;
+  border:2px solid var(--bg);
+}
+
+/* Star filled input */
+.filter-star{font-size:20px;cursor:pointer;color:var(--border2);transition:color .1s}
+.filter-star.on{color:#F59E0B}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ── ONBOARDING ── -->
+<div id="onboard">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;flex-shrink:0">
+    <p style="font-family:var(--font-display);font-style:italic;font-size:20px;color:var(--text)">BelaGo</p>
+    <button onclick="skipOnboard()" style="font-size:13px;color:var(--text2);font-weight:600;background:none;border:none;cursor:pointer;font-family:var(--font)">Pular</button>
+  </div>
+
+  <div class="ob-slides" id="ob-slides">
+    <!-- Slide 1 -->
+    <div class="ob-slide">
+      <div style="font-size:80px;margin-bottom:24px;line-height:1">💆</div>
+      <h2 style="font-family:var(--font-display);font-style:italic;font-size:26px;color:var(--text);margin-bottom:12px;line-height:1.2">Sua beleza,<br>do seu jeito</h2>
+      <p style="font-size:15px;color:var(--text2);line-height:1.6">Agende manicure, maquiagem, cabelo e muito mais. As melhores profissionais chegam até você.</p>
+    </div>
+    <!-- Slide 2 -->
+    <div class="ob-slide">
+      <div style="font-size:80px;margin-bottom:24px;line-height:1">🛡️</div>
+      <h2 style="font-family:var(--font-display);font-style:italic;font-size:26px;color:var(--text);margin-bottom:12px;line-height:1.2">Profissionais<br>verificadas</h2>
+      <p style="font-size:15px;color:var(--text2);line-height:1.6">Todas as profissionais passam por verificação de identidade, portfólio e avaliação de clientes.</p>
+    </div>
+    <!-- Slide 3 -->
+    <div class="ob-slide">
+      <div style="font-size:80px;margin-bottom:24px;line-height:1">⚡</div>
+      <h2 style="font-family:var(--font-display);font-style:italic;font-size:26px;color:var(--text);margin-bottom:12px;line-height:1.2">Agende<br>em segundos</h2>
+      <p style="font-size:15px;color:var(--text2);line-height:1.6">Escolha, agende e pague — tudo pelo app. Confirmação instantânea, sem burocracia.</p>
+    </div>
+  </div>
+
+  <div style="flex:1"></div>
+  <div style="padding:0 24px 40px;flex-shrink:0">
+    <div class="ob-dots" id="ob-dots">
+      <div class="ob-dot active"></div>
+      <div class="ob-dot"></div>
+      <div class="ob-dot"></div>
+    </div>
+
+    <!-- Botão próximo/entrar -->
+    <button class="btn btn-primary btn-full" style="padding:16px;font-size:16px;margin-bottom:12px" id="ob-next-btn" onclick="obNext()">Próximo</button>
+    <button style="width:100%;padding:13px;font-size:14px;background:none;border:1.5px solid var(--border2);border-radius:var(--r-md);color:var(--text2);font-family:var(--font);font-weight:500;cursor:pointer" onclick="skipOnboard()">Já tenho conta — entrar</button>
+  </div>
+</div>
+
+<!-- ── TELA DE LOGIN ── -->
+<div id="login-screen" style="position:absolute;inset:0;z-index:997;background:var(--surface);display:none;flex-direction:column">
+  <div style="padding:20px 20px 0;display:flex;align-items:center;gap:12px">
+    <button onclick="backToOnboard()" style="width:36px;height:36px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <p style="font-family:var(--font-display);font-style:italic;font-size:20px;color:var(--text)">BelaGo</p>
+  </div>
+
+  <div style="padding:32px 24px;flex:1;overflow-y:auto">
+    <h1 style="font-family:var(--font-display);font-style:italic;font-size:26px;color:var(--text);margin-bottom:6px">Bem-vinda de volta</h1>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:28px">Entre para agendar com as melhores profissionais</p>
+
+    <!-- Google -->
+    <button onclick="loginWith('Google')" style="width:100%;padding:14px;border-radius:var(--r-md);border:1.5px solid var(--border2);background:var(--surface);font-family:var(--font);font-size:14px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px">
+      <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Continuar com Google
+    </button>
+    <button onclick="loginWith('Apple')" style="width:100%;padding:14px;border-radius:var(--r-md);border:none;background:#000;font-family:var(--font);font-size:14px;font-weight:600;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:24px">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      Continuar com Apple
+    </button>
+
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+      <span style="font-size:12px;color:var(--text3);font-weight:500">ou use seu e-mail</span>
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">E-mail</label>
+      <input class="form-input" type="email" placeholder="seu@email.com" id="login-email">
+    </div>
+    <div class="form-group" style="position:relative">
+      <label class="form-label">Senha</label>
+      <input class="form-input" type="password" placeholder="••••••••" id="login-pass">
+      <button onclick="togglePass()" style="position:absolute;right:12px;bottom:10px;background:none;border:none;cursor:pointer;color:var(--text2)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <div style="text-align:right;margin-bottom:24px">
+      <span style="font-size:13px;color:var(--primary);font-weight:600;cursor:pointer" onclick="toast('Link de recuperação enviado para seu e-mail')">Esqueceu a senha?</span>
+    </div>
+
+    <button class="btn btn-primary btn-full" style="padding:15px;font-size:15px;margin-bottom:16px" onclick="loginWith('email')">Entrar</button>
+
+    <p style="text-align:center;font-size:13px;color:var(--text2)">
+      Não tem conta?
+      <span style="color:var(--primary);font-weight:600;cursor:pointer" onclick="showRegister()"> Cadastre-se grátis</span>
+    </p>
+  </div>
+</div>
+
+<!-- ── TELA DE CADASTRO ── -->
+<div id="register-screen" style="position:absolute;inset:0;z-index:996;background:var(--surface);display:none;flex-direction:column">
+  <div style="padding:20px 20px 0;display:flex;align-items:center;gap:12px">
+    <button onclick="backToLogin()" style="width:36px;height:36px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <p style="font-size:16px;font-weight:700;color:var(--text)">Criar conta</p>
+  </div>
+  <div style="padding:24px;flex:1;overflow-y:auto">
+    <p style="font-size:14px;color:var(--text2);margin-bottom:24px">Crie sua conta e agende em minutos</p>
+    <div class="form-group">
+      <label class="form-label">Nome completo</label>
+      <input class="form-input" type="text" placeholder="Seu nome completo">
+    </div>
+    <div class="form-group">
+      <label class="form-label">E-mail</label>
+      <input class="form-input" type="email" placeholder="seu@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Telefone</label>
+      <input class="form-input" type="tel" placeholder="(11) 99999-9999">
+    </div>
+    <div class="form-group" style="margin-bottom:24px">
+      <label class="form-label">Senha</label>
+      <input class="form-input" type="password" placeholder="Mínimo 8 caracteres">
+    </div>
+    <div style="background:var(--surface2);border-radius:var(--r-md);padding:14px;margin-bottom:24px">
+      <p style="font-size:12px;color:var(--text2);line-height:1.6">Ao criar sua conta você concorda com os <span style="color:var(--primary);font-weight:600;cursor:pointer">Termos de Uso</span> e a <span style="color:var(--primary);font-weight:600;cursor:pointer">Política de Privacidade</span> do BelaGo.</p>
+    </div>
+    <button class="btn btn-primary btn-full" style="padding:15px;font-size:15px" onclick="loginWith('register')">Criar conta</button>
+  </div>
+</div>
+
+<!-- ── SPLASH ── -->
+<div id="splash">
+  <div class="splash-logo">
+    <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+  </div>
+  <p class="splash-name">BelaGo</p>
+  <p class="splash-tag">O Uber da Beleza</p>
+  <div class="splash-bar"><div class="splash-prog"></div></div>
+</div>
+
+<!-- ── STATUS BAR ── -->
+<div class="status-bar">
+  <span class="time">9:41</span>
+  <div class="icons">
+    <svg viewBox="0 0 17 12" fill="#0F0F0F"><path d="M8.5 2C11.5 2 14.2 3.2 16.1 5.2L17 4.3C14.8 2 11.8.7 8.5.7S2.2 2 0 4.3l.9.9C2.8 3.2 5.5 2 8.5 2zm0 3.5c2 0 3.8.8 5.1 2.1l.9-.9C13 5.1 10.9 4.2 8.5 4.2S4 5.1 2.5 6.7l.9.9C4.7 6.3 6.5 5.5 8.5 5.5zm0 3.5c1.1 0 2.1.4 2.8 1.1l.9-.9C11.1 8.1 9.9 7.5 8.5 7.5S5.9 8.1 4.8 9.2l.9.9C6.4 9.4 7.4 9 8.5 9zm0 3.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>
+    <svg viewBox="0 0 16 12" fill="#0F0F0F"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4.5" y="2.5" width="3" height="9.5" rx="1"/><rect x="9" y="1" width="3" height="11" rx="1"/><rect x="13.5" y="0" width="2.5" height="12" rx="1" opacity=".25"/></svg>
+    <svg viewBox="0 0 26 13" fill="none" stroke="#0F0F0F" stroke-width="1"><rect x=".5" y=".5" width="22" height="12" rx="2.5"/><rect x="1.5" y="1.5" width="17" height="10" rx="1.5" fill="#0F0F0F" stroke="none"/><path d="M24 4v5a2.5 2.5 0 0 0 0-5z" fill="#0F0F0F" stroke="none"/></svg>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- HOME                                            -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="screen active" id="s-home">
+
+  <!-- Header -->
+  <div style="padding:18px 20px 12px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+    <div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:2px">Olá, Juliana</p>
+      <h1 class="display" style="font-size:22px;color:var(--text)">O que você precisa hoje?</h1>
+    </div>
+    <button onclick="openNotif()" style="position:relative;width:42px;height:42px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span style="position:absolute;top:9px;right:9px;width:8px;height:8px;background:var(--primary);border-radius:50%;border:1.5px solid var(--surface)"></span>
+    </button>
+  </div>
+
+  <!-- Online agora -->
+  <div class="sec-hd">
+    <div>
+      <p class="section-title">Disponível agora</p>
+      <p style="font-size:12px;color:var(--primary);font-weight:600;margin-top:1px">3 profissionais próximas</p>
+    </div>
+    <button class="see-all" onclick="goTab('s-search')">Ver todas</button>
+  </div>
+  <div class="hscroll" style="padding:0 20px">
+    <!-- Live cards -->
+    <div class="card" style="min-width:158px;padding:14px;animation:pulse 2s infinite;cursor:pointer" onclick="openProfModal(0)">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
+        <div class="av av-a" style="width:42px;height:42px;font-size:15px">FC</div>
+        <div><p style="font-size:13px;font-weight:700;color:var(--text)">Fernanda</p><p style="font-size:11px;color:var(--text2)">Sobrancelha</p></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span style="font-size:15px;font-weight:700;color:var(--primary)">R$45</span>
+        <span class="badge badge-green">Agora</span>
+      </div>
+      <p style="font-size:11px;color:var(--text2);text-align:center;background:var(--surface2);padding:5px 8px;border-radius:8px">~20 min para chegar</p>
+    </div>
+    <div class="card" style="min-width:158px;padding:14px;animation:pulse 2s infinite .4s;cursor:pointer" onclick="openProfModal(1)">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
+        <div class="av av-b" style="width:42px;height:42px;font-size:15px">BO</div>
+        <div><p style="font-size:13px;font-weight:700;color:var(--text)">Bruna</p><p style="font-size:11px;color:var(--text2)">Maquiagem</p></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span style="font-size:15px;font-weight:700;color:var(--primary)">R$120</span>
+        <span class="badge badge-green">Agora</span>
+      </div>
+      <p style="font-size:11px;color:var(--text2);text-align:center;background:var(--surface2);padding:5px 8px;border-radius:8px">~35 min para chegar</p>
+    </div>
+    <div class="card" style="min-width:158px;padding:14px;animation:pulse 2s infinite .8s;cursor:pointer" onclick="openProfModal(2)">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
+        <div class="av av-c" style="width:42px;height:42px;font-size:15px">CS</div>
+        <div><p style="font-size:13px;font-weight:700;color:var(--text)">Camila</p><p style="font-size:11px;color:var(--text2)">Cabelo</p></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span style="font-size:15px;font-weight:700;color:var(--primary)">R$60</span>
+        <span class="badge badge-green">Agora</span>
+      </div>
+      <p style="font-size:11px;color:var(--text2);text-align:center;background:var(--surface2);padding:5px 8px;border-radius:8px">~12 min para chegar</p>
+    </div>
+  </div>
+
+  <!-- Categorias -->
+  <div class="sec-hd" style="margin-top:20px"><p class="section-title">Serviços</p></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 20px">
+    <div class="cat-item" onclick="goCat('Maquiagem')"><span class="cat-emoji">💄</span><span class="cat-label">Maquiagem</span></div>
+    <div class="cat-item" onclick="goCat('Escova')"><span class="cat-emoji">💇</span><span class="cat-label">Escova</span></div>
+    <div class="cat-item" onclick="goCat('Unhas')"><span class="cat-emoji">💅</span><span class="cat-label">Unhas</span></div>
+    <div class="cat-item" onclick="goCat('Sobrancelha')"><span class="cat-emoji">👁️</span><span class="cat-label">Sobrancelha</span></div>
+    <div class="cat-item" onclick="goCat('Cílios')"><span class="cat-emoji">✨</span><span class="cat-label">Cílios</span></div>
+    <div class="cat-item" onclick="goCat('Cabelo')"><span class="cat-emoji">🪮</span><span class="cat-label">Cabelo</span></div>
+    <div class="cat-item" onclick="goCat('Depilação')"><span class="cat-emoji">🌸</span><span class="cat-label">Depilação</span></div>
+    <div class="cat-item" onclick="goCat('Penteado')"><span class="cat-emoji">👑</span><span class="cat-label">Penteado</span></div>
+    <div class="cat-item" onclick="goCat('Micropigmentação')"><span class="cat-emoji">🖊️</span><span class="cat-label">Micropig.</span></div>
+  </div>
+
+  <!-- Promoções -->
+  <div class="sec-hd" style="margin-top:20px"><p class="section-title">Promoções relâmpago</p></div>
+  <div class="hscroll" style="padding:0 20px">
+    <div class="promo-card">
+      <p style="font-size:12px;font-weight:600;color:var(--primary);margin-bottom:6px">OFERTA LIMITADA</p>
+      <p style="font-size:15px;font-weight:700;color:var(--text)">Escova <span style="color:var(--primary)">R$59</span></p>
+      <p style="font-size:12px;color:var(--text2);margin-top:2px">Camila Santos</p>
+      <div class="promo-timer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span style="font-size:13px;font-weight:700;color:var(--primary)">Termina em 02:34h</span></div>
+      <button class="btn btn-primary-sm" style="margin-top:12px;width:100%" onclick="openBooking(2)">Agendar agora</button>
+    </div>
+    <div class="promo-card">
+      <p style="font-size:12px;font-weight:600;color:var(--primary);margin-bottom:6px">OFERTA LIMITADA</p>
+      <p style="font-size:15px;font-weight:700;color:var(--text)">Unhas <span style="color:var(--primary)">R$35</span></p>
+      <p style="font-size:12px;color:var(--text2);margin-top:2px">Tainá Ferreira</p>
+      <div class="promo-timer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span style="font-size:13px;font-weight:700;color:var(--primary)">Termina em 01:18h</span></div>
+      <button class="btn btn-primary-sm" style="margin-top:12px;width:100%" onclick="openBooking(3)">Agendar agora</button>
+    </div>
+    <div class="promo-card">
+      <p style="font-size:12px;font-weight:600;color:var(--primary);margin-bottom:6px">30% OFF</p>
+      <p style="font-size:15px;font-weight:700;color:var(--text)">Maquiagem social</p>
+      <p style="font-size:12px;color:var(--text2);margin-top:2px">Bruna Oliveira</p>
+      <div class="promo-timer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span style="font-size:13px;font-weight:700;color:var(--primary)">Termina em 04:50h</span></div>
+      <button class="btn btn-primary-sm" style="margin-top:12px;width:100%" onclick="openBooking(1)">Agendar agora</button>
+    </div>
+  </div>
+
+  <!-- Mais bem avaliadas -->
+  <div class="sec-hd" style="margin-top:20px">
+    <p class="section-title">Mais bem avaliadas</p>
+    <button class="see-all" onclick="goTab('s-search')">Ver todas</button>
+  </div>
+  <div style="padding:0 20px;display:flex;flex-direction:column;gap:10px;padding-bottom:8px" id="home-list"></div>
+
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- EXPLORAR                                        -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="screen" id="s-search">
+
+  <div style="padding:14px 20px 12px;background:var(--surface);border-bottom:1px solid var(--border)">
+    <h1 class="display" style="font-size:20px;margin-bottom:12px;color:var(--text)">Explorar</h1>
+    <div style="position:relative;margin-bottom:12px">
+      <svg style="position:absolute;left:13px;top:50%;transform:translateY(-50%);pointer-events:none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="input" style="padding-left:42px" type="text" placeholder="Buscar serviço ou profissional..." id="srch-in" oninput="renderSearch()">
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="hscroll" style="gap:8px;flex:1">
+        <button class="chip active" data-f="proximas" onclick="setChip(this)">Mais próximas</button>
+        <button class="chip" data-f="avaliadas" onclick="setChip(this)">Melhor avaliadas</button>
+        <button class="chip" data-f="preco" onclick="setChip(this)">Menor preço</button>
+        <button class="chip" data-f="hoje" onclick="setChip(this)">Disponível hoje</button>
+      </div>
+      <!-- Filtros avançados -->
+      <div style="position:relative;flex-shrink:0">
+        <button onclick="openFilters()" style="width:38px;height:38px;border-radius:var(--r-sm);background:var(--surface);border:1.5px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        </button>
+        <span id="filter-badge" class="filter-badge" style="display:none">0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toggle lista/mapa -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px 0">
+    <p id="srch-count" style="font-size:13px;color:var(--text2)">6 profissionais encontradas</p>
+    <div style="display:flex;background:var(--surface2);border-radius:var(--r-sm);padding:3px;border:1px solid var(--border)">
+      <button id="view-list-btn" onclick="setView('list')" style="padding:5px 12px;border-radius:8px;border:none;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);background:var(--surface);color:var(--text);box-shadow:var(--shadow)">Lista</button>
+      <button id="view-map-btn" onclick="setView('map')" style="padding:5px 12px;border-radius:8px;border:none;font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font);background:transparent;color:var(--text2)">Mapa</button>
+    </div>
+  </div>
+
+  <!-- Vista lista -->
+  <div id="view-list" style="padding:12px 20px 0;display:flex;flex-direction:column;gap:12px"></div>
+
+  <!-- Vista mapa -->
+  <div id="view-map" style="display:none;padding:12px 20px 0">
+    <div style="position:relative;height:340px;background:linear-gradient(160deg,#E8F4F0 0%,#F0EDF8 50%,#F8EEF3 100%);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--border)">
+      <!-- Grid de ruas simuladas -->
+      <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.25" viewBox="0 0 360 340" preserveAspectRatio="none">
+        <line x1="0" y1="80" x2="360" y2="80" stroke="#9B5DE5" stroke-width="2"/>
+        <line x1="0" y1="170" x2="360" y2="170" stroke="#9B5DE5" stroke-width="3"/>
+        <line x1="0" y1="260" x2="360" y2="260" stroke="#9B5DE5" stroke-width="2"/>
+        <line x1="80" y1="0" x2="80" y2="340" stroke="#9B5DE5" stroke-width="2"/>
+        <line x1="180" y1="0" x2="180" y2="340" stroke="#9B5DE5" stroke-width="3"/>
+        <line x1="280" y1="0" x2="280" y2="340" stroke="#9B5DE5" stroke-width="2"/>
+        <rect x="100" y="95" width="60" height="60" rx="4" fill="#D8D8DE" opacity=".4"/>
+        <rect x="190" y="95" width="70" height="60" rx="4" fill="#D8D8DE" opacity=".4"/>
+        <rect x="30" y="185" width="30" height="60" rx="4" fill="#D8D8DE" opacity=".4"/>
+        <rect x="100" y="185" width="50" height="60" rx="4" fill="#D8D8DE" opacity=".4"/>
+        <rect x="200" y="185" width="60" height="60" rx="4" fill="#D8D8DE" opacity=".4"/>
+        <rect x="290" y="95" width="50" height="150" rx="4" fill="#D8D8DE" opacity=".3"/>
+      </svg>
+      <!-- Localização da usuária -->
+      <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">
+        <div style="width:14px;height:14px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 6px rgba(232,68,138,.15)"></div>
+      </div>
+      <!-- Pins de profissionais -->
+      <div id="map-pins"></div>
+      <!-- Mini card no mapa -->
+      <div id="map-card" style="position:absolute;bottom:12px;left:12px;right:12px;display:none">
+        <div class="card card-p" style="display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-md)">
+          <div id="map-card-av" class="av" style="width:44px;height:44px;font-size:16px"></div>
+          <div style="flex:1;min-width:0">
+            <p id="map-card-name" style="font-size:14px;font-weight:700;color:var(--text)"></p>
+            <p id="map-card-spec" style="font-size:12px;color:var(--text2)"></p>
+            <p id="map-card-info" style="font-size:12px;font-weight:600;color:var(--primary);margin-top:2px"></p>
+          </div>
+          <button id="map-card-btn" class="btn btn-primary-sm" style="padding:8px 14px;font-size:12px">Ver perfil</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- AGENDAMENTO                                     -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="screen" id="s-book">
+
+  <!-- Header fixo -->
+  <div style="padding:14px 20px 10px;background:var(--surface);border-bottom:1px solid var(--border)">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <button id="back-btn" onclick="backStep()" style="display:none;width:36px;height:36px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);cursor:pointer;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div style="flex:1">
+        <p id="step-lbl" style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px">Passo 1 de 3 — Escolha o serviço</p>
+        <div class="step-track"><div class="step-fill" id="step-fill" style="width:33%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 1 -->
+  <div id="bk1" style="padding:20px;animation:slideIn .3s">
+    <div id="bk-prof-hd" style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding:14px;background:var(--surface);border-radius:var(--r-lg);border:1px solid var(--border)"></div>
+    <p class="section-title" style="margin-bottom:4px">Escolha o serviço</p>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:14px">Selecione o que você precisa</p>
+    <div id="bk-svcs" style="display:flex;flex-direction:column;gap:9px"></div>
+    <p class="section-title" style="margin:20px 0 12px">Local de atendimento</p>
+    <div style="display:flex;gap:10px;margin-bottom:24px">
+      <div class="loc-opt sel" id="loc-studio" onclick="selLoc('studio')">
+        <div class="loc-icon-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="1.8" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div><p style="font-size:13px;font-weight:600;color:var(--text)">No espaço</p><p style="font-size:11px;color:var(--text2)">da profissional</p></div>
+      </div>
+      <div class="loc-opt" id="loc-home" onclick="selLoc('home')">
+        <div class="loc-icon-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div><p style="font-size:13px;font-weight:600;color:var(--text)">Em domicílio</p><p style="font-size:11px;color:var(--text2)">+R$20 deslocamento</p></div>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="nextStep()">Escolher data e horário</button>
+  </div>
+
+  <!-- Step 2 -->
+  <div id="bk2" style="padding:20px;display:none;animation:slideIn .3s">
+    <p class="section-title" style="margin-bottom:4px">Escolha a data</p>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:14px">Junho 2026</p>
+    <div class="hscroll" style="margin-bottom:22px" id="bk-cal"></div>
+    <p class="section-title" style="margin-bottom:12px">Horários disponíveis</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px" id="bk-slots"></div>
+    <button class="btn btn-primary btn-full" onclick="nextStep()">Revisar agendamento</button>
+  </div>
+
+  <!-- Step 3 -->
+  <div id="bk3" style="padding:20px;display:none;animation:slideIn .3s">
+    <p class="section-title" style="margin-bottom:4px">Confirmar agendamento</p>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Revise os detalhes</p>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;margin-bottom:16px" id="bk-summary"></div>
+    <p class="section-title" style="margin-bottom:12px">Forma de pagamento</p>
+    <div id="bk-pay">
+      <div class="pay-opt sel" onclick="selPay(this)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        <div><p style="font-size:14px;font-weight:600;color:var(--text)">PIX</p><p style="font-size:12px;color:var(--text2)">Aprovação instantânea</p></div>
+        <div class="pay-radio"></div>
+      </div>
+      <div class="pay-opt" onclick="selPay(this)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="1.8" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        <div><p style="font-size:14px;font-weight:600;color:var(--text)">Cartão de crédito</p><p style="font-size:12px;color:var(--text2)">Crédito ou débito</p></div>
+        <div class="pay-radio"></div>
+      </div>
+      <div class="pay-opt" onclick="selPay(this)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <div><p style="font-size:14px;font-weight:600;color:var(--text)">Pagar na hora</p><p style="font-size:12px;color:var(--text2)">Dinheiro ou cartão presencial</p></div>
+        <div class="pay-radio"></div>
+      </div>
+    </div>
+    <div class="toggle-row" style="margin:14px 0">
+      <div><p style="font-size:14px;font-weight:500;color:var(--text)">Pagar sinal agora (R$15)</p><p style="font-size:12px;color:var(--text2);margin-top:2px">Garante sua vaga</p></div>
+      <label class="toggle"><input type="checkbox"><div class="tslider"></div></label>
+    </div>
+    <button class="btn btn-primary btn-full" style="padding:17px;font-size:16px" onclick="confirmBk()">Confirmar agendamento</button>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- AGENDAMENTOS                                    -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="screen" id="s-appts">
+
+  <div style="padding:18px 20px 14px;background:var(--surface);border-bottom:1px solid var(--border)">
+    <h1 class="display" style="font-size:22px;color:var(--text)">Meus agendamentos</h1>
+  </div>
+
+  <div class="itab-bar">
+    <div class="itab active" onclick="switchTab('prox',this)">Próximos</div>
+    <div class="itab" onclick="switchTab('hist',this)">Histórico</div>
+  </div>
+
+  <!-- Próximos -->
+  <div id="tab-prox" style="padding:16px 0">
+    <!-- Destacado -->
+    <div style="margin:0 20px 14px;background:linear-gradient(135deg,#FFF0F6,#F5F0FF);border:1.5px solid rgba(232,68,138,.2);border-radius:20px;padding:18px">
+      <p style="font-size:11px;font-weight:700;color:var(--primary);letter-spacing:.5px;margin-bottom:12px">PRÓXIMO AGENDAMENTO</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <div class="av av-a" style="width:50px;height:50px;font-size:18px">FC</div>
+        <div style="flex:1">
+          <p style="font-size:16px;font-weight:700;color:var(--text)">Fernanda Costa</p>
+          <p style="font-size:13px;color:var(--text2)">Design de Sobrancelha</p>
+        </div>
+        <span class="badge badge-confirmed">Confirmado</span>
+      </div>
+      <div style="display:flex;gap:16px;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span style="font-size:13px;color:var(--text2)">Amanhã às 14h00</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span style="font-size:13px;font-weight:700;color:var(--primary)">R$45</span>
+        </div>
+      </div>
+      <div style="background:var(--primary-bg);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span style="font-size:13px;font-weight:600;color:var(--primary)">Falta 22h 14min para o atendimento</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" style="flex:1;padding:11px;font-size:13px" onclick="openCancel()">Cancelar</button>
+        <button class="btn btn-primary" style="flex:2;padding:11px;font-size:13px" onclick="openApptDetail()">Ver detalhes</button>
+      </div>
+    </div>
+
+    <!-- Segundo -->
+    <div class="appt-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div class="av av-b" style="width:44px;height:44px;font-size:16px">BO</div>
+        <div style="flex:1">
+          <p style="font-size:15px;font-weight:700;color:var(--text)">Bruna Oliveira</p>
+          <p style="font-size:13px;color:var(--text2)">Maquiagem Social</p>
+        </div>
+        <span class="badge badge-pending">Pendente</span>
+      </div>
+      <div style="display:flex;gap:14px;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:5px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span style="font-size:13px;color:var(--text2)">23/06 às 10h</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:5px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          <span style="font-size:13px;color:var(--text2)">Em domicílio</span>
+        </div>
+        <span style="font-size:13px;font-weight:700;color:var(--primary)">R$120</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" style="flex:1;padding:10px;font-size:13px" onclick="openCancel()">Cancelar</button>
+        <button class="btn btn-primary" style="flex:2;padding:10px;font-size:13px">Ver detalhes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Histórico -->
+  <div id="tab-hist" style="padding:16px 0;display:none">
+    <div class="appt-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div class="av av-c" style="width:44px;height:44px;font-size:16px">CS</div>
+        <div style="flex:1">
+          <p style="font-size:15px;font-weight:700;color:var(--text)">Camila Santos</p>
+          <p style="font-size:13px;color:var(--text2)">Escova Progressiva</p>
+        </div>
+        <span class="badge badge-confirmed">Realizado</span>
+      </div>
+      <div style="display:flex;gap:14px;margin-bottom:14px">
+        <span style="font-size:13px;color:var(--text2)">05/06 às 15h</span>
+        <span style="font-size:13px;font-weight:700;color:var(--primary)">R$180</span>
+      </div>
+      <button class="btn btn-ghost btn-full" onclick="openRating('Camila Santos','av-c','Cabelo e Escova')">Avaliar atendimento</button>
+    </div>
+    <div class="appt-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div class="av av-d" style="width:44px;height:44px;font-size:16px">TF</div>
+        <div style="flex:1">
+          <p style="font-size:15px;font-weight:700;color:var(--text)">Tainá Ferreira</p>
+          <p style="font-size:13px;color:var(--text2)">Manicure Completa</p>
+        </div>
+        <span class="badge badge-confirmed">Realizado</span>
+      </div>
+      <div style="display:flex;gap:14px;margin-bottom:10px">
+        <span style="font-size:13px;color:var(--text2)">28/05 às 11h</span>
+        <span style="font-size:13px;font-weight:700;color:var(--primary)">R$70</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="font-size:12px;color:var(--text2)">Sua avaliação:</span>
+        <span class="stars">★★★★★</span>
+      </div>
+    </div>
+    <div class="appt-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div class="av av-a" style="width:44px;height:44px;font-size:16px">FC</div>
+        <div style="flex:1">
+          <p style="font-size:15px;font-weight:700;color:var(--text)">Fernanda Costa</p>
+          <p style="font-size:13px;color:var(--text2)">Limpeza de Sobrancelha</p>
+        </div>
+        <span class="badge badge-confirmed">Realizado</span>
+      </div>
+      <div style="display:flex;gap:14px;margin-bottom:10px">
+        <span style="font-size:13px;color:var(--text2)">10/05 às 09h30</span>
+        <span style="font-size:13px;font-weight:700;color:var(--primary)">R$45</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="font-size:12px;color:var(--text2)">Sua avaliação:</span>
+        <span class="stars">★★★★★</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- PERFIL                                          -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="screen" id="s-profile">
+
+  <!-- Hero -->
+  <div style="background:var(--surface);border-bottom:1px solid var(--border);padding:24px 20px 20px;text-align:center">
+    <div style="width:88px;height:88px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:#fff;margin:0 auto 12px;box-shadow:0 4px 16px rgba(232,68,138,.25)">JS</div>
+    <h1 style="font-size:20px;font-weight:700;color:var(--text)">Juliana Souza</h1>
+    <p style="font-size:14px;color:var(--text2);margin-top:3px">juliana.souza@email.com</p>
+    <button class="btn btn-secondary" style="margin-top:14px;padding:9px 24px;font-size:13px" onclick="openEditProfile()">Editar perfil</button>
+  </div>
+
+  <!-- Stats -->
+  <div style="padding:16px 20px">
+    <div style="display:flex;gap:10px">
+      <div style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;text-align:center;box-shadow:var(--shadow)">
+        <p style="font-size:24px;font-weight:700;color:var(--primary)">12</p>
+        <p style="font-size:11px;color:var(--text2);margin-top:2px;font-weight:500">Serviços</p>
+      </div>
+      <div style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;text-align:center;box-shadow:var(--shadow)">
+        <p style="font-size:24px;font-weight:700;color:var(--primary)">3</p>
+        <p style="font-size:11px;color:var(--text2);margin-top:2px;font-weight:500">Favoritas</p>
+      </div>
+      <div style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;text-align:center;box-shadow:var(--shadow)">
+        <p style="font-size:24px;font-weight:700;color:var(--amber)">1</p>
+        <p style="font-size:11px;color:var(--text2);margin-top:2px;font-weight:500">Pendente</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu -->
+  <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="menu-row" onclick="">
+      <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      <span class="menu-row-lbl">Minhas favoritas</span>
+      <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="menu-row">
+      <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <span class="menu-row-lbl">Endereços salvos</span>
+      <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="menu-row">
+      <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+      <span class="menu-row-lbl">Formas de pagamento</span>
+      <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="menu-row">
+      <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+      <span class="menu-row-lbl">Notificações</span>
+      <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="menu-row">
+      <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      <span class="menu-row-lbl">Segurança</span>
+      <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="menu-row">
+      <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+      <span class="menu-row-lbl">Ajuda e suporte</span>
+      <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="menu-row" style="border-bottom:none">
+      <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <span class="menu-row-lbl">Avaliar o app</span>
+      <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </div>
+
+  <div style="padding:20px">
+    <button class="btn btn-danger btn-full" style="padding:14px" onclick="openLogout()">Sair da conta</button>
+  </div>
+
+</div>
+
+<!-- ── TAB BAR ── -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="goTab('s-home')">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span class="tab-lbl">Início</span>
+  </button>
+  <button class="tab-btn" onclick="goTab('s-search')">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <span class="tab-lbl">Explorar</span>
+  </button>
+  <button class="tab-center-btn" onclick="openBooking(0)">
+    <div class="tab-center-icon">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="8" y2="14" stroke-width="2.5"/><line x1="12" y1="14" x2="12" y2="14" stroke-width="2.5"/><line x1="16" y1="14" x2="16" y2="14" stroke-width="2.5"/></svg>
+    </div>
+    <span class="tab-lbl">Agendar</span>
+  </button>
+  <button class="tab-btn" onclick="goTab('s-appts')">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="9 16 11 18 15 14"/></svg>
+    <span class="tab-lbl">Agenda</span>
+  </button>
+  <button class="tab-btn" onclick="goTab('s-profile')">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span class="tab-lbl">Perfil</span>
+  </button>
+</div>
+
+<!-- ════════ MODALS ════════ -->
+
+<!-- Profissional -->
+<div class="overlay" id="ov-prof" onclick="closeOv('ov-prof',event)">
+  <div class="sheet"><div id="prof-content" style="padding:6px 20px 32px"></div></div>
+</div>
+
+<!-- Avaliação -->
+<div class="overlay" id="ov-rating" onclick="closeOv('ov-rating',event)">
+  <div class="sheet" style="padding:8px 20px 32px">
+    <div class="sheet-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <h2 style="font-size:18px;font-weight:700;color:var(--text)">Avaliar atendimento</h2>
+      <button onclick="closeOv('ov-rating')" style="width:32px;height:32px;border-radius:50%;background:var(--surface2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div id="rating-hd" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface2);border-radius:var(--r-md);margin-bottom:20px"></div>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:14px;text-align:center">Como foi seu atendimento?</p>
+    <div style="display:flex;justify-content:center;gap:6px;margin-bottom:20px" id="rstar-row">
+      <span class="rstar" data-v="1" onclick="setRating(1)">★</span>
+      <span class="rstar" data-v="2" onclick="setRating(2)">★</span>
+      <span class="rstar" data-v="3" onclick="setRating(3)">★</span>
+      <span class="rstar" data-v="4" onclick="setRating(4)">★</span>
+      <span class="rstar" data-v="5" onclick="setRating(5)">★</span>
+    </div>
+    <textarea class="input" style="resize:none;height:96px;line-height:1.5;margin-bottom:16px" placeholder="Conte sua experiência (opcional)..."></textarea>
+    <button class="btn btn-primary btn-full" style="padding:15px" onclick="submitRating()">Enviar avaliação</button>
+  </div>
+</div>
+
+<!-- Sucesso -->
+<div class="overlay" id="ov-success">
+  <div class="sheet" style="padding:40px 24px 40px;text-align:center">
+    <div style="width:80px;height:80px;border-radius:50%;background:var(--green-bg);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;animation:popIn .5s cubic-bezier(.17,.67,.83,.67) both">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2 class="display" style="font-size:24px;color:var(--text);margin-bottom:8px">Agendamento confirmado!</h2>
+    <p style="color:var(--text2);font-size:14px;line-height:1.6;margin-bottom:24px" id="suc-desc"></p>
+    <div style="background:var(--surface2);border-radius:var(--r-md);padding:16px;margin-bottom:24px;text-align:left" id="suc-sum"></div>
+    <button class="btn btn-primary btn-full" style="padding:15px;margin-bottom:10px" onclick="closeOv('ov-success');goTab('s-appts')">Ver meus agendamentos</button>
+    <button style="width:100%;padding:12px;background:none;border:none;color:var(--text2);font-family:var(--font);font-size:14px;cursor:pointer" onclick="closeOv('ov-success');goTab('s-home')">Voltar ao início</button>
+  </div>
+</div>
+
+<!-- Cancelamento -->
+<div class="overlay" id="ov-cancel" onclick="closeOv('ov-cancel',event)">
+  <div class="sheet" style="padding:24px 20px 32px">
+    <div class="sheet-handle"></div>
+    <h2 style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px">Cancelar agendamento?</h2>
+    <p style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:22px">Cancelamentos com menos de 2h de antecedência podem ter cobrança de taxa. Tem certeza que deseja cancelar?</p>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-secondary" style="flex:1;padding:14px" onclick="closeOv('ov-cancel')">Manter agendamento</button>
+      <button class="btn" style="flex:1;padding:14px;background:var(--red);color:#fff;font-size:14px;font-weight:600" onclick="closeOv('ov-cancel')">Cancelar mesmo assim</button>
+    </div>
+  </div>
+</div>
+
+<!-- Detalhe agendamento -->
+<div class="overlay" id="ov-appt-detail" onclick="closeOv('ov-appt-detail',event)">
+  <div class="sheet" style="padding:8px 20px 32px">
+    <div class="sheet-handle"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2 style="font-size:18px;font-weight:700;color:var(--text)">Detalhes</h2>
+      <button onclick="closeOv('ov-appt-detail')" style="width:32px;height:32px;border-radius:50%;background:var(--surface2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface2);border-radius:var(--r-lg);margin-bottom:20px">
+      <div class="av av-a" style="width:56px;height:56px;font-size:20px">FC</div>
+      <div>
+        <p style="font-size:17px;font-weight:700;color:var(--text)">Fernanda Costa</p>
+        <p style="font-size:13px;color:var(--text2)">Sobrancelha e Cílios</p>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:4px">
+          <span class="stars" style="font-size:12px">★★★★★</span>
+          <span style="font-size:12px;color:var(--text2)">4.9 (147 avaliações)</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:14px;color:var(--text2)">Serviço</span>
+        <span style="font-size:14px;font-weight:600;color:var(--text)">Design de Sobrancelha</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:14px;color:var(--text2)">Data</span>
+        <span style="font-size:14px;font-weight:600;color:var(--text)">16/06/2026 (amanhã)</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:14px;color:var(--text2)">Horário</span>
+        <span style="font-size:14px;font-weight:600;color:var(--text)">14h00 — 14h45</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:14px;color:var(--text2)">Local</span>
+        <span style="font-size:14px;font-weight:600;color:var(--text)">No espaço — 1.2km</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:14px;color:var(--text2)">Pagamento</span>
+        <span style="font-size:14px;font-weight:600;color:var(--text)">PIX</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 0">
+        <span style="font-size:15px;font-weight:700;color:var(--text)">Total</span>
+        <span style="font-size:17px;font-weight:700;color:var(--primary)">R$45</span>
+      </div>
+    </div>
+    <span class="badge badge-confirmed" style="font-size:12px;padding:5px 12px;margin-bottom:20px">Confirmado</span>
+    <div style="display:flex;gap:8px;margin-top:12px;margin-bottom:10px">
+      <button onclick="closeOv('ov-appt-detail');openChat('Fernanda Costa','av-a','FC')" style="flex:1;padding:11px;border-radius:var(--r-md);border:1.5px solid var(--border2);background:var(--surface);font-family:var(--font);font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Chat
+      </button>
+      <button onclick="closeOv('ov-appt-detail');openTrack()" style="flex:1;padding:11px;border-radius:var(--r-md);border:none;background:var(--grad);font-family:var(--font);font-size:13px;font-weight:600;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>Rastrear
+      </button>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-secondary" style="flex:1;padding:12px;font-size:13px" onclick="closeOv('ov-appt-detail');openCancel()">Cancelar</button>
+      <button class="btn" style="flex:1;padding:12px;font-size:13px;background:var(--surface2);border:none;border-radius:var(--r-md);color:var(--text2);font-family:var(--font);font-weight:600;cursor:pointer" onclick="closeOv('ov-appt-detail');document.getElementById('ov-receipt').classList.add('open')">Comprovante</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── OVERLAY: CHAT ── -->
+<div class="overlay" id="ov-chat" onclick="closeOv('ov-chat',event)">
+  <div class="sheet" style="height:92vh;display:flex;flex-direction:column;padding:0">
+    <div class="sheet-handle" style="margin:12px auto 0"></div>
+    <!-- Header -->
+    <div style="padding:10px 16px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0">
+      <div class="av av-a" style="width:40px;height:40px;font-size:14px" id="chat-av">FC</div>
+      <div style="flex:1">
+        <p style="font-size:15px;font-weight:700;color:var(--text)" id="chat-name">Fernanda Costa</p>
+        <div style="display:flex;align-items:center;gap:5px">
+          <div style="width:7px;height:7px;border-radius:50%;background:var(--green)"></div>
+          <p style="font-size:12px;color:var(--text2)">Online agora</p>
+        </div>
+      </div>
+      <button onclick="closeOv('ov-chat')" style="width:32px;height:32px;border-radius:50%;background:var(--surface2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- Mensagens -->
+    <div id="chat-msgs" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;scrollbar-width:none">
+      <!-- mensagens injetadas por JS -->
+    </div>
+
+    <!-- Quick replies -->
+    <div id="chat-quick" style="padding:8px 12px 6px;border-top:1px solid var(--border);display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0">
+      <button class="chip" style="white-space:nowrap;font-size:12px;padding:6px 12px" onclick="sendQuick('Olá! Tenho uma dúvida sobre o agendamento.')">Dúvida sobre agendamento</button>
+      <button class="chip" style="white-space:nowrap;font-size:12px;padding:6px 12px" onclick="sendQuick('Você atende em domicílio?')">Atende em domicílio?</button>
+      <button class="chip" style="white-space:nowrap;font-size:12px;padding:6px 12px" onclick="sendQuick('Pode confirmar o horário?')">Confirmar horário</button>
+    </div>
+
+    <!-- Input -->
+    <div style="padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--border);display:flex;align-items:flex-end;gap:8px;flex-shrink:0;background:var(--surface)">
+      <textarea id="chat-in" placeholder="Mensagem..." rows="1" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,96)+'px'" style="flex:1;resize:none;background:var(--surface2);border:1.5px solid var(--border);border-radius:20px;padding:9px 14px;font-family:var(--font);font-size:14px;color:var(--text);outline:none;line-height:1.4;max-height:96px;overflow-y:auto;transition:border-color .2s" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+      <button onclick="sendChatMsg()" style="width:40px;height:40px;border-radius:50%;background:var(--grad);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── OVERLAY: RASTREAMENTO ── -->
+<div class="overlay" id="ov-track" onclick="closeOv('ov-track',event)">
+  <div class="sheet" style="padding:8px 0 32px">
+    <div class="sheet-handle" style="margin-bottom:4px"></div>
+    <!-- Mapa simulado -->
+    <div style="margin:0 20px 16px;height:200px;border-radius:var(--r-lg);overflow:hidden;position:relative;background:linear-gradient(160deg,#E8F4F0,#F0EDF8,#F8EEF3);border:1px solid var(--border)">
+      <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.2" viewBox="0 0 390 200" preserveAspectRatio="none">
+        <line x1="0" y1="60" x2="390" y2="60" stroke="#9B5DE5" stroke-width="2"/>
+        <line x1="0" y1="130" x2="390" y2="130" stroke="#9B5DE5" stroke-width="3"/>
+        <line x1="90" y1="0" x2="90" y2="200" stroke="#9B5DE5" stroke-width="2"/>
+        <line x1="200" y1="0" x2="200" y2="200" stroke="#9B5DE5" stroke-width="3"/>
+        <line x1="310" y1="0" x2="310" y2="200" stroke="#9B5DE5" stroke-width="2"/>
+        <rect x="110" y="70" width="70" height="50" rx="4" fill="#C8C8CE" opacity=".5"/>
+        <rect x="215" y="70" width="80" height="50" rx="4" fill="#C8C8CE" opacity=".5"/>
+        <rect x="30" y="140" width="45" height="40" rx="4" fill="#C8C8CE" opacity=".4"/>
+      </svg>
+      <!-- Rota pontilhada -->
+      <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 390 200" preserveAspectRatio="none">
+        <path d="M80 160 Q130 120 200 100 Q270 80 310 80" stroke="var(--primary)" stroke-width="3" fill="none" stroke-dasharray="8,5" opacity=".6"/>
+      </svg>
+      <!-- Pin profissional -->
+      <div id="track-pin" style="position:absolute;left:22%;top:72%;transition:all 2s ease">
+        <div style="background:var(--primary);color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:12px;white-space:nowrap;box-shadow:var(--shadow-md)">FC</div>
+        <div style="width:2px;height:6px;background:var(--primary);margin:0 auto"></div>
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--primary);margin:0 auto"></div>
+      </div>
+      <!-- Pin destino (usuária) -->
+      <div style="position:absolute;right:18%;top:32%">
+        <div style="width:14px;height:14px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 0 0 5px rgba(232,68,138,.15)"></div>
+      </div>
+      <!-- ETA badge -->
+      <div style="position:absolute;top:10px;left:10px;background:var(--surface);border-radius:12px;padding:6px 12px;box-shadow:var(--shadow-md);border:1px solid var(--border)">
+        <p style="font-size:11px;color:var(--text2)">Chegada prevista</p>
+        <p style="font-size:16px;font-weight:700;color:var(--primary)" id="track-eta">~18 min</p>
+      </div>
+    </div>
+
+    <!-- Info profissional -->
+    <div style="padding:0 20px">
+      <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface2);border-radius:var(--r-lg);margin-bottom:16px">
+        <div class="av av-a" style="width:48px;height:48px;font-size:17px">FC</div>
+        <div style="flex:1">
+          <p style="font-size:15px;font-weight:700;color:var(--text)">Fernanda Costa</p>
+          <p style="font-size:13px;color:var(--text2)">Design de Sobrancelha · 45min</p>
+          <div style="display:flex;align-items:center;gap:4px;margin-top:2px">
+            <span class="stars" style="font-size:12px">★</span>
+            <span style="font-size:12px;font-weight:700;color:var(--text)">4.9</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button onclick="openChat('Fernanda Costa','av-a','FC')" style="width:38px;height:38px;border-radius:50%;background:var(--surface);border:1.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </button>
+          <button onclick="toast('Ligando para Fernanda...')" style="width:38px;height:38px;border-radius:50%;background:var(--surface);border:1.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5 19.79 19.79 0 0 1 1.61 5 2 2 0 0 1 3.59 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.6a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 18z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Progress steps -->
+      <p style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.5px;margin-bottom:12px">STATUS DO ATENDIMENTO</p>
+      <div id="track-steps">
+        <div class="track-step">
+          <div>
+            <div class="track-dot done"></div>
+            <div class="track-line done"></div>
+          </div>
+          <div><p style="font-size:14px;font-weight:600;color:var(--green)">Agendamento confirmado</p><p style="font-size:12px;color:var(--text2)">Hoje às 13h45</p></div>
+        </div>
+        <div class="track-step">
+          <div>
+            <div class="track-dot active"></div>
+            <div class="track-line"></div>
+          </div>
+          <div><p style="font-size:14px;font-weight:600;color:var(--primary)">A caminho</p><p style="font-size:12px;color:var(--text2)" id="track-sub">Fernanda está a 2,1km de você</p></div>
+        </div>
+        <div class="track-step">
+          <div>
+            <div class="track-dot"></div>
+            <div class="track-line"></div>
+          </div>
+          <div><p style="font-size:14px;color:var(--text2)">Chegou</p></div>
+        </div>
+        <div class="track-step">
+          <div><div class="track-dot"></div></div>
+          <div><p style="font-size:14px;color:var(--text2)">Atendimento iniciado</p></div>
+        </div>
+      </div>
+
+      <button class="btn btn-secondary btn-full" style="margin-top:20px;padding:13px" onclick="closeOv('ov-track');openCancel()">Cancelar atendimento</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── OVERLAY: COMPROVANTE ── -->
+<div class="overlay" id="ov-receipt" onclick="closeOv('ov-receipt',event)">
+  <div class="sheet" style="padding:8px 20px 36px">
+    <div class="sheet-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <h2 style="font-size:18px;font-weight:700;color:var(--text)">Comprovante</h2>
+      <div style="display:flex;gap:8px">
+        <button onclick="toast('Comprovante compartilhado!')" style="width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </button>
+        <button onclick="closeOv('ov-receipt')" style="width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Logo + status -->
+    <div style="text-align:center;padding:20px 0 24px;border-bottom:1px dashed var(--border)">
+      <div style="width:56px;height:56px;border-radius:50%;background:var(--green-bg);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <p style="font-size:18px;font-weight:700;color:var(--text)">Pagamento confirmado</p>
+      <p style="font-size:13px;color:var(--text2);margin-top:4px">15 de junho de 2026 · 14h12</p>
+    </div>
+
+    <!-- Itens -->
+    <div style="padding:16px 0;border-bottom:1px dashed var(--border)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div class="av av-a" style="width:40px;height:40px;font-size:14px">FC</div>
+        <div>
+          <p style="font-size:14px;font-weight:700;color:var(--text)">Fernanda Costa</p>
+          <p style="font-size:12px;color:var(--text2)">Sobrancelha e Cílios</p>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between"><span style="font-size:13px;color:var(--text2)">Serviço</span><span style="font-size:13px;font-weight:500;color:var(--text)">Design de Sobrancelha</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="font-size:13px;color:var(--text2)">Data</span><span style="font-size:13px;font-weight:500;color:var(--text)">Amanhã · 14h00</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="font-size:13px;color:var(--text2)">Local</span><span style="font-size:13px;font-weight:500;color:var(--text)">No espaço · 1.2km</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="font-size:13px;color:var(--text2)">Duração</span><span style="font-size:13px;font-weight:500;color:var(--text)">45 min</span></div>
+      </div>
+    </div>
+
+    <!-- Valores -->
+    <div style="padding:16px 0;border-bottom:1px dashed var(--border)">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:var(--text2)">Subtotal</span><span style="font-size:13px;color:var(--text)">R$45,00</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:var(--text2)">Taxa de serviço</span><span style="font-size:13px;color:var(--text)">R$0,00</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;color:var(--green)">Desconto (1ª vez)</span><span style="font-size:13px;color:var(--green)">-R$5,00</span></div>
+      <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
+        <span style="font-size:15px;font-weight:700;color:var(--text)">Total pago</span>
+        <span style="font-size:17px;font-weight:700;color:var(--primary)">R$40,00</span>
+      </div>
+    </div>
+
+    <!-- Pagamento -->
+    <div style="padding:14px 0;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:13px;color:var(--text2)">Método de pagamento</span>
+        <div style="display:flex;align-items:center;gap:6px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          <span style="font-size:13px;font-weight:600;color:var(--text)">PIX</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ID do pedido -->
+    <div style="background:var(--surface2);border-radius:var(--r-sm);padding:10px 14px;text-align:center">
+      <p style="font-size:11px;color:var(--text2);margin-bottom:2px">ID do pedido</p>
+      <p style="font-size:12px;font-weight:700;color:var(--text);letter-spacing:.5px">#BLG-2026-00847</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── OVERLAY: EDITAR PERFIL ── -->
+<div class="overlay" id="ov-edit-profile" onclick="closeOv('ov-edit-profile',event)">
+  <div class="sheet" style="padding:8px 20px 36px;max-height:92vh">
+    <div class="sheet-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <h2 style="font-size:18px;font-weight:700;color:var(--text)">Editar perfil</h2>
+      <button onclick="closeOv('ov-edit-profile')" style="width:30px;height:30px;border-radius:50%;background:var(--surface2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <!-- Avatar edit -->
+    <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:24px">
+      <div style="position:relative;display:inline-block">
+        <div style="width:80px;height:80px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff">JS</div>
+        <button onclick="toast('Funcionalidade de câmera disponível em breve')" style="position:absolute;bottom:0;right:0;width:28px;height:28px;border-radius:50%;background:var(--primary);border:2px solid var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </button>
+      </div>
+      <p style="font-size:12px;color:var(--primary);font-weight:600;margin-top:8px;cursor:pointer" onclick="toast('Funcionalidade de câmera disponível em breve')">Alterar foto</p>
+    </div>
+    <!-- Campos -->
+    <div class="form-group">
+      <label class="form-label">Nome completo</label>
+      <input class="form-input" type="text" value="Juliana Souza" id="edit-name">
+    </div>
+    <div class="form-group">
+      <label class="form-label">E-mail</label>
+      <input class="form-input" type="email" value="juliana.souza@email.com" id="edit-email">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Telefone</label>
+      <input class="form-input" type="tel" value="(11) 99812-3456" id="edit-phone">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Data de nascimento</label>
+      <input class="form-input" type="text" value="14/03/1995" id="edit-birth">
+    </div>
+    <div class="form-group" style="margin-bottom:24px">
+      <label class="form-label">Gênero</label>
+      <div style="display:flex;gap:8px">
+        <button id="gen-f" onclick="selGender('f')" class="btn btn-primary-sm" style="flex:1;padding:11px">Feminino</button>
+        <button id="gen-m" onclick="selGender('m')" class="btn btn-secondary-sm" style="flex:1;padding:11px">Masculino</button>
+        <button id="gen-o" onclick="selGender('o')" class="btn btn-secondary-sm" style="flex:1;padding:11px">Outro</button>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full" style="padding:15px" onclick="saveProfile()">Salvar alterações</button>
+  </div>
+</div>
+
+<!-- ── OVERLAY: LOGOUT ── -->
+<div class="overlay" id="ov-logout" onclick="closeOv('ov-logout',event)">
+  <div class="sheet" style="padding:24px 20px 36px">
+    <div class="sheet-handle"></div>
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="width:56px;height:56px;border-radius:50%;background:#FEF2F2;border:1.5px solid #FECACA;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </div>
+      <h2 style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px">Sair da conta?</h2>
+      <p style="font-size:14px;color:var(--text2);line-height:1.6">Você precisará fazer login novamente para acessar seus agendamentos e favoritos.</p>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-secondary" style="flex:1;padding:14px" onclick="closeOv('ov-logout')">Cancelar</button>
+      <button class="btn" style="flex:1;padding:14px;background:var(--red);color:#fff;font-size:14px;font-weight:600;border-radius:var(--r-md)" onclick="closeOv('ov-logout');toast('Até logo, Juliana!')">Sair</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── OVERLAY: FILTROS AVANÇADOS ── -->
+<div class="overlay" id="ov-filters" onclick="closeOv('ov-filters',event)">
+  <div class="sheet" style="padding:8px 20px 36px">
+    <div class="sheet-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <h2 style="font-size:18px;font-weight:700;color:var(--text)">Filtros</h2>
+      <button onclick="resetFilters()" style="font-size:13px;color:var(--primary);font-weight:600;background:none;border:none;cursor:pointer;font-family:var(--font)">Limpar tudo</button>
+    </div>
+
+    <!-- Serviço -->
+    <p style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.5px;margin-bottom:10px">SERVIÇO</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px" id="filter-svcs">
+      <button class="chip" data-svc="Maquiagem" onclick="toggleFilterSvc(this)">💄 Maquiagem</button>
+      <button class="chip" data-svc="Cabelo" onclick="toggleFilterSvc(this)">💇 Cabelo</button>
+      <button class="chip" data-svc="Unhas" onclick="toggleFilterSvc(this)">💅 Unhas</button>
+      <button class="chip" data-svc="Sobrancelha" onclick="toggleFilterSvc(this)">👁️ Sobrancelha</button>
+      <button class="chip" data-svc="Cílios" onclick="toggleFilterSvc(this)">✨ Cílios</button>
+      <button class="chip" data-svc="Penteado" onclick="toggleFilterSvc(this)">👑 Penteado</button>
+      <button class="chip" data-svc="Micropigmentação" onclick="toggleFilterSvc(this)">🖊️ Micropig.</button>
+    </div>
+
+    <!-- Avaliação mínima -->
+    <p style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.5px;margin-bottom:10px">AVALIAÇÃO MÍNIMA</p>
+    <div style="display:flex;gap:6px;margin-bottom:20px" id="filter-stars-row">
+      <span class="filter-star on" data-v="1" onclick="setFilterStar(1)">★</span>
+      <span class="filter-star on" data-v="2" onclick="setFilterStar(2)">★</span>
+      <span class="filter-star on" data-v="3" onclick="setFilterStar(3)">★</span>
+      <span class="filter-star on" data-v="4" onclick="setFilterStar(4)">★</span>
+      <span class="filter-star on" data-v="5" onclick="setFilterStar(5)">★</span>
+    </div>
+
+    <!-- Faixa de preço -->
+    <p style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.5px;margin-bottom:6px">PREÇO MÁXIMO</p>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <span style="font-size:13px;color:var(--text2)">R$0</span>
+      <span style="font-size:14px;font-weight:700;color:var(--primary)" id="price-lbl">R$500</span>
+      <span style="font-size:13px;color:var(--text2)">R$600+</span>
+    </div>
+    <input type="range" min="35" max="600" value="500" id="price-range" style="width:100%;margin-bottom:20px;accent-color:var(--primary)" oninput="document.getElementById('price-lbl').textContent='R$'+this.value">
+
+    <!-- Distância -->
+    <p style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.5px;margin-bottom:6px">DISTÂNCIA MÁXIMA</p>
+    <div style="display:flex;gap:8px;margin-bottom:24px" id="dist-opts">
+      <button class="chip active" data-d="10" onclick="selDist(this)">Qualquer</button>
+      <button class="chip" data-d="1" onclick="selDist(this)">até 1km</button>
+      <button class="chip" data-d="3" onclick="selDist(this)">até 3km</button>
+      <button class="chip" data-d="5" onclick="selDist(this)">até 5km</button>
+    </div>
+
+    <!-- Disponibilidade -->
+    <p style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.5px;margin-bottom:10px">DISPONIBILIDADE</p>
+    <div style="display:flex;gap:8px;margin-bottom:28px">
+      <button class="chip active" id="avail-any" onclick="selAvail('any')">Qualquer data</button>
+      <button class="chip" id="avail-today" onclick="selAvail('today')">Hoje</button>
+      <button class="chip" id="avail-tom" onclick="selAvail('tomorrow')">Amanhã</button>
+    </div>
+
+    <button class="btn btn-primary btn-full" style="padding:15px;font-size:15px" onclick="applyFilters()">Aplicar filtros</button>
+  </div>
+</div>
+
+<!-- ── OVERLAY: NOTIFICAÇÕES ── -->
+<div class="overlay" id="ov-notif" onclick="closeOv('ov-notif',event)">
+  <div class="sheet" style="padding:8px 0 32px">
+    <div class="sheet-handle" style="margin-bottom:12px"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 20px 14px;border-bottom:1px solid var(--border)">
+      <h2 style="font-size:18px;font-weight:700;color:var(--text)">Notificações</h2>
+      <button onclick="closeOv('ov-notif')" style="font-size:13px;color:var(--primary);font-weight:600;background:none;border:none;cursor:pointer;font-family:var(--font)">Marcar lidas</button>
+    </div>
+    <div id="notif-list"></div>
+  </div>
+</div>
+
+<!-- ── OVERLAY: FAVORITAS ── -->
+<div class="overlay" id="ov-fav" onclick="closeOv('ov-fav',event)">
+  <div class="sheet" style="padding:8px 0 32px;max-height:88vh">
+    <div class="sheet-handle" style="margin-bottom:12px"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 20px 14px;border-bottom:1px solid var(--border)">
+      <h2 style="font-size:18px;font-weight:700;color:var(--text)">Minhas favoritas</h2>
+      <button onclick="closeOv('ov-fav')" style="width:30px;height:30px;border-radius:50%;background:var(--surface2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div style="padding:16px 20px 0;display:flex;flex-direction:column;gap:10px" id="fav-list"></div>
+  </div>
+</div>
+
+<!-- ── OVERLAY: ENDEREÇOS ── -->
+<div class="overlay" id="ov-addr" onclick="closeOv('ov-addr',event)">
+  <div class="sheet" style="padding:8px 20px 32px">
+    <div class="sheet-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <h2 style="font-size:18px;font-weight:700;color:var(--text)">Endereços salvos</h2>
+      <button onclick="closeOv('ov-addr')" style="width:30px;height:30px;border-radius:50%;background:var(--surface2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface2);border-radius:var(--r-md);border:1.5px solid var(--primary)">
+        <div style="width:38px;height:38px;border-radius:10px;background:var(--primary-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div style="flex:1">
+          <p style="font-size:13px;font-weight:700;color:var(--primary)">Casa</p>
+          <p style="font-size:13px;color:var(--text)">Rua das Flores, 142 — Apto 31</p>
+          <p style="font-size:12px;color:var(--text2)">Pinheiros, São Paulo · SP</p>
+        </div>
+        <span class="badge badge-primary">Principal</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface);border-radius:var(--r-md);border:1px solid var(--border)">
+        <div style="width:38px;height:38px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <div style="flex:1">
+          <p style="font-size:13px;font-weight:700;color:var(--text)">Trabalho</p>
+          <p style="font-size:13px;color:var(--text)">Av. Paulista, 1000 — Sala 512</p>
+          <p style="font-size:12px;color:var(--text2)">Bela Vista, São Paulo · SP</p>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-secondary btn-full" style="padding:13px;display:flex;align-items:center;justify-content:center;gap:8px" onclick="toast('Em breve disponível')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Adicionar endereço
+    </button>
+  </div>
+</div>
+
+<!-- ── OVERLAY: PAGAMENTOS ── -->
+<div class="overlay" id="ov-payments" onclick="closeOv('ov-payments',event)">
+  <div class="sheet" style="padding:8px 20px 32px">
+    <div class="sheet-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <h2 style="font-size:18px;font-weight:700;color:var(--text)">Formas de pagamento</h2>
+      <button onclick="closeOv('ov-payments')" style="width:30px;height:30px;border-radius:50%;background:var(--surface2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <p style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.5px;margin-bottom:10px">CARTÕES SALVOS</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface2);border-radius:var(--r-md);border:1.5px solid var(--primary)">
+        <div style="width:44px;height:30px;border-radius:6px;background:linear-gradient(135deg,#1A1F71,#1565C0);display:flex;align-items:center;justify-content:center">
+          <span style="color:#fff;font-size:10px;font-weight:800">VISA</span>
+        </div>
+        <div style="flex:1">
+          <p style="font-size:14px;font-weight:600;color:var(--text)">•••• •••• •••• 4821</p>
+          <p style="font-size:12px;color:var(--text2)">Vence 08/27</p>
+        </div>
+        <span class="badge badge-primary">Principal</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface);border-radius:var(--r-md);border:1px solid var(--border)">
+        <div style="width:44px;height:30px;border-radius:6px;background:linear-gradient(135deg,#EB001B,#F79E1B);display:flex;align-items:center;justify-content:center">
+          <span style="color:#fff;font-size:9px;font-weight:800">MC</span>
+        </div>
+        <div style="flex:1">
+          <p style="font-size:14px;font-weight:600;color:var(--text)">•••• •••• •••• 7734</p>
+          <p style="font-size:12px;color:var(--text2)">Vence 03/26</p>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.5px;margin-bottom:10px">PIX</p>
+    <div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface);border-radius:var(--r-md);border:1px solid var(--border);margin-bottom:20px">
+      <div style="width:38px;height:38px;border-radius:10px;background:#F0FDF4;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div style="flex:1">
+        <p style="font-size:14px;font-weight:600;color:var(--text)">PIX ativado</p>
+        <p style="font-size:12px;color:var(--text2)">juliana.souza@email.com</p>
+      </div>
+      <span class="badge badge-green">Ativo</span>
+    </div>
+    <button class="btn btn-secondary btn-full" style="padding:13px;display:flex;align-items:center;justify-content:center;gap:8px" onclick="toast('Em breve disponível')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Adicionar cartão
+    </button>
+  </div>
+</div>
+
+<!-- ── OVERLAY: SEGURANÇA ── -->
+<div class="overlay" id="ov-security" onclick="closeOv('ov-security',event)">
+  <div class="sheet" style="padding:8px 20px 32px">
+    <div class="sheet-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <h2 style="font-size:18px;font-weight:700;color:var(--text)">Segurança</h2>
+      <button onclick="closeOv('ov-security')" style="width:30px;height:30px;border-radius:50%;background:var(--surface2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden">
+      <div class="menu-row" onclick="toast('Em breve disponível')" style="border-bottom:1px solid var(--border)">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <span class="menu-row-lbl">Alterar senha</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" style="border-bottom:1px solid var(--border)">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+        <div style="flex:1"><span class="menu-row-lbl">Autenticação em 2 fatores</span></div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="badge badge-green">Ativo</span>
+          <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+      <div class="menu-row" style="border-bottom:none" onclick="toast('Em breve disponível')">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <span class="menu-row-lbl">Dispositivos conectados</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── OVERLAY: AJUDA ── -->
+<div class="overlay" id="ov-help" onclick="closeOv('ov-help',event)">
+  <div class="sheet" style="padding:8px 20px 32px">
+    <div class="sheet-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <h2 style="font-size:18px;font-weight:700;color:var(--text)">Ajuda e suporte</h2>
+      <button onclick="closeOv('ov-help')" style="width:30px;height:30px;border-radius:50%;background:var(--surface2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <!-- FAQ -->
+    <p style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.5px;margin-bottom:10px">PERGUNTAS FREQUENTES</p>
+    <div id="faq-list" style="display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:20px"></div>
+    <!-- Contato -->
+    <p style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.5px;margin-bottom:10px">FALE CONOSCO</p>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-secondary" style="flex:1;padding:13px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:13px" onclick="toast('Abrindo chat...')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Chat
+      </button>
+      <button class="btn btn-secondary" style="flex:1;padding:13px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:13px" onclick="toast('Ligando para suporte...')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.5 19.79 19.79 0 0 1 1.61 5 2 2 0 0 1 3.59 3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.6a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 18z"/></svg>
+        Telefone
+      </button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<script>
+const PROFS = [
+  {id:0,name:'Fernanda Costa',spec:'Sobrancelha e Cílios',rating:4.9,reviews:147,dist:1.2,price:45,av:'av-a',ini:'FC',availNow:true,avail:'Hoje às 18h',bio:'Especialista em design de sobrancelha e extensão de cílios com 8 anos de experiência. Meu objetivo é realçar a beleza natural de cada cliente.',svcs:[{n:'Design de Sobrancelha',p:45,d:'45min'},{n:'Henna de Sobrancelha',p:60,d:'60min'},{n:'Volume Russo (Cílios)',p:180,d:'120min'},{n:'Fio a Fio (Cílios)',p:150,d:'90min'}],colors:['linear-gradient(135deg,#E8448A,#FF85B3)','linear-gradient(135deg,#9B5DE5,#C084FC)','linear-gradient(135deg,#F43F5E,#FDA4AF)','linear-gradient(135deg,#E8448A,#C084FC)','linear-gradient(135deg,#FF85B3,#9B5DE5)','linear-gradient(135deg,#6366F1,#A5B4FC)']},
+  {id:1,name:'Bruna Oliveira',spec:'Maquiagem',rating:4.8,reviews:89,dist:2.3,price:120,av:'av-b',ini:'BO',availNow:true,avail:'Hoje às 19h',bio:'Maquiadora profissional formada pela MAC Academy. Especializada em maquiagem para noivas, festas e eventos.',svcs:[{n:'Maquiagem Social',p:120,d:'60min'},{n:'Maquiagem para Noiva',p:350,d:'120min'},{n:'Maquiagem Natural',p:90,d:'45min'},{n:'Maquiagem Artística',p:200,d:'90min'}],colors:['linear-gradient(135deg,#9B5DE5,#C084FC)','linear-gradient(135deg,#6366F1,#A5B4FC)','linear-gradient(135deg,#E8448A,#FF85B3)','linear-gradient(135deg,#8B5CF6,#DDD6FE)','linear-gradient(135deg,#7C3AED,#C084FC)','linear-gradient(135deg,#4F46E5,#818CF8)']},
+  {id:2,name:'Camila Santos',spec:'Cabelo e Escova',rating:5.0,reviews:213,dist:0.8,price:60,av:'av-c',ini:'CS',availNow:true,avail:'Hoje às 17h',bio:'Cabeleireira com 10 anos de experiência em coloração, cortes e escova. Apaixonada por transformar cabelos!',svcs:[{n:'Escova Simples',p:60,d:'45min'},{n:'Escova Progressiva',p:180,d:'150min'},{n:'Coloração',p:220,d:'180min'},{n:'Corte Feminino',p:80,d:'60min'}],colors:['linear-gradient(135deg,#0EA5E9,#38BDF8)','linear-gradient(135deg,#06B6D4,#A5F3FC)','linear-gradient(135deg,#0284C7,#7DD3FC)','linear-gradient(135deg,#14B8A6,#99F6E4)','linear-gradient(135deg,#0EA5E9,#6EE7F7)','linear-gradient(135deg,#38BDF8,#BAE6FD)']},
+  {id:3,name:'Tainá Ferreira',spec:'Unhas',rating:4.7,reviews:76,dist:3.1,price:35,av:'av-d',ini:'TF',availNow:false,avail:'Amanhã às 10h',bio:'Nail designer especializada em nail art, gel e fibra de vidro. Cada unha é uma obra de arte!',svcs:[{n:'Manicure Simples',p:35,d:'40min'},{n:'Pedicure Completa',p:45,d:'50min'},{n:'Unhas em Gel',p:120,d:'90min'},{n:'Nail Art (por dedo)',p:8,d:'—'}],colors:['linear-gradient(135deg,#F97316,#FDBA74)','linear-gradient(135deg,#FBBF24,#FDE68A)','linear-gradient(135deg,#EF4444,#FCA5A5)','linear-gradient(135deg,#F59E0B,#FCD34D)','linear-gradient(135deg,#F97316,#FED7AA)','linear-gradient(135deg,#DC2626,#FCA5A5)']},
+  {id:4,name:'Letícia Moura',spec:'Penteado para Eventos',rating:4.9,reviews:54,dist:4.0,price:150,av:'av-e',ini:'LM',availNow:false,avail:'Amanhã às 14h',bio:'Penteadeira especializada em casamentos e formaturas. Crio penteados únicos que duram a festa toda!',svcs:[{n:'Penteado Social',p:150,d:'60min'},{n:'Penteado para Noiva',p:400,d:'120min'},{n:'Semi-preso com tranças',p:120,d:'45min'},{n:'Coque moderno',p:110,d:'40min'}],colors:['linear-gradient(135deg,#F43F5E,#FB7185)','linear-gradient(135deg,#E11D48,#FDA4AF)','linear-gradient(135deg,#BE185D,#F9A8D4)','linear-gradient(135deg,#9F1239,#FCA5A5)','linear-gradient(135deg,#EC4899,#FBCFE8)','linear-gradient(135deg,#DB2777,#F9A8D4)']},
+  {id:5,name:'Priscila Ramos',spec:'Micropigmentação',rating:4.8,reviews:38,dist:5.2,price:200,av:'av-f',ini:'PR',availNow:false,avail:'Amanhã às 16h',bio:'Micropigmentadora certificada em técnicas brasileira e europeia. Sobrancelha, olhos e lábios.',svcs:[{n:'Micropig. Sobrancelha',p:500,d:'180min'},{n:'Micropig. Labial',p:600,d:'180min'},{n:'Delineado Permanente',p:400,d:'120min'},{n:'Retoque (6 meses)',p:200,d:'90min'}],colors:['linear-gradient(135deg,#6366F1,#A5B4FC)','linear-gradient(135deg,#4F46E5,#C7D2FE)','linear-gradient(135deg,#7C3AED,#DDD6FE)','linear-gradient(135deg,#6366F1,#E0E7FF)','linear-gradient(135deg,#4338CA,#A5B4FC)','linear-gradient(135deg,#3730A3,#C7D2FE)']}
+];
+const REVIEWS=[{name:'Amanda R.',r:5,txt:'Perfeita! Minha sobrancelha nunca ficou tão bonita. Super recomendo!'},{name:'Carla M.',r:5,txt:'Atendimento impecável, pontual e muito cuidadosa. Voltarei com certeza!'},{name:'Luana T.',r:4,txt:'Ótimo trabalho, fiquei muito satisfeita. Profissional muito atenciosa.'}];
+
+let activeFilter='proximas', curProf=null, selSvc=null, selDate=null, selTime=null, curLoc='studio', step=1, curRating=0;
+
+/* ── NAV ── */
+function goTab(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const map=['s-home','s-search','','s-appts','s-profile'];
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',map[i]===id));
+  document.querySelector('.tab-center-btn').style.opacity = id==='s-book'?'1':'1';
+}
+function goCat(cat){document.getElementById('srch-in').value=cat;goTab('s-search');renderSearch()}
+
+/* ── HOME ── */
+function renderHome(){
+  const sorted=[...PROFS].sort((a,b)=>b.rating-a.rating).slice(0,4);
+  document.getElementById('home-list').innerHTML=sorted.map(p=>`
+    <div class="card card-p" style="display:flex;align-items:center;gap:12px;cursor:pointer" onclick="openProfModal(${p.id})">
+      <div class="av ${p.av}" style="width:52px;height:52px;font-size:18px">${p.ini}</div>
+      <div style="flex:1;min-width:0">
+        <p style="font-size:15px;font-weight:700;color:var(--text)">${p.name}</p>
+        <p style="font-size:12px;color:var(--text2)">${p.spec}</p>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap">
+          <span><span class="stars" style="font-size:11px">★</span> <span style="font-size:12px;font-weight:700;color:var(--text)">${p.rating}</span> <span style="font-size:11px;color:var(--text3)">(${p.reviews})</span></span>
+          <span style="font-size:12px;color:var(--text2)">${p.dist}km</span>
+          <span style="font-size:12px;font-weight:600;color:var(--primary)">a partir R$${p.price}</span>
+        </div>
+      </div>
+      <span class="badge ${p.availNow?'badge-green':'badge-gray'}" style="flex-shrink:0">${p.availNow?'Hoje':'Amanhã'}</span>
+    </div>
+  `).join('');
+}
+
+/* ── SEARCH ── */
+function setChip(btn){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter=btn.dataset.f;
+  renderSearch();
+}
+function renderSearch(){
+  const q=(document.getElementById('srch-in').value||'').toLowerCase();
+  let list=PROFS.filter(p=>!q||p.name.toLowerCase().includes(q)||p.spec.toLowerCase().includes(q));
+  if(activeFilter==='proximas') list.sort((a,b)=>a.dist-b.dist);
+  else if(activeFilter==='avaliadas') list.sort((a,b)=>b.rating-a.rating);
+  else if(activeFilter==='preco') list.sort((a,b)=>a.price-b.price);
+  else if(activeFilter==='hoje') list=[...list.filter(p=>p.availNow),...list.filter(p=>!p.availNow)];
+  document.getElementById('srch-count').textContent=`${list.length} profissional${list.length!==1?'is':''} encontrada${list.length!==1?'s':''}`;
+  document.getElementById('srch-list').innerHTML=list.map(p=>`
+    <div class="card card-p">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div class="av ${p.av}" style="width:56px;height:56px;font-size:20px">${p.ini}</div>
+        <div style="flex:1;min-width:0">
+          <p style="font-size:16px;font-weight:700;color:var(--text)">${p.name}</p>
+          <p style="font-size:13px;color:var(--text2)">${p.spec}</p>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:5px;flex-wrap:wrap">
+            <span><span class="stars" style="font-size:12px">★</span> <span style="font-size:13px;font-weight:700;color:var(--text)">${p.rating}</span> <span style="font-size:12px;color:var(--text2)">(${p.reviews})</span></span>
+            <span style="font-size:13px;color:var(--text2)">${p.dist}km</span>
+            <span style="font-size:13px;font-weight:600;color:var(--primary)">a partir R$${p.price}</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span class="badge ${p.availNow?'badge-green':'badge-gray'}">${p.availNow?'Disponível '+p.avail:'Próx. '+p.avail}</span>
+        <button class="btn btn-primary-sm" onclick="openProfModal(${p.id})">Ver perfil</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ── PROF MODAL ── */
+function openProfModal(id){
+  const p=PROFS[id];
+  document.getElementById('prof-content').innerHTML=`
+    <div class="sheet-handle"></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;padding-top:4px">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="av ${p.av}" style="width:68px;height:68px;font-size:24px">${p.ini}</div>
+        <div>
+          <h2 style="font-size:20px;font-weight:700;color:var(--text)">${p.name}</h2>
+          <p style="font-size:13px;color:var(--text2)">${p.spec}</p>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:4px">
+            <span class="stars">★</span><span style="font-size:14px;font-weight:700;color:var(--text)">${p.rating}</span><span style="font-size:13px;color:var(--text2)">(${p.reviews})</span>
+          </div>
+          <p style="font-size:12px;color:var(--text2);margin-top:2px">${p.dist}km de você · ${p.availNow?'<span style="color:var(--green);font-weight:600">Disponível agora</span>':p.avail}</p>
+        </div>
+      </div>
+      <button onclick="closeOv('ov-prof')" style="width:32px;height:32px;border-radius:50%;background:var(--surface2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <p style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:18px">${p.bio}</p>
+    <p style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.5px;margin-bottom:10px">PORTFÓLIO</p>
+    <div class="photo-grid" style="margin-bottom:18px;border-radius:var(--r-md);overflow:hidden">
+      ${p.colors.map(c=>`<div class="photo-cell" style="background:${c}"></div>`).join('')}
+    </div>
+    <p style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.5px;margin-bottom:10px">SERVIÇOS</p>
+    <div style="margin-bottom:18px;border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden">
+      ${p.svcs.map((s,i)=>`
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 14px;${i<p.svcs.length-1?'border-bottom:1px solid var(--border)':''}">
+          <div><p style="font-size:14px;font-weight:500;color:var(--text)">${s.n}</p><p style="font-size:12px;color:var(--text2)">${s.d}</p></div>
+          <span style="font-size:15px;font-weight:700;color:var(--primary)">R$${s.p}</span>
+        </div>
+      `).join('')}
+    </div>
+    <p style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:.5px;margin-bottom:10px">AVALIAÇÕES</p>
+    ${REVIEWS.map(r=>`
+      <div style="padding:14px;background:var(--surface2);border-radius:var(--r-md);margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <div style="width:30px;height:30px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text2)">${r.name.split(' ').map(n=>n[0]).join('')}</div>
+          <div><p style="font-size:13px;font-weight:600;color:var(--text)">${r.name}</p><span class="stars" style="font-size:12px">${'★'.repeat(r.r)}</span></div>
+        </div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.5">${r.txt}</p>
+      </div>
+    `).join('')}
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button class="btn btn-secondary" style="flex:1;padding:13px" id="fav-btn-${p.id}" onclick="toggleFav(${p.id})">Salvar</button>
+      <button class="btn btn-primary" style="flex:2;padding:13px" onclick="closeOv('ov-prof');openBooking(${p.id})">Agendar</button>
+    </div>
+  `;
+  document.getElementById('ov-prof').classList.add('open');
+}
+function toggleFav(id){
+  const btn=document.getElementById('fav-btn-'+id);
+  const saved=btn.textContent.trim()==='Salvo';
+  btn.textContent=saved?'Salvar':'Salvo';
+  btn.style.color=saved?'':'var(--primary)';
+  btn.style.borderColor=saved?'':'var(--primary)';
+}
+
+/* ── BOOKING ── */
+function openBooking(id){
+  curProf=id===0?PROFS[0]:PROFS[id];
+  selSvc=null;selDate=null;selTime=null;curLoc='studio';step=1;
+  renderBookingStep();
+  goTab('s-book');
+  document.getElementById('loc-studio').classList.add('sel');
+  document.getElementById('loc-home').classList.remove('sel');
+}
+function renderBookingStep(){
+  const p=curProf||PROFS[0];
+  document.getElementById('bk-prof-hd').innerHTML=`
+    <div class="av ${p.av}" style="width:46px;height:46px;font-size:17px">${p.ini}</div>
+    <div>
+      <p style="font-size:15px;font-weight:700;color:var(--text)">${p.name}</p>
+      <p style="font-size:12px;color:var(--text2)">${p.spec}</p>
+      <span><span class="stars" style="font-size:12px">★</span> <span style="font-size:12px;font-weight:700;color:var(--text)">${p.rating}</span> <span style="font-size:12px;color:var(--text2)">· ${p.dist}km</span></span>
+    </div>
+  `;
+  document.getElementById('bk-svcs').innerHTML=p.svcs.map((s,i)=>`
+    <div class="svc-item ${selSvc===i?'sel':''}" onclick="pickSvc(${i})">
+      <div class="svc-check">${selSvc===i?`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`:''}</div>
+      <div style="flex:1;padding:0 12px">
+        <p style="font-size:14px;font-weight:600;color:var(--text)">${s.n}</p>
+        <p style="font-size:12px;color:var(--text2)">${s.d}</p>
+      </div>
+      <span style="font-size:15px;font-weight:700;color:var(--primary)">R$${s.p}</span>
+    </div>
+  `).join('');
+  ['bk1','bk2','bk3'].forEach((id,i)=>{
+    document.getElementById(id).style.display=step===i+1?'block':'none';
+  });
+  const labels=['Passo 1 de 3 — Escolha o serviço','Passo 2 de 3 — Data e horário','Passo 3 de 3 — Confirmação'];
+  document.getElementById('step-lbl').textContent=labels[step-1];
+  document.getElementById('step-fill').style.width=(step/3*100)+'%';
+  const bb=document.getElementById('back-btn');
+  bb.style.display=step>1?'flex':'none';
+  if(step===2) renderCal();
+  if(step===3) renderSummary();
+}
+function pickSvc(i){selSvc=i;renderBookingStep()}
+function selLoc(l){
+  curLoc=l;
+  document.getElementById('loc-studio').classList.toggle('sel',l==='studio');
+  document.getElementById('loc-home').classList.toggle('sel',l==='home');
+}
+function nextStep(){if(selSvc===null)selSvc=0;if(step<3){step++;renderBookingStep()}}
+function backStep(){if(step>1){step--;renderBookingStep()}}
+
+function renderCal(){
+  const DOW=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  const avOff=[0,1,3,4,6,7];
+  const today=new Date();
+  let h='';
+  for(let i=0;i<10;i++){
+    const d=new Date(today);d.setDate(d.getDate()+i);
+    const ok=avOff.includes(i);
+    const s=selDate===i;
+    h+=`<div class="cal-day ${ok?'':'disabled'} ${s?'sel':''}" onclick="${ok?'pickDate('+i+')':''}">
+      <span class="cal-dname">${DOW[d.getDay()]}</span>
+      <span class="cal-dnum">${d.getDate()}</span>
+    </div>`;
+  }
+  document.getElementById('bk-cal').innerHTML=h;
+  const slots=['09:00','10:30','12:00','13:30','14:00','15:30','16:00','17:30','18:00','19:30'];
+  const taken=[2,5,8];
+  document.getElementById('bk-slots').innerHTML=slots.map((t,i)=>`
+    <button class="tslot ${taken.includes(i)?'taken':''} ${selTime===t?'sel':''}" onclick="${taken.includes(i)?'':'\"pickTime(\\\''+t+'\\\')\"'}">${t}</button>
+  `).join('').replace(/"pickTime\(\\'([^']+)\\'\)"/g,(m,t)=>`"pickTime('${t}')"`);
+}
+function pickDate(i){selDate=i;renderCal()}
+function pickTime(t){selTime=t;renderCal()}
+
+function renderSummary(){
+  const p=curProf||PROFS[0];const s=p.svcs[selSvc||0];
+  const today=new Date();const d=new Date(today);d.setDate(d.getDate()+(selDate||1));
+  const dateStr=d.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
+  const total=s.p+(curLoc==='home'?20:0);
+  document.getElementById('bk-summary').innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:12px">
+      <div class="av ${p.av}" style="width:40px;height:40px;font-size:14px">${p.ini}</div>
+      <div><p style="font-size:14px;font-weight:700;color:var(--text)">${p.name}</p><p style="font-size:12px;color:var(--text2)">${p.spec}</p></div>
+    </div>
+    ${[['Serviço',s.n],['Data',dateStr],['Horário',selTime||'14:00'],['Local',curLoc==='home'?'Em domicílio (+R$20)':'No espaço da profissional']].map(([l,v])=>`
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:13px;color:var(--text2)">${l}</span>
+        <span style="font-size:13px;font-weight:500;color:var(--text);text-align:right;max-width:60%">${v}</span>
+      </div>
+    `).join('')}
+    <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;margin-top:2px">
+      <span style="font-size:15px;font-weight:700;color:var(--text)">Total</span>
+      <span style="font-size:18px;font-weight:700;color:var(--primary)">R$${total}</span>
+    </div>
+  `;
+}
+function selPay(el){document.querySelectorAll('.pay-opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel')}
+function confirmBk(){
+  const p=curProf||PROFS[0];const s=p.svcs[selSvc||0];
+  const today=new Date();const d=new Date(today);d.setDate(d.getDate()+(selDate||1));
+  const dateStr=d.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('suc-desc').textContent=`Seu agendamento com ${p.name} foi confirmado. Você receberá uma notificação 1h antes.`;
+  document.getElementById('suc-sum').innerHTML=`
+    <div style="display:flex;flex-direction:column;gap:8px">
+      ${[['Profissional',p.name],['Serviço',s.n],['Data e hora',dateStr+' às '+(selTime||'14:00')]].map(([l,v])=>`
+        <div style="display:flex;justify-content:space-between"><span style="font-size:13px;color:var(--text2)">${l}</span><span style="font-size:13px;font-weight:600;color:var(--text)">${v}</span></div>
+      `).join('')}
+    </div>
+  `;
+  document.getElementById('ov-success').classList.add('open');
+}
+
+/* ── APPTS ── */
+function switchTab(t,el){
+  document.querySelectorAll('.itab').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-prox').style.display=t==='prox'?'block':'none';
+  document.getElementById('tab-hist').style.display=t==='hist'?'block':'none';
+}
+function openCancel(){document.getElementById('ov-cancel').classList.add('open')}
+function openApptDetail(){document.getElementById('ov-appt-detail').classList.add('open')}
+
+/* ── RATING ── */
+function openRating(name,av,spec){
+  const ini=name.split(' ').map(n=>n[0]).join('');
+  document.getElementById('rating-hd').innerHTML=`
+    <div class="av ${av}" style="width:44px;height:44px;font-size:16px">${ini}</div>
+    <div><p style="font-size:15px;font-weight:700;color:var(--text)">${name}</p><p style="font-size:12px;color:var(--text2)">${spec}</p></div>
+  `;
+  curRating=0;
+  document.querySelectorAll('.rstar').forEach(s=>s.classList.remove('lit'));
+  document.getElementById('ov-rating').classList.add('open');
+}
+function setRating(v){
+  curRating=v;
+  document.querySelectorAll('.rstar').forEach(s=>s.classList.toggle('lit',parseInt(s.dataset.v)<=v));
+}
+function submitRating(){
+  closeOv('ov-rating');
+  toast('Avaliação enviada com sucesso');
+}
+
+/* ── OVERLAYS ── */
+function closeOv(id,e){
+  if(e&&e.target!==document.getElementById(id))return;
+  document.getElementById(id).classList.remove('open');
+}
+
+/* ── NOTIFICAÇÕES ── */
+const NOTIFS=[
+  {icon:'📅',title:'Agendamento confirmado',body:'Fernanda Costa confirmou seu atendimento para amanhã às 14h.',time:'Agora',unread:true},
+  {icon:'⭐',title:'Avalie seu atendimento',body:'Como foi a escova com Camila Santos? Deixe sua avaliação.',time:'2h atrás',unread:true},
+  {icon:'🔥',title:'Promoção relâmpago',body:'Escova por R$59 com Camila Santos. Apenas hoje!',time:'3h atrás',unread:true},
+  {icon:'✅',title:'Pagamento confirmado',body:'PIX recebido. Seu agendamento com Bruna Oliveira está garantido.',time:'Ontem',unread:false},
+  {icon:'💖',title:'Nova profissional próxima',body:'Letícia Moura está disponível na sua área. Confira o perfil!',time:'2 dias atrás',unread:false},
+];
+function openNotif(){
+  document.getElementById('notif-list').innerHTML=NOTIFS.map(n=>`
+    <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border);background:${n.unread?'var(--primary-bg)':'var(--surface)'};cursor:pointer" onclick="this.style.background='var(--surface)';this.querySelector('.notif-dot')&&this.querySelector('.notif-dot').remove()">
+      <div style="width:42px;height:42px;border-radius:12px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${n.icon}</div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+          <p style="font-size:14px;font-weight:700;color:var(--text)">${n.title}</p>
+          ${n.unread?'<span class="notif-dot" style="width:7px;height:7px;background:var(--primary);border-radius:50%;flex-shrink:0"></span>':''}
+        </div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.4">${n.body}</p>
+        <p style="font-size:11px;color:var(--text3);margin-top:4px">${n.time}</p>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('ov-notif').classList.add('open');
+}
+
+/* ── FAVORITAS ── */
+const FAVS=[0,2,4]; // ids de profissionais favoritas
+function openFav(){
+  document.getElementById('fav-list').innerHTML=FAVS.map(id=>{
+    const p=PROFS[id];
+    return `
+      <div class="card card-p" style="display:flex;align-items:center;gap:12px">
+        <div class="av ${p.av}" style="width:50px;height:50px;font-size:18px">${p.ini}</div>
+        <div style="flex:1;min-width:0">
+          <p style="font-size:15px;font-weight:700;color:var(--text)">${p.name}</p>
+          <p style="font-size:12px;color:var(--text2)">${p.spec}</p>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:3px">
+            <span class="stars" style="font-size:11px">★</span>
+            <span style="font-size:12px;font-weight:700;color:var(--text)">${p.rating}</span>
+            <span style="font-size:12px;color:var(--text2)">${p.dist}km</span>
+            <span style="font-size:12px;font-weight:600;color:var(--primary)">a partir R$${p.price}</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <button class="btn btn-primary-sm" onclick="closeOv('ov-fav');openBooking(${p.id})" style="padding:8px 14px;font-size:12px">Agendar</button>
+          <button class="btn btn-secondary-sm" onclick="closeOv('ov-fav');openProfModal(${p.id})" style="padding:8px 14px;font-size:12px">Perfil</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('ov-fav').classList.add('open');
+}
+
+/* ── AJUDA / FAQ ── */
+const FAQS=[
+  {q:'Como funciona o agendamento?',a:'Escolha a profissional, selecione o serviço, data e horário. Confirme e pronto! Você recebe notificação de confirmação em minutos.'},
+  {q:'Posso cancelar meu agendamento?',a:'Sim. Cancelamentos até 2h antes não têm taxa. Após esse prazo, pode haver cobrança de 50% do valor do serviço.'},
+  {q:'As profissionais são verificadas?',a:'Sim! Todas passam por verificação de documentos, análise de portfólio e avaliação de clientes antes de serem aprovadas.'},
+  {q:'Como funciona o atendimento em domicílio?',a:'A profissional vai até você. Há uma taxa de deslocamento de R$20. Informe o endereço no momento do agendamento.'},
+];
+function openHelp(){
+  document.getElementById('faq-list').innerHTML=FAQS.map((f,i)=>`
+    <div style="border-bottom:${i<FAQS.length-1?'1px solid var(--border)':'none'}">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer" onclick="toggleFaq(${i})">
+        <p style="font-size:14px;font-weight:500;color:var(--text);flex:1;padding-right:10px">${f.q}</p>
+        <svg id="faq-icon-${i}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.5" stroke-linecap="round" style="flex-shrink:0;transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div id="faq-ans-${i}" style="display:none;padding:0 16px 14px">
+        <p style="font-size:13px;color:var(--text2);line-height:1.6">${f.a}</p>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('ov-help').classList.add('open');
+}
+function toggleFaq(i){
+  const ans=document.getElementById('faq-ans-'+i);
+  const icon=document.getElementById('faq-icon-'+i);
+  const open=ans.style.display==='block';
+  ans.style.display=open?'none':'block';
+  icon.style.transform=open?'':'rotate(180deg)';
+}
+
+/* ── WIRES: menu do perfil ── */
+function wireProfileMenu(){
+  const rows=document.querySelectorAll('#s-profile .menu-row');
+  const actions=[
+    openFav,
+    ()=>document.getElementById('ov-addr').classList.add('open'),
+    ()=>document.getElementById('ov-payments').classList.add('open'),
+    openNotif,
+    ()=>document.getElementById('ov-security').classList.add('open'),
+    openHelp,
+    ()=>toast('Obrigada por avaliar o BelaGo!')
+  ];
+  rows.forEach((r,i)=>{if(actions[i])r.onclick=actions[i]});
+}
+
+/* ── EDIT PROFILE ── */
+function openEditProfile(){
+  document.getElementById('ov-edit-profile').classList.add('open');
+}
+function selGender(g){
+  ['f','m','o'].forEach(x=>{
+    const b=document.getElementById('gen-'+x);
+    const active=x===g;
+    b.className=active?'btn btn-primary-sm':'btn btn-secondary-sm';
+    b.style.flex='1';b.style.padding='11px';
+  });
+}
+function saveProfile(){
+  const name=document.getElementById('edit-name').value||'Juliana Souza';
+  closeOv('ov-edit-profile');
+  toast('Perfil atualizado com sucesso');
+}
+
+/* ── LOGOUT ── */
+function openLogout(){
+  document.getElementById('ov-logout').classList.add('open');
+}
+
+/* ── FILTROS AVANÇADOS ── */
+let filterStarMin=4, filterDist=10, filterAvail='any', filterSvcs=new Set(), filterPrice=500;
+
+function openFilters(){
+  updateFilterBadge();
+  document.getElementById('ov-filters').classList.add('open');
+}
+function toggleFilterSvc(btn){
+  const svc=btn.dataset.svc;
+  if(filterSvcs.has(svc)){filterSvcs.delete(svc);btn.classList.remove('active');}
+  else{filterSvcs.add(svc);btn.classList.add('active');}
+}
+function setFilterStar(v){
+  filterStarMin=v;
+  document.querySelectorAll('.filter-star').forEach(s=>{
+    s.classList.toggle('on',parseInt(s.dataset.v)<=v);
+  });
+}
+function selDist(btn){
+  document.querySelectorAll('#dist-opts .chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  filterDist=parseFloat(btn.dataset.d);
+}
+function selAvail(v){
+  filterAvail=v;
+  ['any','today','tomorrow'].forEach(k=>{
+    document.getElementById('avail-'+k).classList.toggle('active',k===v);
+  });
+}
+function resetFilters(){
+  filterStarMin=1; filterDist=10; filterAvail='any';
+  filterSvcs.clear(); filterPrice=500;
+  document.querySelectorAll('#filter-svcs .chip').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.filter-star').forEach(s=>s.classList.add('on'));
+  document.querySelectorAll('#dist-opts .chip').forEach(c=>c.classList.remove('active'));
+  document.querySelector('#dist-opts [data-d="10"]').classList.add('active');
+  selAvail('any');
+  document.getElementById('price-range').value=500;
+  document.getElementById('price-lbl').textContent='R$500';
+  updateFilterBadge();
+}
+function applyFilters(){
+  filterPrice=parseInt(document.getElementById('price-range').value);
+  updateFilterBadge();
+  closeOv('ov-filters');
+  renderSearch();
+}
+function updateFilterBadge(){
+  const active=(filterStarMin>1?1:0)+(filterDist<10?1:0)+(filterAvail!=='any'?1:0)+filterSvcs.size+(filterPrice<500?1:0);
+  const badge=document.getElementById('filter-badge');
+  badge.style.display=active>0?'flex':'none';
+  badge.textContent=active;
+}
+
+/* ── MAPA ── */
+let curView='list';
+const PIN_POS=[
+  {x:'28%',y:'35%'},{x:'62%',y:'55%'},{x:'18%',y:'60%'},
+  {x:'72%',y:'28%'},{x:'45%',y:'72%'},{x:'80%',y:'65%'}
+];
+let activePinId=null;
+
+function setView(v){
+  curView=v;
+  document.getElementById('view-list').style.display=v==='list'?'flex':'none';
+  document.getElementById('view-map').style.display=v==='map'?'block':'none';
+  const lb=document.getElementById('view-list-btn');
+  const mb=document.getElementById('view-map-btn');
+  lb.style.background=v==='list'?'var(--surface)':'transparent';
+  lb.style.color=v==='list'?'var(--text)':'var(--text2)';
+  lb.style.fontWeight=v==='list'?'600':'500';
+  lb.style.boxShadow=v==='list'?'var(--shadow)':'none';
+  mb.style.background=v==='map'?'var(--surface)':'transparent';
+  mb.style.color=v==='map'?'var(--text)':'var(--text2)';
+  mb.style.fontWeight=v==='map'?'600':'500';
+  mb.style.boxShadow=v==='map'?'var(--shadow)':'none';
+  if(v==='map') renderMapPins();
+}
+
+function renderMapPins(){
+  const list=getFilteredProfs();
+  document.getElementById('map-pins').innerHTML=list.map((p,i)=>{
+    const pos=PIN_POS[p.id]||{x:'50%',y:'50%'};
+    const active=activePinId===p.id;
+    return `<div class="map-pin" style="left:${pos.x};top:${pos.y}" onclick="selectPin(${p.id})">
+      <div class="pin-bubble ${active?'active':''}">${p.availNow?'● ':''}R$${p.price}</div>
+      <div class="pin-tail" style="background:${active?'var(--primary)':'var(--border)'}"></div>
+      <div class="pin-dot" style="background:${active?'var(--primary)':'var(--border)'}"></div>
+    </div>`;
+  }).join('');
+}
+
+function selectPin(id){
+  activePinId=id;
+  renderMapPins();
+  const p=PROFS[id];
+  const card=document.getElementById('map-card');
+  card.style.display='block';
+  document.getElementById('map-card-av').className='av '+p.av;
+  document.getElementById('map-card-av').style.cssText='width:44px;height:44px;font-size:16px';
+  document.getElementById('map-card-av').textContent=p.ini;
+  document.getElementById('map-card-name').textContent=p.name;
+  document.getElementById('map-card-spec').textContent=p.spec;
+  document.getElementById('map-card-info').textContent='★ '+p.rating+' · '+p.dist+'km · a partir R$'+p.price;
+  document.getElementById('map-card-btn').onclick=()=>openProfModal(id);
+}
+
+function getFilteredProfs(){
+  return PROFS.filter(p=>
+    p.rating>=filterStarMin &&
+    p.dist<=filterDist &&
+    p.price<=filterPrice &&
+    (filterAvail==='any'||(filterAvail==='today'&&p.availNow)||(filterAvail==='tomorrow'&&!p.availNow))
+  );
+}
+
+/* ── SEARCH (override com filtros) ── */
+const _origRenderSearch=renderSearch;
+renderSearch=function(){
+  const q=(document.getElementById('srch-in').value||'').toLowerCase();
+  let list=getFilteredProfs().filter(p=>
+    !q||p.name.toLowerCase().includes(q)||p.spec.toLowerCase().includes(q)
+  );
+  if(activeFilter==='proximas') list.sort((a,b)=>a.dist-b.dist);
+  else if(activeFilter==='avaliadas') list.sort((a,b)=>b.rating-a.rating);
+  else if(activeFilter==='preco') list.sort((a,b)=>a.price-b.price);
+  else if(activeFilter==='hoje') list=[...list.filter(p=>p.availNow),...list.filter(p=>!p.availNow)];
+  const cnt=list.length;
+  document.getElementById('srch-count').textContent=`${cnt} profissional${cnt!==1?'is':''} encontrada${cnt!==1?'s':''}`;
+  document.getElementById('view-list').innerHTML=list.map(p=>`
+    <div class="card card-p">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div class="av ${p.av}" style="width:56px;height:56px;font-size:20px">${p.ini}</div>
+        <div style="flex:1;min-width:0">
+          <p style="font-size:16px;font-weight:700;color:var(--text)">${p.name}</p>
+          <p style="font-size:13px;color:var(--text2)">${p.spec}</p>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:5px;flex-wrap:wrap">
+            <span><span class="stars" style="font-size:12px">★</span> <span style="font-size:13px;font-weight:700;color:var(--text)">${p.rating}</span> <span style="font-size:12px;color:var(--text2)">(${p.reviews})</span></span>
+            <span style="font-size:13px;color:var(--text2)">${p.dist}km</span>
+            <span style="font-size:13px;font-weight:600;color:var(--primary)">a partir R$${p.price}</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span class="badge ${p.availNow?'badge-green':'badge-gray'}">${p.availNow?'Disponível '+p.avail:'Próx. '+p.avail}</span>
+        <button class="btn btn-primary-sm" onclick="openProfModal(${p.id})">Ver perfil</button>
+      </div>
+    </div>
+  `).join('');
+  if(curView==='map') renderMapPins();
+};
+
+/* ── FAVORITOS persistidos ── */
+const favSet=new Set([0,2,4]);
+function toggleFav(id){
+  const btn=document.getElementById('fav-btn-'+id);
+  if(!btn) return;
+  if(favSet.has(id)){
+    favSet.delete(id);
+    btn.textContent='Salvar';
+    btn.style.color=''; btn.style.borderColor='';
+  } else {
+    favSet.add(id);
+    btn.textContent='Salvo';
+    btn.style.color='var(--primary)';
+    btn.style.borderColor='var(--primary)';
+  }
+  document.getElementById('s-profile').querySelectorAll('p').forEach(el=>{
+    if(el.textContent.trim()==='3'&&el.nextElementSibling?.textContent==='Favoritas'){
+      el.textContent=favSet.size;
+    }
+  });
+}
+
+/* ── TOAST ── */
+function toast(msg){
+  document.querySelectorAll('.toast').forEach(t=>t.remove());
+  const t=document.createElement('div');
+  t.className='toast'; t.textContent=msg;
+  document.querySelector('.app').appendChild(t);
+  setTimeout(()=>t.style.opacity='0',2200);
+  setTimeout(()=>t.remove(),2500);
+}
+
+/* ── ONBOARDING ── */
+let obStep=0;
+function obNext(){
+  if(obStep<2){
+    obStep++;
+    document.getElementById('ob-slides').style.transform=`translateX(-${obStep*33.333}%)`;
+    document.querySelectorAll('.ob-dot').forEach((d,i)=>d.classList.toggle('active',i===obStep));
+    if(obStep===2) document.getElementById('ob-next-btn').textContent='Começar';
+  } else {
+    showLogin();
+  }
+}
+function skipOnboard(){ showLogin() }
+function showLogin(){
+  document.getElementById('onboard').style.display='none';
+  const ls=document.getElementById('login-screen');
+  ls.style.display='flex';
+  ls.style.animation='slideIn .3s ease';
+}
+function backToOnboard(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('onboard').style.display='flex';
+}
+function showRegister(){
+  document.getElementById('login-screen').style.display='none';
+  const rs=document.getElementById('register-screen');
+  rs.style.display='flex';
+  rs.style.animation='slideIn .3s ease';
+}
+function backToLogin(){
+  document.getElementById('register-screen').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+}
+function loginWith(method){
+  const screens=['onboard','login-screen','register-screen'];
+  screens.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){ el.style.transition='opacity .3s'; el.style.opacity='0'; setTimeout(()=>el.remove(),350); }
+  });
+  setTimeout(()=>goTab('s-home'),50);
+}
+function togglePass(){
+  const i=document.getElementById('login-pass');
+  i.type=i.type==='password'?'text':'password';
+}
+
+/* ── CHAT ── */
+const CHAT_INIT=[
+  {out:false, text:'Olá, Juliana! Tudo bem? Confirmo que estou disponível amanhã às 14h para o seu design de sobrancelha 😊', time:'13:40'},
+  {out:true,  text:'Oi, Fernanda! Que ótimo! Tenho o endereço certo? Rua das Flores, 142?', time:'13:42'},
+  {out:false, text:'Sim, exatamente! Fica no 2° andar, estúdio 8. Tem interfone. Me avisa quando estiver chegando!', time:'13:43'},
+  {out:true,  text:'Perfeito, vou avisar. Preciso trazer alguma coisa?', time:'13:44'},
+  {out:false, text:'Não precisa! Tudo que precisa está aqui. Só venha confortável 🌸', time:'13:45'},
+];
+let chatMsgs=[...CHAT_INIT];
+
+function openChat(name, avClass, initials){
+  document.getElementById('chat-name').textContent=name;
+  document.getElementById('chat-av').className='av '+avClass;
+  document.getElementById('chat-av').style.cssText='width:40px;height:40px;font-size:14px';
+  document.getElementById('chat-av').textContent=initials;
+  renderChatMsgs();
+  document.getElementById('ov-chat').classList.add('open');
+  setTimeout(()=>{
+    const msgs=document.getElementById('chat-msgs');
+    msgs.scrollTop=msgs.scrollHeight;
+  },100);
+}
+
+function renderChatMsgs(){
+  document.getElementById('chat-msgs').innerHTML=chatMsgs.map(m=>`
+    <div style="display:flex;flex-direction:column;align-items:${m.out?'flex-end':'flex-start'}">
+      <div class="msg-bubble ${m.out?'msg-out':'msg-in'}">${m.text}</div>
+      <p class="msg-time" style="text-align:${m.out?'right':'left'}">${m.time}</p>
+    </div>
+  `).join('');
+}
+
+function sendChatMsg(){
+  const input=document.getElementById('chat-in');
+  const text=input.value.trim();
+  if(!text) return;
+  const now=new Date();
+  const time=now.getHours()+':'+(now.getMinutes()+'').padStart(2,'0');
+  chatMsgs.push({out:true,text,time});
+  input.value=''; input.style.height='auto';
+  renderChatMsgs();
+  const msgs=document.getElementById('chat-msgs');
+  msgs.scrollTop=msgs.scrollHeight;
+  // resposta automática simulada
+  setTimeout(()=>{
+    const respostas=[
+      'Claro, sem problema! 😊','Perfeito, te vejo amanhã!','Combinado! Qualquer dúvida estou aqui.','Ótimo! Vai ficar lindo 🌸'];
+    chatMsgs.push({out:false,text:respostas[Math.floor(Math.random()*respostas.length)],time});
+    renderChatMsgs();
+    msgs.scrollTop=msgs.scrollHeight;
+  },1200);
+}
+
+function sendQuick(text){
+  document.getElementById('chat-in').value=text;
+  sendChatMsg();
+}
+
+/* ── RASTREAMENTO ── */
+let trackInterval=null;
+let trackEta=18;
+
+function openTrack(){
+  trackEta=18;
+  document.getElementById('track-eta').textContent='~'+trackEta+' min';
+  document.getElementById('track-pin').style.left='22%';
+  document.getElementById('track-pin').style.top='72%';
+  document.getElementById('ov-track').classList.add('open');
+  clearInterval(trackInterval);
+  trackInterval=setInterval(()=>{
+    if(trackEta<=0){ clearInterval(trackInterval); arrivedTrack(); return; }
+    trackEta--;
+    document.getElementById('track-eta').textContent=trackEta===0?'Chegando!':`~${trackEta} min`;
+    // anima pin ao longo da rota
+    const prog=1-(trackEta/18);
+    const x=22+prog*58; const y=72-prog*38;
+    document.getElementById('track-pin').style.left=x+'%';
+    document.getElementById('track-pin').style.top=y+'%';
+    const sub=document.getElementById('track-sub');
+    if(sub) sub.textContent=`Fernanda está a ${(2.1*(1-prog)).toFixed(1)}km de você`;
+  },800);
+}
+
+function arrivedTrack(){
+  document.getElementById('track-eta').textContent='Chegou!';
+  document.getElementById('track-eta').style.color='var(--green)';
+  const dots=document.querySelectorAll('#track-steps .track-dot');
+  const lines=document.querySelectorAll('#track-steps .track-line');
+  if(dots[2]) { dots[2].classList.add('done'); }
+  if(lines[1]) { lines[1].classList.add('done'); }
+  toast('Fernanda chegou! Boa sessão ✨');
+}
+
+/* ── SPLASH ── */
+function initSplash(){
+  const s=document.getElementById('splash');
+  if(!s) return;
+  setTimeout(()=>{ s.style.transition='opacity .4s'; s.style.opacity='0'; setTimeout(()=>s.remove(),400); },2200);
+}
+
+/* ── INIT ── */
+renderHome();
+renderSearch();
+wireProfileMenu();
+initSplash();
+</script>
+</body>
+</html>
