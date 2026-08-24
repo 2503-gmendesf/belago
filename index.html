@@ -2391,7 +2391,7 @@ h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
     </div>
     <div style="display:flex;gap:10px">
       <button class="btn btn-secondary" style="flex:1;padding:14px" onclick="closeOv('ov-logout')">Cancelar</button>
-      <button class="btn" style="flex:1;padding:14px;background:var(--red);color:#fff;font-size:14px;font-weight:600;border-radius:var(--r-md)" onclick="closeOv('ov-logout');toast('Até logo, Juliana!')">Sair</button>
+      <button class="btn" style="flex:1;padding:14px;background:var(--red);color:#fff;font-size:14px;font-weight:600;border-radius:var(--r-md)" onclick="doLogout()">Sair</button>
     </div>
   </div>
 </div>
@@ -3050,6 +3050,32 @@ function saveProfile(){
 /* ── LOGOUT ── */
 function openLogout(){
   document.getElementById('ov-logout').classList.add('open');
+}
+function doLogout(){
+  closeOv('ov-logout');
+  currentUser=null;
+  /* esconder todas as telas de app */
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  /* esconder todas as tab bars */
+  var clientBar=document.querySelector('.tab-bar:not(#prof-tab-bar):not(#admin-tab-bar)');
+  var profBar=document.getElementById('prof-tab-bar');
+  var adminBar=document.getElementById('admin-tab-bar');
+  if(clientBar) clientBar.style.display='none';
+  if(profBar)   profBar.style.display='none';
+  if(adminBar)  adminBar.style.display='none';
+  /* limpar campos */
+  var emailEl=document.getElementById('login-email');
+  var passEl=document.getElementById('login-pass');
+  if(emailEl) emailEl.value='';
+  if(passEl)  passEl.value='';
+  /* voltar para o onboarding / tela inicial */
+  var onboard=document.getElementById('onboard');
+  var loginScr=document.getElementById('login-screen');
+  var registerScr=document.getElementById('register-screen');
+  if(loginScr)    loginScr.style.display='none';
+  if(registerScr) registerScr.style.display='none';
+  if(onboard)     onboard.style.display='flex';
+  toast('Até logo! 👋');
 }
 
 /* ── FILTROS AVANÇADOS ── */
