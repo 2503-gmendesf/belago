@@ -1444,107 +1444,90 @@ h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
 
   <!-- PERFIL pane -->
   <div class="sub-pane" id="pt-perfil">
-    <div style="padding:16px;display:flex;flex-direction:column;gap:14px">
 
-      <!-- Foto de perfil -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
-        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px">Foto de Perfil</p>
-        <div style="display:flex;align-items:center;gap:14px">
-          <div style="width:80px;height:80px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;flex-shrink:0">FC</div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="btn btn-secondary" style="padding:9px 16px;font-size:12px" onclick="toast('Câmera / galeria em breve!')">📷 Tirar foto</button>
-            <button class="btn btn-secondary" style="padding:9px 16px;font-size:12px" onclick="toast('Galeria em breve!')">🖼️ Escolher da galeria</button>
-          </div>
-        </div>
+    <!-- Hero — mesmo layout do cliente -->
+    <div style="background:var(--surface);border-bottom:1px solid var(--border);padding:24px 20px 20px;text-align:center">
+      <div style="width:88px;height:88px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:#fff;margin:0 auto 12px;box-shadow:0 4px 16px rgba(232,68,138,.25)" id="prof-avatar-big">FC</div>
+      <h1 style="font-size:20px;font-weight:700;color:var(--text)" id="prof-name-big">Fernanda Costa</h1>
+      <p style="font-size:13px;color:var(--text2);margin-top:3px">Sobrancelha e Cílios · Betim, MG</p>
+      <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:5px">
+        <span style="background:var(--primary-bg);color:var(--primary);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600">★ 4.9</span>
+        <span style="background:#F0FDF4;color:var(--green);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600">✓ Verificada</span>
       </div>
-
-      <!-- Dados básicos -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:12px">
-        <p style="font-size:13px;font-weight:700;color:var(--text)">Dados Profissionais</p>
-        <div><label class="form-label">Nome completo</label><input class="form-input" value="Fernanda Costa"></div>
-        <div><label class="form-label">Especialidade principal</label><input class="form-input" value="Sobrancelha e Cílios"></div>
-        <div><label class="form-label">Cidade de atuação</label><input class="form-input" value="Betim, MG"></div>
-        <div><label class="form-label">Telefone / WhatsApp</label><input class="form-input" type="tel" value="(31) 9 9999-0000"></div>
-        <div><label class="form-label">Bio / Apresentação</label><textarea class="form-input" rows="4" style="resize:none;line-height:1.6">Especialista em design de sobrancelha e extensão de cílios com 8 anos de experiência. Atendo no meu estúdio em Betim e também em domicílio.</textarea></div>
-        <button class="btn btn-primary btn-full" style="padding:13px" onclick="toast('Dados salvos! ✅')">Salvar dados</button>
-      </div>
-
-      <!-- Redes sociais -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:12px">
-        <p style="font-size:13px;font-weight:700;color:var(--text)">Redes Sociais</p>
-        <div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#E1306C,#833AB4);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg></div><input class="form-input" placeholder="@seu_instagram" value="@fernandacosta.beauty"></div>
-        <div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:8px;background:#25D366;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></div><input class="form-input" placeholder="(31) 9 9999-0000" value="(31) 9 9999-0000"></div>
-        <div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:8px;background:#1877F2;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div><input class="form-input" placeholder="facebook.com/seuperfil"></div>
-        <div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:8px;background:#E60023;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg></div><input class="form-input" placeholder="pinterest.com/seuperfil"></div>
-        <button class="btn btn-secondary btn-full" style="padding:12px" onclick="toast('Redes sociais salvas! ✅')">Salvar redes sociais</button>
-      </div>
-
-      <!-- Dados financeiros/PIX -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:12px">
-        <p style="font-size:13px;font-weight:700;color:var(--text)">Dados para Recebimento</p>
-        <div><label class="form-label">Tipo de chave PIX</label>
-          <select class="form-input"><option>CPF</option><option>Telefone</option><option>E-mail</option><option>Chave aleatória</option></select>
-        </div>
-        <div><label class="form-label">Chave PIX</label><input class="form-input" value="123.456.789-00" placeholder="Sua chave PIX"></div>
-        <div><label class="form-label">Nome do titular da conta</label><input class="form-input" value="Fernanda Costa"></div>
-        <div style="background:var(--surface2);border-radius:var(--r-sm);padding:10px">
-          <p style="font-size:11px;color:var(--text2);line-height:1.6">💡 Os repasses são realizados automaticamente em até 2 dias úteis após cada atendimento confirmado, descontada a comissão de 15% da BelaGo.</p>
-        </div>
-        <button class="btn btn-primary btn-full" style="padding:12px" onclick="toast('Dados financeiros salvos! ✅')">Salvar dados de pagamento</button>
-      </div>
-
-      <!-- Certificados e cursos -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <p style="font-size:13px;font-weight:700;color:var(--text)">Certificados & Cursos</p>
-          <button class="btn btn-primary-sm" style="padding:6px 12px;font-size:11px" onclick="toast('Adicionar certificado em breve!')">+ Adicionar</button>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:var(--r-sm)">
-            <div style="width:36px;height:36px;border-radius:var(--r-sm);background:var(--primary-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 11 12 14 22 4"/></svg></div>
-            <div style="flex:1"><p style="font-size:13px;font-weight:600;color:var(--text)">Design de Sobrancelha Avançado</p><p style="font-size:11px;color:var(--text3)">Instituto de Beleza Nacional · 2022</p></div>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:var(--r-sm)">
-            <div style="width:36px;height:36px;border-radius:var(--r-sm);background:var(--primary-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 11 12 14 22 4"/></svg></div>
-            <div style="flex:1"><p style="font-size:13px;font-weight:600;color:var(--text)">Extensão de Cílios Volume Russo</p><p style="font-size:11px;color:var(--text3)">Lash Academy BH · 2023</p></div>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <div style="border:1.5px dashed var(--border2);border-radius:var(--r-sm);padding:12px;text-align:center;cursor:pointer" onclick="toast('Enviar certificado em breve!')">
-            <p style="font-size:12px;color:var(--text3)">+ Enviar certificado (PDF ou foto)</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Fotos do trabalho -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <p style="font-size:13px;font-weight:700;color:var(--text)">Fotos do Trabalho</p>
-          <button class="btn btn-primary-sm" style="padding:6px 12px;font-size:11px" onclick="toast('Adicionar foto em breve!')">+ Foto</button>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
-          <div style="aspect-ratio:1;border-radius:var(--r-sm);background:var(--grad);opacity:.7;display:flex;align-items:center;justify-content:center"><span style="font-size:20px">✨</span></div>
-          <div style="aspect-ratio:1;border-radius:var(--r-sm);background:linear-gradient(135deg,#9B5DE5,#C084FC);display:flex;align-items:center;justify-content:center"><span style="font-size:20px">💅</span></div>
-          <div style="aspect-ratio:1;border-radius:var(--r-sm);background:linear-gradient(135deg,#0DC5A8,#06B6D4);display:flex;align-items:center;justify-content:center"><span style="font-size:20px">👁️</span></div>
-          <div style="aspect-ratio:1;border-radius:var(--r-sm);background:linear-gradient(135deg,#F5A623,#F97316);display:flex;align-items:center;justify-content:center"><span style="font-size:20px">💆</span></div>
-          <div style="aspect-ratio:1;border-radius:var(--r-sm);background:var(--surface2);border:1.5px dashed var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer" onclick="toast('Adicionar foto em breve!')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-        </div>
-      </div>
-
-      <!-- Verificação de documentos -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
-        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">Documentos de Verificação</p>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;align-items:center;gap:10px;padding:9px;background:var(--surface2);border-radius:var(--r-sm)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:13px;color:var(--text)">RG/CPF verificado</span></div>
-          <div style="display:flex;align-items:center;gap:10px;padding:9px;background:var(--surface2);border-radius:var(--r-sm)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:13px;color:var(--text)">Certificado profissional aprovado</span></div>
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px;background:var(--amber-bg);border-radius:var(--r-sm)"><div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span style="font-size:13px;color:var(--text)">Comprovante de endereço</span></div><button class="btn" style="padding:5px 10px;font-size:11px;background:var(--amber);color:#fff" onclick="toast('Enviar comprovante em breve!')">Enviar</button></div>
-        </div>
-      </div>
-
-      <!-- Sair da conta -->
-      <button class="btn btn-danger btn-full" style="padding:14px" onclick="openLogout()">Sair da conta</button>
-
+      <button class="btn btn-secondary" style="margin-top:14px;padding:9px 24px;font-size:13px" onclick="openProfEdit()">Editar perfil</button>
     </div>
+
+    <!-- Stats — mesmos cards do cliente -->
+    <div style="padding:16px 20px">
+      <div style="display:flex;gap:10px">
+        <div style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;text-align:center;box-shadow:var(--shadow)">
+          <p style="font-size:24px;font-weight:700;color:var(--primary)">18</p>
+          <p style="font-size:11px;color:var(--text2);margin-top:2px;font-weight:500">Agend./mês</p>
+        </div>
+        <div style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;text-align:center;box-shadow:var(--shadow)">
+          <p style="font-size:24px;font-weight:700;color:var(--primary)">4.9</p>
+          <p style="font-size:11px;color:var(--text2);margin-top:2px;font-weight:500">Avaliação</p>
+        </div>
+        <div style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;text-align:center;box-shadow:var(--shadow)">
+          <p style="font-size:20px;font-weight:700;color:var(--amber)">R$1.420</p>
+          <p style="font-size:11px;color:var(--text2);margin-top:2px;font-weight:500">Ganhos/mês</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu — mesmas menu-rows do cliente com itens do profissional -->
+    <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+      <div class="menu-row" onclick="openProfEdit()">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <span class="menu-row-lbl">Dados pessoais e bio</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" onclick="switchProfTab('servicos',document.getElementById('ptb-servicos'))">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+        <span class="menu-row-lbl">Meus serviços e disponibilidade</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" onclick="openProfEdit()">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <span class="menu-row-lbl">Dados para recebimento (PIX)</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" onclick="openProfEdit()">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 11 12 14 22 4"/></svg></div>
+        <span class="menu-row-lbl">Certificados e cursos</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" onclick="openProfEdit()">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <span class="menu-row-lbl">Fotos do trabalho</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" onclick="openProfEdit()">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <span class="menu-row-lbl">Redes sociais e contato</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" onclick="toast('Notificações em breve!')">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <span class="menu-row-lbl">Notificações</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" onclick="toast('Ajuda e suporte em breve!')">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <span class="menu-row-lbl">Ajuda e suporte</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" style="border-bottom:none" onclick="toast('Obrigada por avaliar! ⭐')">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <span class="menu-row-lbl">Avaliar o app</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+
+    <div style="padding:20px;display:flex;flex-direction:column;gap:10px">
+      <button class="btn btn-danger btn-full" style="padding:14px" onclick="openLogout()">Sair da conta</button>
+    </div>
+
   </div>
 
 </div>
@@ -1583,6 +1566,10 @@ h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
     <button class="tab-btn" id="atb-config" onclick="switchAdminTab('config',this)">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       <span class="tab-lbl">Config.</span>
+    </button>
+    <button class="tab-btn" id="atb-perfil" onclick="switchAdminTab('perfil',this)">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="tab-lbl">Perfil</span>
     </button>
   </div>
 
@@ -1901,6 +1888,89 @@ h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
         <button class="btn btn-full" style="padding:11px;background:var(--purple);color:#fff" onclick="toast('Push enviado para todos os usuários! 📣')">📣 Push para todos os usuários</button>
       </div>
     </div>
+  </div>
+
+  <!-- ── PERFIL ADMIN ── -->
+  <div class="sub-pane" id="at-perfil">
+
+    <!-- Hero — mesmo layout do cliente -->
+    <div style="background:var(--surface);border-bottom:1px solid var(--border);padding:24px 20px 20px;text-align:center">
+      <div style="width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#1A0E1B 0%,#9B5DE5 100%);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:#fff;margin:0 auto 12px;box-shadow:0 4px 16px rgba(155,93,229,.3)" id="admin-avatar-big">AB</div>
+      <h1 style="font-size:20px;font-weight:700;color:var(--text)" id="admin-name-big">Admin BelaGo</h1>
+      <p style="font-size:14px;color:var(--text2);margin-top:3px">admin@belago.app</p>
+      <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:5px">
+        <span style="background:rgba(155,93,229,.12);color:var(--purple);border-radius:20px;padding:3px 14px;font-size:11px;font-weight:700;letter-spacing:.5px">ADMINISTRADOR</span>
+      </div>
+      <button class="btn btn-secondary" style="margin-top:14px;padding:9px 24px;font-size:13px" onclick="toast('Editar perfil admin em breve!')">Editar perfil</button>
+    </div>
+
+    <!-- Stats — mesmos cards do cliente -->
+    <div style="padding:16px 20px">
+      <div style="display:flex;gap:10px">
+        <div style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;text-align:center;box-shadow:var(--shadow)">
+          <p style="font-size:22px;font-weight:700;color:var(--purple)">847</p>
+          <p style="font-size:11px;color:var(--text2);margin-top:2px;font-weight:500">Profissionais</p>
+        </div>
+        <div style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;text-align:center;box-shadow:var(--shadow)">
+          <p style="font-size:22px;font-weight:700;color:var(--primary)">3.421</p>
+          <p style="font-size:11px;color:var(--text2);margin-top:2px;font-weight:500">Clientes</p>
+        </div>
+        <div style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;text-align:center;box-shadow:var(--shadow)">
+          <p style="font-size:16px;font-weight:700;color:var(--amber)">R$48.320</p>
+          <p style="font-size:11px;color:var(--text2);margin-top:2px;font-weight:500">GMV/mês</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu — mesmas menu-rows do cliente com itens do admin -->
+    <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+      <div class="menu-row" onclick="switchAdminTab('painel',document.getElementById('atb-painel'))">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+        <span class="menu-row-lbl">Painel de controle</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" onclick="switchAdminTab('profissionais',document.getElementById('atb-profissionais'))">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <span class="menu-row-lbl">Gestão de profissionais</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" onclick="switchAdminTab('clientes',document.getElementById('atb-clientes'))">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <span class="menu-row-lbl">Gestão de clientes</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" onclick="switchAdminTab('financeiro',document.getElementById('atb-financeiro'))">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <span class="menu-row-lbl">Financeiro da plataforma</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" onclick="switchAdminTab('config',document.getElementById('atb-config'))">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+        <span class="menu-row-lbl">Configurações da plataforma</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" onclick="toast('Relatório exportado! 📊')">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+        <span class="menu-row-lbl">Exportar relatório</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" onclick="toast('Ajuda e suporte em breve!')">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <span class="menu-row-lbl">Ajuda e suporte</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" style="border-bottom:none" onclick="toast('Versão 1.0.0-beta · BelaGo Platform')">
+        <div class="menu-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <span class="menu-row-lbl">Versão do sistema</span>
+        <span style="font-size:12px;color:var(--text3);margin-left:auto;padding-right:4px">1.0.0-beta</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+
+    <div style="padding:20px;display:flex;flex-direction:column;gap:10px">
+      <button class="btn btn-danger btn-full" style="padding:14px" onclick="openLogout()">Sair do admin</button>
+    </div>
+
   </div>
 
 </div>
@@ -3448,6 +3518,7 @@ function openAdminAccess(){
   if(pin==='1234'||pin==='admin'){ goTab('s-admin'); }
   else if(pin!==null){ toast('PIN incorreto ❌'); }
 }
+function openProfEdit(){ toast('Editar perfil — em breve!'); }
 function statusColor(s){return s==='ativa'?'var(--green)':s==='pendente'?'var(--amber)':s==='suspensa'||s==='bloqueada'?'var(--red)':'var(--text3)';}
 function statusLabel(s){return s==='ativa'?'Ativa':s==='pendente'?'Pendente':s==='suspensa'?'Suspensa':s==='bloqueada'?'Bloqueada':'?';}
 function renderAdminProfs(){
