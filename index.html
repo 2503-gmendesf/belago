@@ -580,7 +580,29 @@ h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
 
   <div style="padding:32px 24px;flex:1;overflow-y:auto">
     <h1 style="font-family:var(--font-display);font-style:italic;font-size:26px;color:var(--text);margin-bottom:6px">Bem-vinda de volta</h1>
-    <p style="font-size:14px;color:var(--text2);margin-bottom:28px">Entre para agendar com as melhores profissionais</p>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:16px">Entre para agendar com as melhores profissionais</p>
+
+    <!-- Logins de demonstração -->
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-md);padding:12px;margin-bottom:24px">
+      <p style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Acesso rápido — demo</p>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button onclick="quickLogin('cliente')" style="display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:9px 12px;cursor:pointer;font-family:var(--font);text-align:left;width:100%">
+          <span style="font-size:18px">👤</span>
+          <div style="flex:1"><p style="font-size:12px;font-weight:700;color:var(--text)">Cliente</p><p style="font-size:11px;color:var(--text3)">cliente@belago.app · senha: 123456</p></div>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button onclick="quickLogin('profissional')" style="display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:9px 12px;cursor:pointer;font-family:var(--font);text-align:left;width:100%">
+          <span style="font-size:18px">💅</span>
+          <div style="flex:1"><p style="font-size:12px;font-weight:700;color:var(--text)">Profissional</p><p style="font-size:11px;color:var(--text3)">profissional@belago.app · senha: 123456</p></div>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <button onclick="quickLogin('admin')" style="display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:9px 12px;cursor:pointer;font-family:var(--font);text-align:left;width:100%">
+          <span style="font-size:18px">🛡️</span>
+          <div style="flex:1"><p style="font-size:12px;font-weight:700;color:var(--text)">Administrador</p><p style="font-size:11px;color:var(--text3)">admin@belago.app · senha: 123456</p></div>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
 
     <!-- Google -->
     <button onclick="loginWith('Google')" style="width:100%;padding:14px;border-radius:var(--r-md);border:1.5px solid var(--border2);background:var(--surface);font-family:var(--font);font-size:14px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px">
@@ -2931,13 +2953,63 @@ function backToLogin(){
   document.getElementById('register-screen').style.display='none';
   document.getElementById('login-screen').style.display='flex';
 }
+/* ── USUÁRIOS DEMO ── */
+const USERS={
+  'cliente@belago.app':     {pass:'123456', role:'cliente',       name:'Juliana Souza',   initials:'JS'},
+  'profissional@belago.app':{pass:'123456', role:'profissional',  name:'Fernanda Costa',  initials:'FC'},
+  'admin@belago.app':       {pass:'123456', role:'admin',         name:'Admin BelaGo',    initials:'AB'},
+};
+let currentUser=null;
+
+function quickLogin(role){
+  const map={cliente:'cliente@belago.app',profissional:'profissional@belago.app',admin:'admin@belago.app'};
+  document.getElementById('login-email').value=map[role];
+  document.getElementById('login-pass').value='123456';
+  loginWith('email');
+}
+
 function loginWith(method){
   const screens=['onboard','login-screen','register-screen'];
+
+  if(method==='email'){
+    const email=(document.getElementById('login-email').value||'').trim().toLowerCase();
+    const pass=(document.getElementById('login-pass').value||'').trim();
+    const user=USERS[email];
+    if(!user||user.pass!==pass){
+      toast('E-mail ou senha incorretos ❌');
+      return;
+    }
+    currentUser=Object.assign({email},user);
+  } else if(method==='register'){
+    currentUser={email:'novo@belago.app',role:'cliente',name:'Nova Usuária',initials:'NU'};
+  } else {
+    currentUser={email:method+'@belago.app',role:'cliente',name:'Usuária '+method,initials:'U'};
+  }
+
   screens.forEach(id=>{
     const el=document.getElementById(id);
-    if(el){ el.style.transition='opacity .3s'; el.style.opacity='0'; setTimeout(()=>el.remove(),350); }
+    if(el){ el.style.transition='opacity .3s'; el.style.opacity='0'; setTimeout(()=>el.style.display='none',350); }
   });
-  setTimeout(()=>goTab('s-home'),50);
+
+  setTimeout(()=>routeUser(currentUser),400);
+}
+
+function routeUser(user){
+  if(user.role==='profissional'){
+    applyProfProfile(user);
+    goTab('s-prof-panel');
+  } else if(user.role==='admin'){
+    goTab('s-admin');
+  } else {
+    goTab('s-home');
+  }
+  toast('Bem-vinda, '+user.name.split(' ')[0]+'! 👋');
+}
+
+function applyProfProfile(user){
+  /* atualiza o header do painel profissional com o nome do usuário logado */
+  var els=document.querySelectorAll('#s-prof-panel .prof-header h2');
+  if(els.length) els[0].textContent=user.name;
 }
 function togglePass(){
   const i=document.getElementById('login-pass');
