@@ -497,6 +497,31 @@ h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
 /* Star filled input */
 .filter-star{font-size:20px;cursor:pointer;color:var(--border2);transition:color .1s}
 .filter-star.on{color:#F59E0B}
+
+/* ── PROFESSIONAL / ADMIN TABS ── */
+.sub-tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
+.sub-tab{flex:1;padding:12px 6px;font-size:12px;font-weight:600;color:var(--text2);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:var(--font);transition:color .15s,border-color .15s}
+.sub-tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+.sub-pane{display:none;flex-direction:column;flex:1;overflow-y:auto;padding-bottom:32px}
+.sub-pane.active{display:flex}
+.prof-header{background:var(--grad);padding:20px 20px 24px;color:#fff;flex-shrink:0}
+.admin-header{background:linear-gradient(135deg,#1A0E1B 0%,#2D1640 100%);padding:20px 20px 24px;color:#fff;flex-shrink:0}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 20px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow)}
+.stat-val{font-size:22px;font-weight:700}
+.stat-lbl{font-size:11px;color:var(--text2);margin-top:2px;font-weight:500}
+.toggle-wrap{display:flex;align-items:center;gap:10px}
+.toggle{width:46px;height:26px;border-radius:13px;background:var(--border2);border:none;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0}
+.toggle.on{background:var(--primary)}
+.toggle::after{content:'';width:20px;height:20px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.toggle.on::after{left:23px}
+.svc-row{display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:1px solid var(--border);background:var(--surface)}
+.svc-row:last-child{border-bottom:none}
+.appt-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;margin:0 16px 10px;box-shadow:var(--shadow)}
+.earn-row{display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--border)}
+.earn-row:last-child{border-bottom:none}
+.pend-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;margin:0 16px 10px;box-shadow:var(--shadow)}
+.back-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:none;color:#fff;font-family:var(--font);font-size:13px;font-weight:600;padding:7px 12px;border-radius:var(--r-sm);cursor:pointer}
 </style>
 </head>
 <body>
@@ -1128,8 +1153,495 @@ h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
     </div>
   </div>
 
-  <div style="padding:20px">
+  <div style="padding:20px;display:flex;flex-direction:column;gap:10px">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden">
+      <div class="menu-row" onclick="goTab('s-prof-panel')" style="border-bottom:1px solid var(--border)">
+        <div class="menu-icon-wrap" style="background:var(--primary-bg)"><svg viewBox="0 0 24 24" stroke="var(--primary)"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div style="flex:1"><span class="menu-row-lbl">Área da Profissional</span><p style="font-size:11px;color:var(--text3);margin-top:1px">Agenda, serviços e ganhos</p></div>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="menu-row" onclick="openAdminAccess()" style="border-bottom:none">
+        <div class="menu-icon-wrap" style="background:#F3EEFF"><svg viewBox="0 0 24 24" stroke="var(--purple)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div style="flex:1"><span class="menu-row-lbl" style="color:var(--purple)">Painel Administrativo</span><p style="font-size:11px;color:var(--text3);margin-top:1px">Gestão da plataforma</p></div>
+        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
     <button class="btn btn-danger btn-full" style="padding:14px" onclick="openLogout()">Sair da conta</button>
+  </div>
+
+</div>
+
+<!-- ══════════════ TELA: PROFISSIONAL ══════════════ -->
+<div class="screen" id="s-prof-panel" style="padding-bottom:0">
+
+  <!-- Header -->
+  <div class="prof-header">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <button class="back-btn" onclick="goTab('s-profile')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg> Voltar
+      </button>
+      <div class="toggle-wrap">
+        <span style="font-size:12px;font-weight:600;color:rgba(255,255,255,.8)">Online</span>
+        <button class="toggle on" id="prof-online-toggle" onclick="toggleProfOnline(this)"></button>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.2);border:2.5px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#fff">FC</div>
+      <div>
+        <h2 style="font-size:20px;font-weight:700;line-height:1.2">Fernanda Costa</h2>
+        <p style="font-size:13px;color:rgba(255,255,255,.75);margin-top:2px">Sobrancelha e Cílios · Betim, MG</p>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:5px">
+          <span style="background:rgba(255,255,255,.2);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600">★ 4.9</span>
+          <span style="background:rgba(13,197,168,.25);border:1px solid rgba(13,197,168,.5);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;color:#0DC5A8">Verificada</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      <div style="background:rgba(255,255,255,.1);border-radius:var(--r-sm);padding:11px 8px;text-align:center">
+        <p style="font-size:20px;font-weight:700">18</p>
+        <p style="font-size:10px;color:rgba(255,255,255,.7);margin-top:2px">Agend./mês</p>
+      </div>
+      <div style="background:rgba(255,255,255,.1);border-radius:var(--r-sm);padding:11px 8px;text-align:center">
+        <p style="font-size:20px;font-weight:700">4.9</p>
+        <p style="font-size:10px;color:rgba(255,255,255,.7);margin-top:2px">Avaliação</p>
+      </div>
+      <div style="background:rgba(232,68,138,.3);border:1px solid rgba(232,68,138,.4);border-radius:var(--r-sm);padding:11px 8px;text-align:center">
+        <p style="font-size:16px;font-weight:700">R$1.420</p>
+        <p style="font-size:10px;color:rgba(255,255,255,.8);margin-top:2px">Ganhos/mês</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sub-tabs -->
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="switchProfTab('agenda',this)">Agenda</button>
+    <button class="sub-tab" onclick="switchProfTab('servicos',this)">Serviços</button>
+    <button class="sub-tab" onclick="switchProfTab('ganhos',this)">Ganhos</button>
+    <button class="sub-tab" onclick="switchProfTab('meu-perfil',this)">Meu Perfil</button>
+  </div>
+
+  <!-- AGENDA pane -->
+  <div class="sub-pane active" id="pt-agenda">
+    <div style="padding:16px 16px 8px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+      <p style="font-size:15px;font-weight:700;color:var(--text)">Próximos Agendamentos</p>
+      <span class="badge badge-green" style="font-size:10px">3 esta semana</span>
+    </div>
+    <!-- Agendamento 1 -->
+    <div class="appt-row">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:42px;height:42px;border-radius:var(--r-sm);background:var(--primary-bg);display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <span style="font-size:9px;font-weight:700;color:var(--primary);text-transform:uppercase">Hoje</span>
+            <span style="font-size:18px;font-weight:700;color:var(--text);line-height:1">14</span>
+          </div>
+          <div>
+            <p style="font-size:14px;font-weight:700;color:var(--text)">Amanda Ribeiro</p>
+            <p style="font-size:12px;color:var(--text2)">Design de Sobrancelha</p>
+          </div>
+        </div>
+        <span class="badge badge-green" style="font-size:10px">Confirmado</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;font-size:12px;color:var(--text2);margin-bottom:12px">
+        <span>🕐 14h00 — 14h45</span>
+        <span>📍 No estúdio</span>
+        <span style="color:var(--primary);font-weight:700">R$ 45</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" style="flex:1;padding:9px;font-size:12px" onclick="toast('Chat aberto com Amanda!')">💬 Chat</button>
+        <button class="btn" style="flex:1;padding:9px;font-size:12px;background:var(--red);color:#fff" onclick="toast('Agendamento cancelado')">Cancelar</button>
+      </div>
+    </div>
+    <!-- Agendamento 2 -->
+    <div class="appt-row">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:42px;height:42px;border-radius:var(--r-sm);background:#F0FDF4;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <span style="font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase">Amanhã</span>
+            <span style="font-size:18px;font-weight:700;color:var(--text);line-height:1">15</span>
+          </div>
+          <div>
+            <p style="font-size:14px;font-weight:700;color:var(--text)">Carla Mendes</p>
+            <p style="font-size:12px;color:var(--text2)">Henna de Sobrancelha</p>
+          </div>
+        </div>
+        <span class="badge badge-green" style="font-size:10px">Confirmado</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;font-size:12px;color:var(--text2);margin-bottom:12px">
+        <span>🕐 10h00 — 11h00</span>
+        <span>🏠 Em domicílio</span>
+        <span style="color:var(--primary);font-weight:700">R$ 60</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-secondary" style="flex:1;padding:9px;font-size:12px" onclick="toast('Chat aberto com Carla!')">💬 Chat</button>
+        <button class="btn btn-primary-sm" style="flex:1;padding:9px;font-size:12px" onclick="toast('Rota aberta no Maps!')">🗺️ Ver rota</button>
+      </div>
+    </div>
+    <!-- Agendamento 3 - Pendente -->
+    <div class="appt-row" style="border-left:3px solid var(--amber-bg)">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:42px;height:42px;border-radius:var(--r-sm);background:var(--amber-bg);display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <span style="font-size:9px;font-weight:700;color:var(--amber);text-transform:uppercase">Qui</span>
+            <span style="font-size:18px;font-weight:700;color:var(--text);line-height:1">17</span>
+          </div>
+          <div>
+            <p style="font-size:14px;font-weight:700;color:var(--text)">Luana Torres</p>
+            <p style="font-size:12px;color:var(--text2)">Volume Russo (Cílios)</p>
+          </div>
+        </div>
+        <span class="badge badge-amber" style="font-size:10px">Pendente</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;font-size:12px;color:var(--text2);margin-bottom:12px">
+        <span>🕐 15h00 — 17h00</span>
+        <span>📍 No estúdio</span>
+        <span style="color:var(--primary);font-weight:700">R$ 180</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn" style="flex:1;padding:9px;font-size:12px;background:var(--green);color:#fff" onclick="toast('Agendamento confirmado! ✅')">✓ Confirmar</button>
+        <button class="btn" style="flex:1;padding:9px;font-size:12px;background:var(--red);color:#fff" onclick="toast('Agendamento recusado')">✗ Recusar</button>
+      </div>
+    </div>
+    <div style="padding:16px 16px 0">
+      <button class="btn btn-secondary btn-full" style="padding:13px;font-size:13px" onclick="toast('Visualizando semana completa')">Ver semana completa</button>
+    </div>
+  </div>
+
+  <!-- SERVIÇOS pane -->
+  <div class="sub-pane" id="pt-servicos">
+    <div style="padding:16px 16px 8px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+      <p style="font-size:15px;font-weight:700;color:var(--text)">Meus Serviços</p>
+      <button class="btn btn-primary-sm" style="padding:7px 14px;font-size:12px" onclick="toast('Adicionar serviço em breve!')">+ Adicionar</button>
+    </div>
+    <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+      <div class="svc-row">
+        <div style="flex:1">
+          <p style="font-size:14px;font-weight:700;color:var(--text)">Design de Sobrancelha</p>
+          <p style="font-size:12px;color:var(--text2);margin-top:2px">45 min · R$ 45,00</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <button onclick="toast('Editar Design de Sobrancelha')" style="background:none;border:none;cursor:pointer;color:var(--text2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          <button class="toggle on" onclick="toggleSvc(this)"></button>
+        </div>
+      </div>
+      <div class="svc-row">
+        <div style="flex:1">
+          <p style="font-size:14px;font-weight:700;color:var(--text)">Henna de Sobrancelha</p>
+          <p style="font-size:12px;color:var(--text2);margin-top:2px">60 min · R$ 60,00</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <button onclick="toast('Editar Henna')" style="background:none;border:none;cursor:pointer;color:var(--text2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          <button class="toggle on" onclick="toggleSvc(this)"></button>
+        </div>
+      </div>
+      <div class="svc-row">
+        <div style="flex:1">
+          <p style="font-size:14px;font-weight:700;color:var(--text)">Volume Russo (Cílios)</p>
+          <p style="font-size:12px;color:var(--text2);margin-top:2px">120 min · R$ 180,00</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <button onclick="toast('Editar Volume Russo')" style="background:none;border:none;cursor:pointer;color:var(--text2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          <button class="toggle on" onclick="toggleSvc(this)"></button>
+        </div>
+      </div>
+      <div class="svc-row">
+        <div style="flex:1">
+          <p style="font-size:14px;font-weight:700;color:var(--text);opacity:.5">Fio a Fio (Cílios)</p>
+          <p style="font-size:12px;color:var(--text3);margin-top:2px">90 min · R$ 150,00 · <span style="color:var(--text3)">Pausado</span></p>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <button onclick="toast('Editar Fio a Fio')" style="background:none;border:none;cursor:pointer;color:var(--text3)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          <button class="toggle" onclick="toggleSvc(this)"></button>
+        </div>
+      </div>
+    </div>
+    <div style="padding:16px">
+      <div style="border:2px dashed var(--border2);border-radius:var(--r-md);padding:20px;text-align:center;cursor:pointer" onclick="toast('Adicionar serviço em breve!')">
+        <p style="font-size:14px;color:var(--text2);font-weight:600">+ Adicionar novo serviço</p>
+        <p style="font-size:12px;color:var(--text3);margin-top:4px">Precificação, duração e descrição</p>
+      </div>
+    </div>
+    <div style="margin:0 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
+      <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">Configurações de Atendimento</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div><p style="font-size:13px;color:var(--text)">Atendimento em domicílio</p><p style="font-size:11px;color:var(--text3)">Taxa adicional R$ 20,00</p></div>
+        <button class="toggle on" onclick="toggleSvc(this)"></button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div><p style="font-size:13px;color:var(--text)">Aceitar novos clientes</p><p style="font-size:11px;color:var(--text3)">Habilitar solicitações</p></div>
+        <button class="toggle on" onclick="toggleSvc(this)"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GANHOS pane -->
+  <div class="sub-pane" id="pt-ganhos">
+    <div style="padding:16px">
+      <div style="background:var(--grad);border-radius:var(--r-lg);padding:20px;color:#fff;margin-bottom:16px">
+        <p style="font-size:12px;color:rgba(255,255,255,.75);margin-bottom:4px">Ganhos em Agosto 2025</p>
+        <p style="font-size:32px;font-weight:700;font-variant-numeric:tabular-nums">R$ 1.420,00</p>
+        <div style="display:flex;gap:16px;margin-top:12px;font-size:12px;color:rgba(255,255,255,.8)">
+          <span>📅 18 atendimentos</span>
+          <span>💰 Comissão: R$ 213,00</span>
+        </div>
+      </div>
+      <!-- Barra simples por semana -->
+      <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">Por semana</p>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;margin-bottom:16px">
+        <div style="display:flex;align-items:flex-end;gap:8px;height:80px">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div style="width:100%;border-radius:4px 4px 0 0;background:var(--primary);opacity:.4" style="height:30px"></div>
+            <div style="width:100%;height:30px;border-radius:4px 4px 0 0;background:var(--primary);opacity:.4"></div>
+            <span style="font-size:9px;color:var(--text3)">S1</span>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div style="width:100%;height:50px;border-radius:4px 4px 0 0;background:var(--primary);opacity:.6"></div>
+            <span style="font-size:9px;color:var(--text3)">S2</span>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div style="width:100%;height:70px;border-radius:4px 4px 0 0;background:var(--primary)"></div>
+            <span style="font-size:9px;color:var(--text3)">S3</span>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div style="width:100%;height:40px;border-radius:4px 4px 0 0;background:var(--primary);opacity:.7"></div>
+            <span style="font-size:9px;color:var(--text3)">S4</span>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--text2)">
+          <span>R$ 210</span><span>R$ 350</span><span>R$ 560</span><span>R$ 300</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+      <div style="padding:12px 20px 8px"><p style="font-size:13px;font-weight:700;color:var(--text)">Últimos pagamentos</p></div>
+      <div class="earn-row"><div><p style="font-size:13px;font-weight:600;color:var(--text)">Amanda R. — Design Sobrancelha</p><p style="font-size:11px;color:var(--text3)">Ontem · 14h00 · PIX</p></div><span style="font-size:14px;font-weight:700;color:var(--green)">+R$ 45</span></div>
+      <div class="earn-row"><div><p style="font-size:13px;font-weight:600;color:var(--text)">Carla M. — Henna Sobrancelha</p><p style="font-size:11px;color:var(--text3)">Ter, 12/08 · 10h00 · Cartão</p></div><span style="font-size:14px;font-weight:700;color:var(--green)">+R$ 60</span></div>
+      <div class="earn-row"><div><p style="font-size:13px;font-weight:600;color:var(--text)">Luana T. — Volume Russo</p><p style="font-size:11px;color:var(--text3)">Seg, 11/08 · 09h30 · PIX</p></div><span style="font-size:14px;font-weight:700;color:var(--green)">+R$ 180</span></div>
+      <div class="earn-row"><div><p style="font-size:13px;font-weight:600;color:var(--text)">Rafaela S. — Design Sobrancelha</p><p style="font-size:11px;color:var(--text3)">Sex, 08/08 · 16h00 · PIX</p></div><span style="font-size:14px;font-weight:700;color:var(--green)">+R$ 45</span></div>
+      <div class="earn-row" style="border-bottom:none"><div><p style="font-size:13px;font-weight:600;color:var(--text)">Comissão BelaGo (15%)</p><p style="font-size:11px;color:var(--text3)">Ago/2025 · Debitado automaticamente</p></div><span style="font-size:14px;font-weight:700;color:var(--red)">−R$ 213</span></div>
+    </div>
+    <div style="padding:16px">
+      <button class="btn btn-secondary btn-full" style="padding:13px;font-size:13px" onclick="toast('Extrato completo em breve!')">Baixar extrato completo</button>
+    </div>
+  </div>
+
+  <!-- MEU PERFIL pane -->
+  <div class="sub-pane" id="pt-meu-perfil">
+    <div style="padding:16px;display:flex;flex-direction:column;gap:14px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px">Foto do perfil</p>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:#fff">FC</div>
+          <button class="btn btn-secondary" style="padding:10px 18px;font-size:13px" onclick="toast('Troca de foto em breve!')">Alterar foto</button>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:14px">
+          <p style="font-size:13px;font-weight:700;color:var(--text)">Dados Profissionais</p>
+          <div><label class="form-label">Nome completo</label><input class="form-input" value="Fernanda Costa"></div>
+          <div><label class="form-label">Especialidade principal</label><input class="form-input" value="Sobrancelha e Cílios"></div>
+          <div><label class="form-label">Cidade de atuação</label><input class="form-input" value="Betim, MG"></div>
+          <div><label class="form-label">Bio (apresentação)</label><textarea class="form-input" rows="3" style="resize:none;line-height:1.5">Especialista em design de sobrancelha e extensão de cílios com 8 anos de experiência.</textarea></div>
+          <div><label class="form-label">Telefone / WhatsApp</label><input class="form-input" type="tel" value="(31) 9 9999-0000"></div>
+          <button class="btn btn-primary btn-full" style="padding:14px" onclick="toast('Perfil atualizado com sucesso! ✅')">Salvar alterações</button>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">Documentos de Verificação</p>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <span style="font-size:13px;color:var(--text)">RG/CPF verificado</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <span style="font-size:13px;color:var(--text)">Certificado profissional aprovado</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span style="font-size:13px;color:var(--text)">Comprovante de endereço pendente</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ TELA: ADMINISTRADOR ══════════════ -->
+<div class="screen" id="s-admin" style="padding-bottom:0">
+
+  <!-- Header Admin -->
+  <div class="admin-header">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <button class="back-btn" onclick="goTab('s-profile')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg> Voltar
+      </button>
+      <span style="background:rgba(155,93,229,.3);border:1px solid rgba(155,93,229,.5);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:#D8B4FE">ADMIN</span>
+    </div>
+    <h2 style="font-size:20px;font-weight:700;color:#fff;margin-bottom:4px">Painel Administrativo</h2>
+    <p style="font-size:13px;color:rgba(255,255,255,.6)">BelaGo Platform · Agosto 2025</p>
+  </div>
+
+  <!-- Sub-tabs Admin -->
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="switchAdminTab('dashboard',this)">Dashboard</button>
+    <button class="sub-tab" onclick="switchAdminTab('aprovacoes',this)">Aprovações</button>
+    <button class="sub-tab" onclick="switchAdminTab('profissionais',this)">Profissionais</button>
+    <button class="sub-tab" onclick="switchAdminTab('config',this)">Config.</button>
+  </div>
+
+  <!-- DASHBOARD pane -->
+  <div class="sub-pane active" id="at-dashboard">
+    <!-- Stats principais -->
+    <div class="stat-grid">
+      <div class="stat-card"><p class="stat-val" style="color:var(--primary)">1.247</p><p class="stat-lbl">Usuários cadastrados</p></div>
+      <div class="stat-card"><p class="stat-val" style="color:var(--purple)">86</p><p class="stat-lbl">Profissionais ativas</p></div>
+      <div class="stat-card"><p class="stat-val" style="color:var(--green)">34</p><p class="stat-lbl">Agendamentos hoje</p></div>
+      <div class="stat-card"><p class="stat-val" style="color:var(--amber)">R$12.840</p><p class="stat-lbl">Receita no mês</p></div>
+    </div>
+    <!-- Alertas -->
+    <div style="padding:0 16px 12px;display:flex;flex-direction:column;gap:8px">
+      <div style="background:var(--amber-bg);border:1px solid #FDE68A;border-radius:var(--r-md);padding:13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div><p style="font-size:13px;font-weight:700;color:var(--text)">3 aprovações pendentes</p><p style="font-size:11px;color:var(--text2)">Profissionais aguardando verificação</p></div>
+        </div>
+        <button class="btn" style="padding:7px 12px;font-size:11px;font-weight:700;background:var(--amber);color:#fff" onclick="switchAdminTab('aprovacoes',document.querySelectorAll('.sub-tab')[1])">Ver</button>
+      </div>
+      <div style="background:var(--primary-bg);border:1px solid #FECDD3;border-radius:var(--r-md);padding:13px;display:flex;align-items:center;gap:10px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <div><p style="font-size:13px;font-weight:700;color:var(--text)">2 suporte em aberto</p><p style="font-size:11px;color:var(--text2)">Tickets aguardando resposta</p></div>
+      </div>
+    </div>
+    <!-- Métricas rápidas -->
+    <div style="padding:0 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);margin:0 16px">
+      <div style="padding:12px 0 8px"><p style="font-size:13px;font-weight:700;color:var(--text)">Métricas rápidas</p></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:13px;color:var(--text2)">Taxa de conversão</span>
+        <span style="font-size:13px;font-weight:700;color:var(--green)">68%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:13px;color:var(--text2)">Ticket médio</span>
+        <span style="font-size:13px;font-weight:700;color:var(--text)">R$ 89,40</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:13px;color:var(--text2)">Cancelamentos</span>
+        <span style="font-size:13px;font-weight:700;color:var(--red)">4,2%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0">
+        <span style="font-size:13px;color:var(--text2)">Avaliação média geral</span>
+        <span style="font-size:13px;font-weight:700;color:var(--amber)">★ 4.87</span>
+      </div>
+    </div>
+    <div style="padding:16px;display:flex;gap:8px">
+      <button class="btn btn-secondary" style="flex:1;padding:12px;font-size:12px" onclick="toast('Relatório PDF gerado!')">📊 Relatório PDF</button>
+      <button class="btn btn-secondary" style="flex:1;padding:12px;font-size:12px" onclick="toast('CSV exportado!')">📥 Exportar CSV</button>
+    </div>
+  </div>
+
+  <!-- APROVAÇÕES pane -->
+  <div class="sub-pane" id="at-aprovacoes">
+    <div style="padding:14px 16px 8px">
+      <p style="font-size:14px;font-weight:700;color:var(--text)">Aguardando verificação <span class="badge badge-amber" style="font-size:10px;margin-left:4px">3</span></p>
+    </div>
+    <div class="pend-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div style="width:48px;height:48px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">MR</div>
+        <div style="flex:1">
+          <p style="font-size:14px;font-weight:700;color:var(--text)">Maria Rodrigues</p>
+          <p style="font-size:12px;color:var(--text2)">Manicure e Pedicure · Belo Horizonte</p>
+          <p style="font-size:11px;color:var(--text3)">Cadastrada há 2 dias</p>
+        </div>
+      </div>
+      <div style="background:var(--surface2);border-radius:var(--r-sm);padding:10px;margin-bottom:12px;display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:12px;color:var(--text)">RG/CPF enviado</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:12px;color:var(--text)">Certificado profissional</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span style="font-size:12px;color:var(--text)">Selfie verificação pendente</span></div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn" style="flex:1;padding:10px;font-size:12px;font-weight:700;background:var(--green);color:#fff" onclick="approvePendingProf(this,'Maria Rodrigues')">✓ Aprovar</button>
+        <button class="btn btn-secondary" style="flex:1;padding:10px;font-size:12px" onclick="toast('Solicitar documentos de Maria Rodrigues')">Pedir docs</button>
+        <button class="btn" style="padding:10px;font-size:12px;background:var(--red);color:#fff" onclick="toast('Maria Rodrigues reprovada')">✗</button>
+      </div>
+    </div>
+    <div class="pend-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#9B5DE5,#C084FC);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">JS</div>
+        <div style="flex:1">
+          <p style="font-size:14px;font-weight:700;color:var(--text)">Juliana Soares</p>
+          <p style="font-size:12px;color:var(--text2)">Maquiagem · Contagem, MG</p>
+          <p style="font-size:11px;color:var(--text3)">Cadastrada há 1 dia</p>
+        </div>
+      </div>
+      <div style="background:var(--surface2);border-radius:var(--r-sm);padding:10px;margin-bottom:12px;display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:12px;color:var(--text)">RG/CPF enviado</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:12px;color:var(--text)">Selfie verificação OK</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span style="font-size:12px;color:var(--text)">Certificado pendente</span></div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn" style="flex:1;padding:10px;font-size:12px;font-weight:700;background:var(--green);color:#fff" onclick="approvePendingProf(this,'Juliana Soares')">✓ Aprovar</button>
+        <button class="btn btn-secondary" style="flex:1;padding:10px;font-size:12px" onclick="toast('Solicitar documentos de Juliana')">Pedir docs</button>
+        <button class="btn" style="padding:10px;font-size:12px;background:var(--red);color:#fff" onclick="toast('Juliana Soares reprovada')">✗</button>
+      </div>
+    </div>
+    <div class="pend-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#F97316,#FDBA74);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">KL</div>
+        <div style="flex:1">
+          <p style="font-size:14px;font-weight:700;color:var(--text)">Kézia Lima</p>
+          <p style="font-size:12px;color:var(--text2)">Depilação · Betim, MG</p>
+          <p style="font-size:11px;color:var(--text3)">Cadastrada hoje</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn" style="flex:1;padding:10px;font-size:12px;font-weight:700;background:var(--green);color:#fff" onclick="approvePendingProf(this,'Kézia Lima')">✓ Aprovar</button>
+        <button class="btn btn-secondary" style="flex:1;padding:10px;font-size:12px" onclick="toast('Aguardar documentos de Kézia')">Pedir docs</button>
+        <button class="btn" style="padding:10px;font-size:12px;background:var(--red);color:#fff" onclick="toast('Kézia Lima reprovada')">✗</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFISSIONAIS pane -->
+  <div class="sub-pane" id="at-profissionais">
+    <div style="padding:14px 16px 8px;display:flex;align-items:center;justify-content:space-between">
+      <p style="font-size:14px;font-weight:700;color:var(--text)">Profissionais ativas <span style="color:var(--text3);font-size:12px;font-weight:400">(86)</span></p>
+      <input class="form-input" style="width:140px;padding:8px 12px;font-size:12px" placeholder="Buscar...">
+    </div>
+    <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+      <div id="admin-prof-list"></div>
+    </div>
+  </div>
+
+  <!-- CONFIG pane -->
+  <div class="sub-pane" id="at-config">
+    <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px">Taxas da Plataforma</p>
+        <div class="form-group" style="margin-bottom:12px"><label class="form-label">Comissão sobre agendamentos (%)</label><input class="form-input" type="number" value="15" min="0" max="50"></div>
+        <div class="form-group" style="margin-bottom:12px"><label class="form-label">Taxa de atendimento em domicílio (R$)</label><input class="form-input" type="number" value="20" min="0"></div>
+        <div class="form-group" style="margin-bottom:0"><label class="form-label">Cancelamento com menos de 2h (%)</label><input class="form-input" type="number" value="30" min="0" max="100"></div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px">Controles da Plataforma</p>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div><p style="font-size:13px;color:var(--text)">Novos cadastros habilitados</p><p style="font-size:11px;color:var(--text3)">Clientes e profissionais</p></div>
+          <button class="toggle on" onclick="toggleSvc(this)"></button>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div><p style="font-size:13px;color:var(--text)">Modo manutenção</p><p style="font-size:11px;color:var(--text3)">Bloqueia novos agendamentos</p></div>
+          <button class="toggle" onclick="toggleSvc(this)"></button>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div><p style="font-size:13px;color:var(--text)">Notificações push ativas</p><p style="font-size:11px;color:var(--text3)">Para todos os usuários</p></div>
+          <button class="toggle on" onclick="toggleSvc(this)"></button>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px">Gateway de Pagamento</p>
+        <div class="form-group" style="margin-bottom:12px"><label class="form-label">Provedor atual</label><select class="form-input"><option selected>Pagar.me</option><option>Mercado Pago</option><option>Stripe</option></select></div>
+        <div class="form-group" style="margin-bottom:0"><label class="form-label">Chave de API (sandbox)</label><input class="form-input" type="password" value="sk_test_••••••••••••••••"></div>
+      </div>
+      <button class="btn btn-primary btn-full" style="padding:14px" onclick="toast('Configurações salvas com sucesso! ✅')">Salvar configurações</button>
+      <button class="btn btn-danger btn-full" style="padding:13px" onclick="toast('Enviar notificação push para todos os usuários?')">📣 Push para todos os usuários</button>
+    </div>
   </div>
 
 </div>
@@ -1806,7 +2318,7 @@ const PROFS = [
 ];
 const REVIEWS=[{name:'Amanda R.',r:5,txt:'Perfeita! Minha sobrancelha nunca ficou tão bonita. Super recomendo!'},{name:'Carla M.',r:5,txt:'Atendimento impecável, pontual e muito cuidadosa. Voltarei com certeza!'},{name:'Luana T.',r:4,txt:'Ótimo trabalho, fiquei muito satisfeita. Profissional muito atenciosa.'}];
 
-let activeFilter='proximas', curProf=null, selSvc=null, selDate=null, selTime=null, selLoc='studio', step=1, curRating=0;
+let activeFilter='proximas', curProf=null, selSvc=null, selDate=null, selTime=null, curLoc='studio', step=1, curRating=0;
 
 /* ── NAV ── */
 function goTab(id){
@@ -1938,7 +2450,7 @@ function toggleFav(id){
 /* ── BOOKING ── */
 function openBooking(id){
   curProf=id===0?PROFS[0]:PROFS[id];
-  selSvc=null;selDate=null;selTime=null;selLoc='studio';step=1;
+  selSvc=null;selDate=null;selTime=null;curLoc='studio';step=1;
   renderBookingStep();
   goTab('s-book');
   document.getElementById('loc-studio').classList.add('sel');
@@ -1977,7 +2489,7 @@ function renderBookingStep(){
 }
 function pickSvc(i){selSvc=i;renderBookingStep()}
 function selLoc(l){
-  selLoc=l;
+  curLoc=l;
   document.getElementById('loc-studio').classList.toggle('sel',l==='studio');
   document.getElementById('loc-home').classList.toggle('sel',l==='home');
 }
@@ -2012,13 +2524,13 @@ function renderSummary(){
   const p=curProf||PROFS[0];const s=p.svcs[selSvc||0];
   const today=new Date();const d=new Date(today);d.setDate(d.getDate()+(selDate||1));
   const dateStr=d.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
-  const total=s.p+(selLoc==='home'?20:0);
+  const total=s.p+(curLoc==='home'?20:0);
   document.getElementById('bk-summary').innerHTML=`
     <div style="display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:12px">
       <div class="av ${p.av}" style="width:40px;height:40px;font-size:14px">${p.ini}</div>
       <div><p style="font-size:14px;font-weight:700;color:var(--text)">${p.name}</p><p style="font-size:12px;color:var(--text2)">${p.spec}</p></div>
     </div>
-    ${[['Serviço',s.n],['Data',dateStr],['Horário',selTime||'14:00'],['Local',selLoc==='home'?'Em domicílio (+R$20)':'No espaço da profissional']].map(([l,v])=>`
+    ${[['Serviço',s.n],['Data',dateStr],['Horário',selTime||'14:00'],['Local',curLoc==='home'?'Em domicílio (+R$20)':'No espaço da profissional']].map(([l,v])=>`
       <div style="display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--border)">
         <span style="font-size:13px;color:var(--text2)">${l}</span>
         <span style="font-size:13px;font-weight:500;color:var(--text);text-align:right;max-width:60%">${v}</span>
@@ -2423,8 +2935,9 @@ function loginWith(method){
   const screens=['onboard','login-screen','register-screen'];
   screens.forEach(id=>{
     const el=document.getElementById(id);
-    if(el){ el.style.opacity='0'; el.style.transition='opacity .3s'; setTimeout(()=>el.remove(),300); }
+    if(el){ el.style.transition='opacity .3s'; el.style.opacity='0'; setTimeout(()=>el.remove(),350); }
   });
+  setTimeout(()=>goTab('s-home'),50);
 }
 function togglePass(){
   const i=document.getElementById('login-pass');
@@ -2536,6 +3049,50 @@ renderHome();
 renderSearch();
 wireProfileMenu();
 initSplash();
+initAdminProfList();
+
+/* ── PAINEL PROFISSIONAL ── */
+function switchProfTab(name,btn){
+  document.querySelectorAll('#s-prof-panel .sub-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#s-prof-panel .sub-pane').forEach(p=>p.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  var pane=document.getElementById('pt-'+name);
+  if(pane) pane.classList.add('active');
+}
+function toggleProfOnline(btn){
+  btn.classList.toggle('on');
+  toast(btn.classList.contains('on')?'Você está online! Clientes podem te encontrar ✅':'Você está offline. Novos agendamentos pausados.');
+}
+function toggleSvc(btn){
+  btn.classList.toggle('on');
+}
+
+/* ── PAINEL ADMIN ── */
+function switchAdminTab(name,btn){
+  document.querySelectorAll('#s-admin .sub-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#s-admin .sub-pane').forEach(p=>p.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  var pane=document.getElementById('at-'+name);
+  if(pane) pane.classList.add('active');
+}
+function approvePendingProf(btn,name){
+  toast(name+' aprovada com sucesso! ✅');
+  btn.closest('.pend-card').style.opacity='0.4';
+  btn.closest('.pend-card').style.pointerEvents='none';
+}
+function openAdminAccess(){
+  var pin=prompt('Digite o PIN de administrador:','');
+  if(pin==='1234'||pin==='admin'){ goTab('s-admin'); }
+  else if(pin!==null){ toast('PIN incorreto ❌'); }
+}
+function initAdminProfList(){
+  var list=document.getElementById('admin-prof-list');
+  if(!list) return;
+  var profs=['Fernanda Costa — Sobrancelha · Betim','Ana Paula — Cabelo · BH','Juliana Soares — Maquiagem · Contagem','Mariana Lima — Cílios · BH','Camila Rocha — Manicure · Betim','Sandra Melo — Depilação · Sabará'];
+  list.innerHTML=profs.map(function(p,i){
+    return '<div class="svc-row"><div style="flex:1"><p style="font-size:13px;font-weight:600;color:var(--text)">'+p+'</p></div><div style="display:flex;gap:8px"><button class="btn btn-secondary" style="padding:6px 12px;font-size:11px" onclick="toast(\'Ver perfil\')">Ver</button><button class="btn" style="padding:6px 10px;font-size:11px;background:var(--red);color:#fff" onclick="toast(\'Profissional suspensa\')">Suspender</button></div></div>';
+  }).join('');
+}
 </script>
 </body>
 </html>
