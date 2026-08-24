@@ -522,6 +522,9 @@ h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
 .earn-row:last-child{border-bottom:none}
 .pend-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;margin:0 16px 10px;box-shadow:var(--shadow)}
 .back-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:none;color:#fff;font-family:var(--font);font-size:13px;font-weight:600;padding:7px 12px;border-radius:var(--r-sm);cursor:pointer}
+.avail-day{padding:7px 0;font-size:11px;font-weight:700;border:1.5px solid var(--border2);background:var(--surface);color:var(--text3);border-radius:var(--r-sm);cursor:pointer;flex:1;font-family:var(--font)}
+.avail-day.on{background:var(--primary);border-color:var(--primary);color:#fff}
+#prof-tab-bar{position:absolute;bottom:0;left:0;right:0}
 </style>
 </head>
 <body>
@@ -1176,32 +1179,18 @@ h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
   </div>
 
   <div style="padding:20px;display:flex;flex-direction:column;gap:10px">
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden">
-      <div class="menu-row" onclick="goTab('s-prof-panel')" style="border-bottom:1px solid var(--border)">
-        <div class="menu-icon-wrap" style="background:var(--primary-bg)"><svg viewBox="0 0 24 24" stroke="var(--primary)"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-        <div style="flex:1"><span class="menu-row-lbl">Área da Profissional</span><p style="font-size:11px;color:var(--text3);margin-top:1px">Agenda, serviços e ganhos</p></div>
-        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-      <div class="menu-row" onclick="openAdminAccess()" style="border-bottom:none">
-        <div class="menu-icon-wrap" style="background:#F3EEFF"><svg viewBox="0 0 24 24" stroke="var(--purple)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <div style="flex:1"><span class="menu-row-lbl" style="color:var(--purple)">Painel Administrativo</span><p style="font-size:11px;color:var(--text3);margin-top:1px">Gestão da plataforma</p></div>
-        <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-    </div>
     <button class="btn btn-danger btn-full" style="padding:14px" onclick="openLogout()">Sair da conta</button>
   </div>
 
 </div>
 
 <!-- ══════════════ TELA: PROFISSIONAL ══════════════ -->
-<div class="screen" id="s-prof-panel" style="padding-bottom:0">
+<div class="screen" id="s-prof-panel" style="padding-bottom:64px">
 
   <!-- Header -->
   <div class="prof-header">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <button class="back-btn" onclick="goTab('s-profile')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg> Voltar
-      </button>
+      <p style="font-family:var(--font-display);font-style:italic;font-size:20px;color:#fff">BelaGo Pro</p>
       <div class="toggle-wrap">
         <span style="font-size:12px;font-weight:600;color:rgba(255,255,255,.8)">Online</span>
         <button class="toggle on" id="prof-online-toggle" onclick="toggleProfOnline(this)"></button>
@@ -1234,12 +1223,24 @@ h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
     </div>
   </div>
 
-  <!-- Sub-tabs -->
-  <div class="sub-tabs">
-    <button class="sub-tab active" onclick="switchProfTab('agenda',this)">Agenda</button>
-    <button class="sub-tab" onclick="switchProfTab('servicos',this)">Serviços</button>
-    <button class="sub-tab" onclick="switchProfTab('ganhos',this)">Ganhos</button>
-    <button class="sub-tab" onclick="switchProfTab('meu-perfil',this)">Meu Perfil</button>
+  <!-- Tab bar profissional (estilo cliente) -->
+  <div class="tab-bar" id="prof-tab-bar">
+    <button class="tab-btn active" id="ptb-agenda" onclick="switchProfTab('agenda',this)">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="9 16 11 18 15 14"/></svg>
+      <span class="tab-lbl">Agenda</span>
+    </button>
+    <button class="tab-btn" id="ptb-financeiro" onclick="switchProfTab('financeiro',this)">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <span class="tab-lbl">Financeiro</span>
+    </button>
+    <button class="tab-btn" id="ptb-servicos" onclick="switchProfTab('servicos',this)">
+      <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      <span class="tab-lbl">Serviços</span>
+    </button>
+    <button class="tab-btn" id="ptb-perfil" onclick="switchProfTab('perfil',this)">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="tab-lbl">Perfil</span>
+    </button>
   </div>
 
   <!-- AGENDA pane -->
@@ -1328,53 +1329,86 @@ h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
     </div>
   </div>
 
+  <!-- FINANCEIRO pane -->
+  <div class="sub-pane" id="pt-financeiro">
+    <div style="padding:16px">
+      <!-- Card resumo -->
+      <div style="background:var(--grad);border-radius:var(--r-lg);padding:20px;color:#fff;margin-bottom:16px">
+        <p style="font-size:11px;color:rgba(255,255,255,.75);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">Agosto 2025</p>
+        <p style="font-size:30px;font-weight:700;font-variant-numeric:tabular-nums">R$ 1.207,00</p>
+        <p style="font-size:12px;color:rgba(255,255,255,.7);margin-top:4px">Receita líquida (após despesas)</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px">
+          <div style="background:rgba(255,255,255,.12);border-radius:8px;padding:9px;text-align:center">
+            <p style="font-size:14px;font-weight:700">R$1.420</p>
+            <p style="font-size:9px;color:rgba(255,255,255,.7);margin-top:2px">Receita bruta</p>
+          </div>
+          <div style="background:rgba(255,255,255,.12);border-radius:8px;padding:9px;text-align:center">
+            <p style="font-size:14px;font-weight:700">−R$213</p>
+            <p style="font-size:9px;color:rgba(255,255,255,.7);margin-top:2px">Comissão 15%</p>
+          </div>
+          <div style="background:rgba(232,68,138,.3);border:1px solid rgba(232,68,138,.5);border-radius:8px;padding:9px;text-align:center">
+            <p style="font-size:14px;font-weight:700">−R$0</p>
+            <p style="font-size:9px;color:rgba(255,255,255,.7);margin-top:2px">Despesas</p>
+          </div>
+        </div>
+      </div>
+      <!-- Gráfico barras -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;margin-bottom:16px">
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px">Receita por semana</p>
+        <div style="display:flex;align-items:flex-end;gap:6px;height:72px">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:100%;height:30px;border-radius:4px 4px 0 0;background:var(--primary);opacity:.4"></div><span style="font-size:9px;color:var(--text3)">S1</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:100%;height:50px;border-radius:4px 4px 0 0;background:var(--primary);opacity:.6"></div><span style="font-size:9px;color:var(--text3)">S2</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:100%;height:68px;border-radius:4px 4px 0 0;background:var(--primary)"></div><span style="font-size:9px;color:var(--text3)">S3</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:100%;height:40px;border-radius:4px 4px 0 0;background:var(--primary);opacity:.7"></div><span style="font-size:9px;color:var(--text3)">S4</span></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:var(--text2)"><span>R$210</span><span>R$350</span><span>R$560</span><span>R$300</span></div>
+      </div>
+    </div>
+    <!-- Registrar despesa -->
+    <div style="margin:0 16px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
+      <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px">Registrar Despesa</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div><label class="form-label">Descrição</label><input class="form-input" id="exp-desc" placeholder="Ex: Material de sobrancelha"></div>
+        <div style="display:flex;gap:10px">
+          <div style="flex:1"><label class="form-label">Valor (R$)</label><input class="form-input" id="exp-val" type="number" placeholder="0,00"></div>
+          <div style="flex:1"><label class="form-label">Categoria</label>
+            <select class="form-input" id="exp-cat">
+              <option>Material</option><option>Transporte</option><option>Aluguel</option><option>Marketing</option><option>Outros</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-full" style="padding:12px" onclick="addExpense()">+ Registrar despesa</button>
+      </div>
+    </div>
+    <!-- Histórico -->
+    <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+      <div style="padding:12px 20px 8px;display:flex;align-items:center;justify-content:space-between">
+        <p style="font-size:13px;font-weight:700;color:var(--text)">Movimentações</p>
+        <span style="font-size:11px;color:var(--text3)">Agosto 2025</span>
+      </div>
+      <div id="finance-list">
+        <div class="earn-row"><div><p style="font-size:13px;font-weight:600;color:var(--text)">Amanda R. — Design Sobrancelha</p><p style="font-size:11px;color:var(--text3)">Ontem · PIX</p></div><span style="font-size:13px;font-weight:700;color:var(--green)">+R$ 45</span></div>
+        <div class="earn-row"><div><p style="font-size:13px;font-weight:600;color:var(--text)">Carla M. — Henna Sobrancelha</p><p style="font-size:11px;color:var(--text3)">Ter, 12/08 · Cartão</p></div><span style="font-size:13px;font-weight:700;color:var(--green)">+R$ 60</span></div>
+        <div class="earn-row"><div><p style="font-size:13px;font-weight:600;color:var(--text)">Luana T. — Volume Russo</p><p style="font-size:11px;color:var(--text3)">Seg, 11/08 · PIX</p></div><span style="font-size:13px;font-weight:700;color:var(--green)">+R$ 180</span></div>
+        <div class="earn-row"><div><p style="font-size:13px;font-weight:600;color:var(--text)">Comissão BelaGo (15%)</p><p style="font-size:11px;color:var(--text3)">Ago/2025 · Automático</p></div><span style="font-size:13px;font-weight:700;color:var(--red)">−R$ 213</span></div>
+      </div>
+    </div>
+    <div style="padding:16px">
+      <button class="btn btn-secondary btn-full" style="padding:12px;font-size:13px" onclick="toast('Extrato em PDF gerado!')">📥 Baixar extrato completo</button>
+    </div>
+  </div>
+
   <!-- SERVIÇOS pane -->
   <div class="sub-pane" id="pt-servicos">
     <div style="padding:16px 16px 8px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
       <p style="font-size:15px;font-weight:700;color:var(--text)">Meus Serviços</p>
-      <button class="btn btn-primary-sm" style="padding:7px 14px;font-size:12px" onclick="toast('Adicionar serviço em breve!')">+ Adicionar</button>
+      <button class="btn btn-primary-sm" style="padding:7px 14px;font-size:12px" onclick="toast('Adicionar serviço em breve!')">+ Novo</button>
     </div>
     <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-      <div class="svc-row">
-        <div style="flex:1">
-          <p style="font-size:14px;font-weight:700;color:var(--text)">Design de Sobrancelha</p>
-          <p style="font-size:12px;color:var(--text2);margin-top:2px">45 min · R$ 45,00</p>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px">
-          <button onclick="toast('Editar Design de Sobrancelha')" style="background:none;border:none;cursor:pointer;color:var(--text2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
-          <button class="toggle on" onclick="toggleSvc(this)"></button>
-        </div>
-      </div>
-      <div class="svc-row">
-        <div style="flex:1">
-          <p style="font-size:14px;font-weight:700;color:var(--text)">Henna de Sobrancelha</p>
-          <p style="font-size:12px;color:var(--text2);margin-top:2px">60 min · R$ 60,00</p>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px">
-          <button onclick="toast('Editar Henna')" style="background:none;border:none;cursor:pointer;color:var(--text2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
-          <button class="toggle on" onclick="toggleSvc(this)"></button>
-        </div>
-      </div>
-      <div class="svc-row">
-        <div style="flex:1">
-          <p style="font-size:14px;font-weight:700;color:var(--text)">Volume Russo (Cílios)</p>
-          <p style="font-size:12px;color:var(--text2);margin-top:2px">120 min · R$ 180,00</p>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px">
-          <button onclick="toast('Editar Volume Russo')" style="background:none;border:none;cursor:pointer;color:var(--text2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
-          <button class="toggle on" onclick="toggleSvc(this)"></button>
-        </div>
-      </div>
-      <div class="svc-row">
-        <div style="flex:1">
-          <p style="font-size:14px;font-weight:700;color:var(--text);opacity:.5">Fio a Fio (Cílios)</p>
-          <p style="font-size:12px;color:var(--text3);margin-top:2px">90 min · R$ 150,00 · <span style="color:var(--text3)">Pausado</span></p>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px">
-          <button onclick="toast('Editar Fio a Fio')" style="background:none;border:none;cursor:pointer;color:var(--text3)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
-          <button class="toggle" onclick="toggleSvc(this)"></button>
-        </div>
-      </div>
+      <div class="svc-row"><div style="flex:1"><p style="font-size:14px;font-weight:700;color:var(--text)">Design de Sobrancelha</p><p style="font-size:12px;color:var(--text2);margin-top:2px">45 min · R$ 45,00</p></div><div style="display:flex;align-items:center;gap:10px"><button onclick="toast('Editar serviço')" style="background:none;border:none;cursor:pointer;color:var(--text2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="toggle on" onclick="toggleSvc(this)"></button></div></div>
+      <div class="svc-row"><div style="flex:1"><p style="font-size:14px;font-weight:700;color:var(--text)">Henna de Sobrancelha</p><p style="font-size:12px;color:var(--text2);margin-top:2px">60 min · R$ 60,00</p></div><div style="display:flex;align-items:center;gap:10px"><button onclick="toast('Editar serviço')" style="background:none;border:none;cursor:pointer;color:var(--text2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="toggle on" onclick="toggleSvc(this)"></button></div></div>
+      <div class="svc-row"><div style="flex:1"><p style="font-size:14px;font-weight:700;color:var(--text)">Volume Russo (Cílios)</p><p style="font-size:12px;color:var(--text2);margin-top:2px">120 min · R$ 180,00</p></div><div style="display:flex;align-items:center;gap:10px"><button onclick="toast('Editar serviço')" style="background:none;border:none;cursor:pointer;color:var(--text2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="toggle on" onclick="toggleSvc(this)"></button></div></div>
+      <div class="svc-row"><div style="flex:1"><p style="font-size:14px;font-weight:700;color:var(--text);opacity:.5">Fio a Fio (Cílios)</p><p style="font-size:12px;color:var(--text3);margin-top:2px">90 min · R$ 150,00 · Pausado</p></div><div style="display:flex;align-items:center;gap:10px"><button onclick="toast('Editar serviço')" style="background:none;border:none;cursor:pointer;color:var(--text3)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="toggle" onclick="toggleSvc(this)"></button></div></div>
     </div>
     <div style="padding:16px">
       <div style="border:2px dashed var(--border2);border-radius:var(--r-md);padding:20px;text-align:center;cursor:pointer" onclick="toast('Adicionar serviço em breve!')">
@@ -1382,106 +1416,134 @@ h1.page-title{font-size:22px;font-weight:700;color:var(--text)}
         <p style="font-size:12px;color:var(--text3);margin-top:4px">Precificação, duração e descrição</p>
       </div>
     </div>
-    <div style="margin:0 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
-      <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">Configurações de Atendimento</p>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+    <!-- Disponibilidade semanal -->
+    <div style="margin:0 16px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
+      <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px">Disponibilidade Semanal</p>
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px">
+        <div id="avail-days" style="display:flex;gap:6px">
+          <button class="avail-day on" onclick="toggleDay(this)">Seg</button>
+          <button class="avail-day on" onclick="toggleDay(this)">Ter</button>
+          <button class="avail-day on" onclick="toggleDay(this)">Qua</button>
+          <button class="avail-day on" onclick="toggleDay(this)">Qui</button>
+          <button class="avail-day on" onclick="toggleDay(this)">Sex</button>
+          <button class="avail-day" onclick="toggleDay(this)">Sáb</button>
+          <button class="avail-day" onclick="toggleDay(this)">Dom</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <div style="flex:1"><label class="form-label">Início</label><input class="form-input" type="time" value="09:00"></div>
+        <div style="flex:1"><label class="form-label">Fim</label><input class="form-input" type="time" value="18:00"></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
         <div><p style="font-size:13px;color:var(--text)">Atendimento em domicílio</p><p style="font-size:11px;color:var(--text3)">Taxa adicional R$ 20,00</p></div>
         <button class="toggle on" onclick="toggleSvc(this)"></button>
       </div>
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <div><p style="font-size:13px;color:var(--text)">Aceitar novos clientes</p><p style="font-size:11px;color:var(--text3)">Habilitar solicitações</p></div>
-        <button class="toggle on" onclick="toggleSvc(this)"></button>
-      </div>
+      <button class="btn btn-primary btn-full" style="padding:12px;margin-top:14px" onclick="toast('Disponibilidade salva! ✅')">Salvar disponibilidade</button>
     </div>
   </div>
 
-  <!-- GANHOS pane -->
-  <div class="sub-pane" id="pt-ganhos">
-    <div style="padding:16px">
-      <div style="background:var(--grad);border-radius:var(--r-lg);padding:20px;color:#fff;margin-bottom:16px">
-        <p style="font-size:12px;color:rgba(255,255,255,.75);margin-bottom:4px">Ganhos em Agosto 2025</p>
-        <p style="font-size:32px;font-weight:700;font-variant-numeric:tabular-nums">R$ 1.420,00</p>
-        <div style="display:flex;gap:16px;margin-top:12px;font-size:12px;color:rgba(255,255,255,.8)">
-          <span>📅 18 atendimentos</span>
-          <span>💰 Comissão: R$ 213,00</span>
-        </div>
-      </div>
-      <!-- Barra simples por semana -->
-      <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">Por semana</p>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;margin-bottom:16px">
-        <div style="display:flex;align-items:flex-end;gap:8px;height:80px">
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
-            <div style="width:100%;border-radius:4px 4px 0 0;background:var(--primary);opacity:.4" style="height:30px"></div>
-            <div style="width:100%;height:30px;border-radius:4px 4px 0 0;background:var(--primary);opacity:.4"></div>
-            <span style="font-size:9px;color:var(--text3)">S1</span>
-          </div>
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
-            <div style="width:100%;height:50px;border-radius:4px 4px 0 0;background:var(--primary);opacity:.6"></div>
-            <span style="font-size:9px;color:var(--text3)">S2</span>
-          </div>
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
-            <div style="width:100%;height:70px;border-radius:4px 4px 0 0;background:var(--primary)"></div>
-            <span style="font-size:9px;color:var(--text3)">S3</span>
-          </div>
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
-            <div style="width:100%;height:40px;border-radius:4px 4px 0 0;background:var(--primary);opacity:.7"></div>
-            <span style="font-size:9px;color:var(--text3)">S4</span>
-          </div>
-        </div>
-        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--text2)">
-          <span>R$ 210</span><span>R$ 350</span><span>R$ 560</span><span>R$ 300</span>
-        </div>
-      </div>
-    </div>
-    <div style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-      <div style="padding:12px 20px 8px"><p style="font-size:13px;font-weight:700;color:var(--text)">Últimos pagamentos</p></div>
-      <div class="earn-row"><div><p style="font-size:13px;font-weight:600;color:var(--text)">Amanda R. — Design Sobrancelha</p><p style="font-size:11px;color:var(--text3)">Ontem · 14h00 · PIX</p></div><span style="font-size:14px;font-weight:700;color:var(--green)">+R$ 45</span></div>
-      <div class="earn-row"><div><p style="font-size:13px;font-weight:600;color:var(--text)">Carla M. — Henna Sobrancelha</p><p style="font-size:11px;color:var(--text3)">Ter, 12/08 · 10h00 · Cartão</p></div><span style="font-size:14px;font-weight:700;color:var(--green)">+R$ 60</span></div>
-      <div class="earn-row"><div><p style="font-size:13px;font-weight:600;color:var(--text)">Luana T. — Volume Russo</p><p style="font-size:11px;color:var(--text3)">Seg, 11/08 · 09h30 · PIX</p></div><span style="font-size:14px;font-weight:700;color:var(--green)">+R$ 180</span></div>
-      <div class="earn-row"><div><p style="font-size:13px;font-weight:600;color:var(--text)">Rafaela S. — Design Sobrancelha</p><p style="font-size:11px;color:var(--text3)">Sex, 08/08 · 16h00 · PIX</p></div><span style="font-size:14px;font-weight:700;color:var(--green)">+R$ 45</span></div>
-      <div class="earn-row" style="border-bottom:none"><div><p style="font-size:13px;font-weight:600;color:var(--text)">Comissão BelaGo (15%)</p><p style="font-size:11px;color:var(--text3)">Ago/2025 · Debitado automaticamente</p></div><span style="font-size:14px;font-weight:700;color:var(--red)">−R$ 213</span></div>
-    </div>
-    <div style="padding:16px">
-      <button class="btn btn-secondary btn-full" style="padding:13px;font-size:13px" onclick="toast('Extrato completo em breve!')">Baixar extrato completo</button>
-    </div>
-  </div>
-
-  <!-- MEU PERFIL pane -->
-  <div class="sub-pane" id="pt-meu-perfil">
+  <!-- PERFIL pane -->
+  <div class="sub-pane" id="pt-perfil">
     <div style="padding:16px;display:flex;flex-direction:column;gap:14px">
+
+      <!-- Foto de perfil -->
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
-        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px">Foto do perfil</p>
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px">Foto de Perfil</p>
         <div style="display:flex;align-items:center;gap:14px">
-          <div style="width:72px;height:72px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:#fff">FC</div>
-          <button class="btn btn-secondary" style="padding:10px 18px;font-size:13px" onclick="toast('Troca de foto em breve!')">Alterar foto</button>
+          <div style="width:80px;height:80px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;flex-shrink:0">FC</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn btn-secondary" style="padding:9px 16px;font-size:12px" onclick="toast('Câmera / galeria em breve!')">📷 Tirar foto</button>
+            <button class="btn btn-secondary" style="padding:9px 16px;font-size:12px" onclick="toast('Galeria em breve!')">🖼️ Escolher da galeria</button>
+          </div>
         </div>
       </div>
-      <div class="form-group" style="margin-bottom:0">
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:14px">
-          <p style="font-size:13px;font-weight:700;color:var(--text)">Dados Profissionais</p>
-          <div><label class="form-label">Nome completo</label><input class="form-input" value="Fernanda Costa"></div>
-          <div><label class="form-label">Especialidade principal</label><input class="form-input" value="Sobrancelha e Cílios"></div>
-          <div><label class="form-label">Cidade de atuação</label><input class="form-input" value="Betim, MG"></div>
-          <div><label class="form-label">Bio (apresentação)</label><textarea class="form-input" rows="3" style="resize:none;line-height:1.5">Especialista em design de sobrancelha e extensão de cílios com 8 anos de experiência.</textarea></div>
-          <div><label class="form-label">Telefone / WhatsApp</label><input class="form-input" type="tel" value="(31) 9 9999-0000"></div>
-          <button class="btn btn-primary btn-full" style="padding:14px" onclick="toast('Perfil atualizado com sucesso! ✅')">Salvar alterações</button>
+
+      <!-- Dados básicos -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:12px">
+        <p style="font-size:13px;font-weight:700;color:var(--text)">Dados Profissionais</p>
+        <div><label class="form-label">Nome completo</label><input class="form-input" value="Fernanda Costa"></div>
+        <div><label class="form-label">Especialidade principal</label><input class="form-input" value="Sobrancelha e Cílios"></div>
+        <div><label class="form-label">Cidade de atuação</label><input class="form-input" value="Betim, MG"></div>
+        <div><label class="form-label">Telefone / WhatsApp</label><input class="form-input" type="tel" value="(31) 9 9999-0000"></div>
+        <div><label class="form-label">Bio / Apresentação</label><textarea class="form-input" rows="4" style="resize:none;line-height:1.6">Especialista em design de sobrancelha e extensão de cílios com 8 anos de experiência. Atendo no meu estúdio em Betim e também em domicílio.</textarea></div>
+        <button class="btn btn-primary btn-full" style="padding:13px" onclick="toast('Dados salvos! ✅')">Salvar dados</button>
+      </div>
+
+      <!-- Redes sociais -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:12px">
+        <p style="font-size:13px;font-weight:700;color:var(--text)">Redes Sociais</p>
+        <div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#E1306C,#833AB4);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg></div><input class="form-input" placeholder="@seu_instagram" value="@fernandacosta.beauty"></div>
+        <div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:8px;background:#25D366;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></div><input class="form-input" placeholder="(31) 9 9999-0000" value="(31) 9 9999-0000"></div>
+        <div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:8px;background:#1877F2;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div><input class="form-input" placeholder="facebook.com/seuperfil"></div>
+        <div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:8px;background:#E60023;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg></div><input class="form-input" placeholder="pinterest.com/seuperfil"></div>
+        <button class="btn btn-secondary btn-full" style="padding:12px" onclick="toast('Redes sociais salvas! ✅')">Salvar redes sociais</button>
+      </div>
+
+      <!-- Dados financeiros/PIX -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:12px">
+        <p style="font-size:13px;font-weight:700;color:var(--text)">Dados para Recebimento</p>
+        <div><label class="form-label">Tipo de chave PIX</label>
+          <select class="form-input"><option>CPF</option><option>Telefone</option><option>E-mail</option><option>Chave aleatória</option></select>
+        </div>
+        <div><label class="form-label">Chave PIX</label><input class="form-input" value="123.456.789-00" placeholder="Sua chave PIX"></div>
+        <div><label class="form-label">Nome do titular da conta</label><input class="form-input" value="Fernanda Costa"></div>
+        <div style="background:var(--surface2);border-radius:var(--r-sm);padding:10px">
+          <p style="font-size:11px;color:var(--text2);line-height:1.6">💡 Os repasses são realizados automaticamente em até 2 dias úteis após cada atendimento confirmado, descontada a comissão de 15% da BelaGo.</p>
+        </div>
+        <button class="btn btn-primary btn-full" style="padding:12px" onclick="toast('Dados financeiros salvos! ✅')">Salvar dados de pagamento</button>
+      </div>
+
+      <!-- Certificados e cursos -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <p style="font-size:13px;font-weight:700;color:var(--text)">Certificados & Cursos</p>
+          <button class="btn btn-primary-sm" style="padding:6px 12px;font-size:11px" onclick="toast('Adicionar certificado em breve!')">+ Adicionar</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:var(--r-sm)">
+            <div style="width:36px;height:36px;border-radius:var(--r-sm);background:var(--primary-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 11 12 14 22 4"/></svg></div>
+            <div style="flex:1"><p style="font-size:13px;font-weight:600;color:var(--text)">Design de Sobrancelha Avançado</p><p style="font-size:11px;color:var(--text3)">Instituto de Beleza Nacional · 2022</p></div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface2);border-radius:var(--r-sm)">
+            <div style="width:36px;height:36px;border-radius:var(--r-sm);background:var(--primary-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="9 11 12 14 22 4"/></svg></div>
+            <div style="flex:1"><p style="font-size:13px;font-weight:600;color:var(--text)">Extensão de Cílios Volume Russo</p><p style="font-size:11px;color:var(--text3)">Lash Academy BH · 2023</p></div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div style="border:1.5px dashed var(--border2);border-radius:var(--r-sm);padding:12px;text-align:center;cursor:pointer" onclick="toast('Enviar certificado em breve!')">
+            <p style="font-size:12px;color:var(--text3)">+ Enviar certificado (PDF ou foto)</p>
+          </div>
         </div>
       </div>
+
+      <!-- Fotos do trabalho -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <p style="font-size:13px;font-weight:700;color:var(--text)">Fotos do Trabalho</p>
+          <button class="btn btn-primary-sm" style="padding:6px 12px;font-size:11px" onclick="toast('Adicionar foto em breve!')">+ Foto</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+          <div style="aspect-ratio:1;border-radius:var(--r-sm);background:var(--grad);opacity:.7;display:flex;align-items:center;justify-content:center"><span style="font-size:20px">✨</span></div>
+          <div style="aspect-ratio:1;border-radius:var(--r-sm);background:linear-gradient(135deg,#9B5DE5,#C084FC);display:flex;align-items:center;justify-content:center"><span style="font-size:20px">💅</span></div>
+          <div style="aspect-ratio:1;border-radius:var(--r-sm);background:linear-gradient(135deg,#0DC5A8,#06B6D4);display:flex;align-items:center;justify-content:center"><span style="font-size:20px">👁️</span></div>
+          <div style="aspect-ratio:1;border-radius:var(--r-sm);background:linear-gradient(135deg,#F5A623,#F97316);display:flex;align-items:center;justify-content:center"><span style="font-size:20px">💆</span></div>
+          <div style="aspect-ratio:1;border-radius:var(--r-sm);background:var(--surface2);border:1.5px dashed var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer" onclick="toast('Adicionar foto em breve!')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+      </div>
+
+      <!-- Verificação de documentos -->
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px">
         <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">Documentos de Verificação</p>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-          <span style="font-size:13px;color:var(--text)">RG/CPF verificado</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-          <span style="font-size:13px;color:var(--text)">Certificado profissional aprovado</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span style="font-size:13px;color:var(--text)">Comprovante de endereço pendente</span>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:10px;padding:9px;background:var(--surface2);border-radius:var(--r-sm)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:13px;color:var(--text)">RG/CPF verificado</span></div>
+          <div style="display:flex;align-items:center;gap:10px;padding:9px;background:var(--surface2);border-radius:var(--r-sm)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:13px;color:var(--text)">Certificado profissional aprovado</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px;background:var(--amber-bg);border-radius:var(--r-sm)"><div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span style="font-size:13px;color:var(--text)">Comprovante de endereço</span></div><button class="btn" style="padding:5px 10px;font-size:11px;background:var(--amber);color:#fff" onclick="toast('Enviar comprovante em breve!')">Enviar</button></div>
         </div>
       </div>
+
+      <!-- Sair da conta -->
+      <button class="btn btn-danger btn-full" style="padding:14px" onclick="openLogout()">Sair da conta</button>
+
     </div>
   </div>
 
@@ -2348,7 +2410,14 @@ function goTab(id){
   document.getElementById(id).classList.add('active');
   const map=['s-home','s-search','','s-appts','s-profile'];
   document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',map[i]===id));
-  document.querySelector('.tab-center-btn').style.opacity = id==='s-book'?'1':'1';
+  document.querySelector('.tab-center-btn').style.opacity='1';
+  /* mostrar/ocultar tab bars conforme o painel */
+  var clientBar=document.querySelector('.tab-bar:not(#prof-tab-bar)');
+  var profBar=document.getElementById('prof-tab-bar');
+  var isProfPanel=(id==='s-prof-panel');
+  var isAdmin=(id==='s-admin');
+  if(clientBar) clientBar.style.display=(isProfPanel||isAdmin)?'none':'flex';
+  if(profBar)   profBar.style.display=isProfPanel?'flex':'none';
 }
 function goCat(cat){document.getElementById('srch-in').value=cat;goTab('s-search');renderSearch()}
 
@@ -3125,7 +3194,7 @@ initAdminProfList();
 
 /* ── PAINEL PROFISSIONAL ── */
 function switchProfTab(name,btn){
-  document.querySelectorAll('#s-prof-panel .sub-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#prof-tab-bar .tab-btn').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('#s-prof-panel .sub-pane').forEach(p=>p.classList.remove('active'));
   if(btn) btn.classList.add('active');
   var pane=document.getElementById('pt-'+name);
@@ -3137,6 +3206,23 @@ function toggleProfOnline(btn){
 }
 function toggleSvc(btn){
   btn.classList.toggle('on');
+}
+function toggleDay(btn){
+  btn.classList.toggle('on');
+}
+function addExpense(){
+  var desc=document.getElementById('exp-desc').value.trim();
+  var val=parseFloat(document.getElementById('exp-val').value)||0;
+  var cat=document.getElementById('exp-cat').value;
+  if(!desc||!val){ toast('Preencha descrição e valor!'); return; }
+  var list=document.getElementById('finance-list');
+  var row=document.createElement('div');
+  row.className='earn-row';
+  row.innerHTML='<div><p style="font-size:13px;font-weight:600;color:var(--text)">'+desc+'</p><p style="font-size:11px;color:var(--text3)">'+cat+' · Hoje</p></div><span style="font-size:13px;font-weight:700;color:var(--red)">−R$ '+val.toFixed(2)+'</span>';
+  list.appendChild(row);
+  document.getElementById('exp-desc').value='';
+  document.getElementById('exp-val').value='';
+  toast('Despesa registrada: R$ '+val.toFixed(2)+' ✅');
 }
 
 /* ── PAINEL ADMIN ── */
