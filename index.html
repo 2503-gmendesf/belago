@@ -3644,7 +3644,7 @@ function initAdminProfList(){
     try {
       var { data: profRows, error: e1 } = await sb
         .from('professional_profiles')
-        .select('profile_id, specialty, bio, rating, reviews_count, online, status, profiles(name)')
+        .select('profile_id, specialty, bio, rating, reviews_count, online, status, profiles!profile_id(name)')
         .eq('status', 'ativa');
       if (e1) throw e1;
       if (!profRows || !profRows.length) return; // mantém mock se banco ainda vazio
