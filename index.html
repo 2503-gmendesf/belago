@@ -1818,7 +1818,7 @@ initSplash();
     return r.data;
   }
   async function realSignUp(email, password, name){
-    var r = await sb.auth.signUp({ email: email, password: password, options: { data: { name: name, role: 'cliente' } } });
+    var r = await sb.auth.signUp({ email: email, password: password, options: { data: { name: name } } });
     if (r.error) throw r.error;
     return r.data;
   }
