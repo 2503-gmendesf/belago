@@ -1,0 +1,12 @@
+{
+  "name": "belago",
+  "private": true,
+  "description": "BelaGo MVP (single-file HTML). O package.json existe só para o tooling de teste.",
+  "type": "module",
+  "scripts": {
+    "smoke": "node scripts/smoke-test.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
+}
