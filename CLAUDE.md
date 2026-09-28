@@ -25,7 +25,7 @@ belago/
 │   └── api/           Fastify + TypeScript (API mínima)
 ├── packages/
 │   └── shared/        tipos, schemas zod, constantes (roles, status, especialidades, CFG)
-├── supabase/           schema.sql (→ migrations/ na Fase 4)
+├── supabase/           migrations/ (versionadas) + seed.sql
 ├── docs/
 ├── scripts/            smoke-test.mjs (Playwright, roda contra o index.html legado)
 ├── index.html, legal.html   protótipo legado (ver acima)

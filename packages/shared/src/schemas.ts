@@ -5,6 +5,7 @@ import {
   PAYMENT_METHOD,
   PROF_STATUS,
   ROLES,
+  SPECIALTIES,
 } from './constants.js';
 
 export const roleSchema = z.enum(ROLES);
@@ -59,6 +60,11 @@ export const appointmentSchema = z.object({
   clientId: z.string().uuid(),
   professionalId: z.string().uuid(),
   serviceId: z.string().uuid(),
+  // Snapshot do serviço no momento da contratação (CLAUDE.md > Regras de negócio):
+  // alterar/excluir o serviço depois não muda agendamentos já feitos.
+  serviceName: z.string().min(1),
+  category: z.enum(SPECIALTIES),
+  durationMin: z.number().int().positive(),
   slotId: z.string().uuid().nullable(),
   scheduledDate: z.string(),
   scheduledTime: z.string(),

@@ -8,7 +8,8 @@ Marketplace que conecta clientes a profissionais de beleza autônomas (manicure,
 index.html          → aplicação completa (HTML + CSS + JS inline, sem build step)
 legal.html           → Política de Privacidade e Termos de Uso (página pública)
 vercel.json          → configuração de deploy/roteamento no Vercel
-supabase/schema.sql  → schema completo do banco (Postgres/Supabase), com RLS
+supabase/migrations/ → schema do banco (Postgres/Supabase) versionado, com RLS
+supabase/seed.sql    → dados de desenvolvimento (contas demo + profissionais)
 docs/                → materiais de apoio (identidade visual, kickoff, planilhas de discovery)
 CLAUDE.md            → convenções de código e contexto do projeto para o Claude Code
 ```
@@ -25,9 +26,10 @@ Abre em `http://localhost:3000` (ou a porta indicada pelo `serve`).
 
 ## Configurando o Supabase
 
-1. Rode `supabase/schema.sql` no SQL Editor do seu projeto Supabase.
-2. Em `index.html`, dentro do `<head>`, preencha `window.BELAGO_CONFIG` com a `SUPABASE_URL` e a `SUPABASE_ANON_KEY` do seu projeto (Project Settings → API).
-3. Sem essa configuração, o app roda normalmente em **modo demo** (dados mockados, 3 contas fixas: `cliente@belago.app`, `profissional@belago.app`, `admin@belago.app`, senha `123456`).
+1. Local (recomendado para dev): `supabase start` e depois `supabase db reset` na raiz — aplica `supabase/migrations/` e `supabase/seed.sql` (contas demo `cliente@belago.app`, `profissional@belago.app`, senha `123456`, e `admin@belago.app`).
+2. Projeto remoto: rode os arquivos de `supabase/migrations/` em ordem no SQL Editor do seu projeto Supabase.
+3. Em `apps/web/.env`, preencha `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` (Project Settings → API).
+4. Sem essa configuração, o `apps/web` roda normalmente em **modo demo** (DataSource mock, dados em memória/localStorage, as mesmas 3 contas demo acima).
 
 ## Deploy
 

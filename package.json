@@ -14,7 +14,10 @@
     "typecheck": "pnpm --recursive typecheck",
     "smoke": "node scripts/smoke-test.mjs",
     "format": "prettier --write .",
-    "types:supabase": "supabase gen types typescript --project-id <PROJECT_REF> --schema public > packages/shared/src/database.types.ts"
+    "types:supabase": "supabase gen types typescript --project-id <PROJECT_REF> --schema public > packages/shared/src/database.types.ts",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "supabase:reset": "supabase db reset"
   },
   "devDependencies": {
     "@eslint/js": "^9.14.0",
