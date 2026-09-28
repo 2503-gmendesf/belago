@@ -1,0 +1,87 @@
+.kpis-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.kpis-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.kpis-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.kpi-mini {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 10px;
+  text-align: center;
+}
+
+.zone-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.zone-row:last-child {
+  margin-bottom: 0;
+}
+
+.zone-name {
+  width: 82px;
+  flex-shrink: 0;
+}
+
+.zone-track {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--surface2);
+}
+
+.zone-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--ink);
+}
+
+.zone-value {
+  width: 30px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.activity-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.activity-ico {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.warn-banner {
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid var(--border2);
+  border-radius: var(--r-md);
+  font-size: 13px;
+  color: var(--text2);
+}

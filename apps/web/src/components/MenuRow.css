@@ -1,0 +1,42 @@
+.menu-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 56px;
+  padding: 0 16px;
+  background: var(--surface);
+  border: none;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.menu-row:last-child {
+  border-bottom: none;
+}
+
+.menu-row-icon {
+  color: var(--text2);
+  flex-shrink: 0;
+}
+
+.menu-row-label {
+  flex: 1;
+  font-weight: 500;
+}
+
+.menu-row-value {
+  flex-shrink: 0;
+}
+
+.menu-row-chevron {
+  color: var(--text3);
+  flex-shrink: 0;
+}
+
+.menu-row-danger .menu-row-label,
+.menu-row-danger .menu-row-icon {
+  color: var(--bad);
+}
