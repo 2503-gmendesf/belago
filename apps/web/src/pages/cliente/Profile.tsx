@@ -46,7 +46,7 @@ export function Profile() {
     try {
       await dataSource.requestAccountDeletion(user.id);
       setDeleteOpen(false);
-      toast('Solicitação enviada. Sua conta será apagada em até 7 dias.');
+      toast('Sua conta foi excluída.');
       setTimeout(() => {
         void handleConfirmLogout();
       }, 900);

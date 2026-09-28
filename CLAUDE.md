@@ -48,7 +48,14 @@ Fonte única de verdade para tipos e regras de negócio compartilhadas entre `we
 Qualquer regra de negócio (comissão, status válidos, transições permitidas) vive aqui, nunca duplicada em `web` ou `api`.
 
 ### `apps/api`
-Fastify mínimo por enquanto (`GET /health`). Conforme o plano (Fase 5), endpoints futuros ficam restritos a: `POST /appointments` (validação de disponibilidade/conflito/comissão), webhooks de pagamento, `POST /payouts`, `DELETE /account` (LGPD), notificações. Tudo mais é Supabase direto com RLS. `service_role key` só existe na API, nunca no front.
+Fastify. Supabase direto com RLS cobre o CRUD; a API só faz o que exige servidor (Fase 5):
+- `POST /appointments` — valida disponibilidade/conflito, lê preço/duração do serviço no banco (nunca do cliente), calcula taxa de deslocamento e comissão com `packages/shared`, grava o snapshot. O insert direto de agendamento pelo cliente foi removido do RLS (migração 0005); o trigger `trg_appt_no_overlap` é a rede de segurança contra corrida.
+- `DELETE /account` — exclusão LGPD: cancela agendamentos futuros, anonimiza dados pessoais e faz soft delete em `auth.users`.
+- `POST /payouts` e `POST /payouts/:id/process` (admin) — repasse calculado por `create_payout()` (SQL, só `service_role`).
+- `POST /webhooks/payments` — assinatura HMAC-SHA256 (`x-signature`), idempotente por `providerRef`, agnóstico de provedor.
+- Notificações: gravadas em `notifications` (in-app). E-mail/push ainda não implementados.
+
+Estrutura: `app.ts` (Fastify + auth JWT), `routes/`, `repo.ts` (porta de dados), `supabaseRepo.ts` (implementação com `service_role`). Testes Vitest em `test/` usam um `FakeRepo` em memória: `pnpm test`. Config em `apps/api/.env` (ver `.env.example`). O front chama a API via `VITE_API_URL`.
 
 ### `apps/web`
 Vite + React + TS. Ainda não tem roteamento, layouts nem camada de dados (Fase 2 do plano). Ao implementar:

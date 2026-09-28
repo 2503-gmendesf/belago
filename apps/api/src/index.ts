@@ -1,12 +1,17 @@
-import Fastify from 'fastify';
+import { buildApp } from './app.js';
+import { loadConfig } from './config.js';
+import { createServiceClient, createSupabaseAuthenticator, createSupabaseRepo } from './supabaseRepo.js';
 
-const app = Fastify({ logger: true });
+const config = loadConfig();
+const db = createServiceClient(config);
 
-app.get('/health', async () => ({ status: 'ok' }));
+const app = await buildApp({
+  config,
+  authenticate: createSupabaseAuthenticator(db),
+  repo: createSupabaseRepo(db),
+});
 
-const port = Number(process.env.PORT ?? 3333);
-
-app.listen({ port, host: '0.0.0.0' }).catch((err) => {
+app.listen({ port: config.port, host: '0.0.0.0' }).catch((err) => {
   app.log.error(err);
   process.exit(1);
 });

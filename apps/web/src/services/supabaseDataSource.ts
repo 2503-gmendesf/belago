@@ -1,5 +1,5 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import type { Role } from '@belago/shared';
+import { freeTimesForDate, type Role } from '@belago/shared';
 import { env } from '../env.js';
 import type { AppointmentLocation, AppointmentView } from '../features/appointments/types.js';
 import { isoFromDate, toMinutes } from '../lib/format.js';
@@ -13,8 +13,7 @@ import type {
 import type { CreateExpenseInput, Expense } from '../features/proFinance/types.js';
 import type { AuthUser, DataSource } from './types.js';
 
-const NOT_IMPLEMENTED =
-  'Ainda não migrado para o Supabase (painel do admin chega na Fase 5, junto com a API).';
+const NOT_IMPLEMENTED = 'Ainda não migrado para o Supabase (painel do admin).';
 
 function admin404(): never {
   throw new Error(NOT_IMPLEMENTED);
@@ -114,29 +113,6 @@ function toReview(row: ReviewRow): Professional['reviews'][number] {
     text: row.comment ?? '',
     date: row.created_at.slice(0, 10),
   };
-}
-
-/** Horários livres, dado o serviço, os slots abertos na data e os intervalos [inicio,fim) já ocupados. */
-function freeTimesForDate(
-  slots: ProAvailabilitySlot[],
-  date: string,
-  service: ProService,
-  busy: Array<[number, number]>,
-): string[] {
-  const now = new Date();
-  return slots
-    .filter((slot) => slot.all || slot.serviceIds.includes(service.id))
-    .map((slot) => slot.time)
-    .filter((time) => {
-      const [y, m, d] = date.split('-').map(Number);
-      const [h, min] = time.split(':').map(Number);
-      const when = new Date(y ?? 0, (m ?? 1) - 1, d ?? 1, h ?? 0, min ?? 0);
-      if (when <= now) return false;
-      const start = toMinutes(time);
-      const end = start + service.durationMin;
-      return !busy.some(([busyStart, busyEnd]) => start < busyEnd && end > busyStart);
-    })
-    .sort();
 }
 
 export function createSupabaseDataSource(): DataSource {
@@ -298,6 +274,30 @@ export function createSupabaseDataSource(): DataSource {
       rated: reviews.length > 0,
       review: reviews[0] ? { rating: reviews[0].rating, text: reviews[0].comment ?? '' } : null,
     };
+  }
+
+  async function callApi(method: 'POST' | 'DELETE', path: string, body?: unknown): Promise<void> {
+    if (!env.apiUrl) throw new Error('API não configurada (VITE_API_URL)');
+    const { data } = await client.auth.getSession();
+    const token = data.session?.access_token;
+    if (!token) throw new Error('Sessão expirada. Entre novamente.');
+    let res: Response;
+    try {
+      res = await fetch(`${env.apiUrl}${path}`, {
+        method,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          ...(body ? { 'Content-Type': 'application/json' } : {}),
+        },
+        body: body ? JSON.stringify(body) : undefined,
+      });
+    } catch {
+      throw new Error('Não foi possível falar com o servidor. Tente novamente.');
+    }
+    if (!res.ok) {
+      const err = (await res.json().catch(() => null)) as { message?: string } | null;
+      throw new Error(err?.message ?? 'Não foi possível concluir a operação');
+    }
   }
 
   async function assertOwnProfessional(userId: string): Promise<void> {
@@ -475,8 +475,28 @@ export function createSupabaseDataSource(): DataSource {
       return (data as unknown as AppointmentRow[]).map(toAppointmentView);
     },
 
-    async createAppointment() {
-      throw new Error('Criação de agendamento com validação de servidor chega na Fase 5 (API)');
+    async createAppointment(clientId, input) {
+      // Preço, comissão e disponibilidade são validados na API; o front só envia a intenção.
+      await callApi('POST', '/appointments', {
+        professionalId: input.professionalId,
+        serviceId: input.serviceId,
+        scheduledDate: input.scheduledDate,
+        scheduledTime: input.scheduledTime,
+        location: input.location,
+        address: input.address || undefined,
+      });
+      const { data } = await client
+        .from('appointments')
+        .select(
+          '*, reviews ( rating, comment ), professional:professional_id ( profiles:profile_id ( name ) )',
+        )
+        .eq('client_id', clientId)
+        .eq('professional_id', input.professionalId)
+        .eq('scheduled_date', input.scheduledDate)
+        .eq('scheduled_time', input.scheduledTime)
+        .neq('status', 'cancelado')
+        .single();
+      return toAppointmentView(data as unknown as AppointmentRow);
     },
 
     async cancelAppointment(clientId, appointmentId) {
@@ -529,11 +549,9 @@ export function createSupabaseDataSource(): DataSource {
       return toAuthUser(userId, current.data.session?.user.email ?? input.email);
     },
 
-    async requestAccountDeletion(userId) {
-      const { error } = await client
-        .from('account_deletion_requests')
-        .insert({ profile_id: userId });
-      if (error) throw new Error('Não foi possível registrar a solicitação');
+    async requestAccountDeletion() {
+      // A exclusão (LGPD) roda na API: exige service_role para remover o acesso em auth.users.
+      await callApi('DELETE', '/account');
     },
 
     async getMyProfessional(userId) {
