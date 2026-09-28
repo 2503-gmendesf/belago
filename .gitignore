@@ -2,3 +2,8 @@
 .vercel
 *.log
 node_modules/
+dist/
+.env
+.env.local
+apps/web/dist/
+apps/api/dist/

@@ -1,0 +1,26 @@
+:root {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --surface2: #f4f4f5;
+  --border: #e6e6e9;
+  --border2: #d2d2d8;
+
+  --text: #0a0a0a;
+  --text2: #5c5c66;
+  --text3: #9a9aa4;
+
+  --ink: #0a0a0a;
+  --on-ink: #ffffff;
+
+  --accent: #e8448a;
+  --ok: #15803d;
+  --warn: #b45309;
+  --bad: #b91c1c;
+
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 22px;
+
+  --font: 'DM Sans', system-ui, -apple-system, sans-serif;
+}

@@ -1,0 +1,81 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--surface2);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  white-space: nowrap;
+}
+
+.tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text3);
+}
+
+.tag-ok::before {
+  background: var(--ok);
+}
+
+.tag-bad::before {
+  background: var(--bad);
+}
+
+.tag-warn::before {
+  background: var(--warn);
+}
+
+.appt-card {
+  margin-bottom: 10px;
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0 4px;
+}
+
+.stars button {
+  width: 40px;
+  height: 40px;
+  color: var(--border2);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.stars button.lit {
+  color: var(--ink);
+}
+
+.stars .ic {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 12px 14px;
+  border: 1px solid var(--border2);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  outline: none;
+  font-size: 15px;
+  font-family: var(--font);
+  color: var(--text);
+  resize: vertical;
+}
+
+.textarea:focus {
+  border-color: var(--ink);
+}

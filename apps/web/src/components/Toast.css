@@ -1,0 +1,26 @@
+.toast {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 86px;
+  background: var(--ink);
+  color: #fff;
+  padding: 13px 16px;
+  border-radius: var(--r-md);
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 100;
+  text-align: center;
+  animation: toast-fade 0.2s ease;
+}
+
+@keyframes toast-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
