@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { dataSource, type AuthUser, type ProfileUpdateInput } from '../services/index.js';
+import { dataSource, type AuthUser, type ProfileUpdateInput, type SignUpInput } from '../services/index.js';
 
 interface AuthContextValue {
   user: AuthUser | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<AuthUser>;
+  signUp: (input: SignUpInput) => Promise<AuthUser | null>;
   doLogout: () => Promise<void>;
   updateProfile: (input: ProfileUpdateInput) => Promise<AuthUser>;
 }
@@ -28,6 +29,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return loggedUser;
   }
 
+  async function signUp(input: SignUpInput) {
+    const created = await dataSource.signUp(input);
+    if (created) setUser(created);
+    return created;
+  }
+
   async function doLogout() {
     await dataSource.signOut();
     setUser(null);
@@ -41,7 +48,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, doLogout, updateProfile }}>
+    <AuthContext.Provider value={{ user, loading, signIn, signUp, doLogout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );

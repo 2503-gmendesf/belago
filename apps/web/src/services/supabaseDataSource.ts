@@ -318,6 +318,19 @@ export function createSupabaseDataSource(): DataSource {
       return toAuthUser(data.user.id, data.user.email ?? email);
     },
 
+    async signUp({ name, email, phone, password }) {
+      // O papel nunca vem do cliente: o trigger handle_new_user cria o perfil como 'cliente' por padrão.
+      const { data, error } = await client.auth.signUp({ email, password, options: { data: { name } } });
+      if (error) {
+        throw new Error(
+          /registered/i.test(error.message) ? 'Este e-mail já está cadastrado' : 'Não foi possível criar a conta',
+        );
+      }
+      if (!data.user || !data.session) return null;
+      if (phone) await client.from('profiles').update({ phone }).eq('id', data.user.id);
+      return toAuthUser(data.user.id, data.user.email ?? email);
+    },
+
     async signOut() {
       await client.auth.signOut();
     },

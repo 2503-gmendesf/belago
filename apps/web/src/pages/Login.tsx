@@ -136,7 +136,7 @@ export function Login() {
 
         <p className="small muted login-register">
           Não tem conta?{' '}
-          <button type="button" onClick={() => toast('Cadastro em breve')}>
+          <button type="button" onClick={() => navigate('/cadastro')}>
             Cadastre-se grátis
           </button>
         </p>

@@ -30,6 +30,13 @@ export interface AuthUser {
   photoUrl: string;
 }
 
+export interface SignUpInput {
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+}
+
 export interface ProfileUpdateInput {
   name: string;
   email: string;
@@ -55,6 +62,8 @@ export interface ProPresentationInput {
 export interface DataSource {
   /** Autentica por e-mail/senha e retorna o usuário logado. */
   signIn(email: string, password: string): Promise<AuthUser>;
+  /** Cria uma conta de cliente. Retorna o usuário logado, ou null se ainda depende de confirmação por e-mail. */
+  signUp(input: SignUpInput): Promise<AuthUser | null>;
   /** Encerra a sessão atual. */
   signOut(): Promise<void>;
   /** Retorna a sessão restaurada (ex.: ao recarregar a página), ou null se não houver. */

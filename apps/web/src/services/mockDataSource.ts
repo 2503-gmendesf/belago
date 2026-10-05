@@ -9,6 +9,15 @@ import { ADMIN_FINANCE } from '../features/admin/fixtures.js';
 import type { AuthUser, DataSource } from './types.js';
 
 const STORAGE_KEY = 'belago:mock-session';
+const USERS_KEY = 'belago:mock-users';
+
+function readRegistered(): Record<string, { password: string; user: AuthUser }> {
+  try {
+    return JSON.parse(localStorage.getItem(USERS_KEY) ?? '{}') as Record<string, { password: string; user: AuthUser }>;
+  } catch {
+    return {};
+  }
+}
 
 /** Vincula o usuário demo de cada papel à profissional correspondente nas fixtures. */
 const PROFESSIONAL_ID_BY_USER: Record<string, string> = {
@@ -90,13 +99,33 @@ export function createMockDataSource(): DataSource {
   adminStore.hydrate();
   return {
     async signIn(email, password) {
-      const entry = DEMO_USERS[email.trim().toLowerCase()];
+      const key = email.trim().toLowerCase();
+      const entry = DEMO_USERS[key] ?? readRegistered()[key];
       if (!entry || entry.password !== password) {
         throw new Error('E-mail ou senha incorretos');
       }
       await delay(null);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(entry.user));
       return entry.user;
+    },
+
+    async signUp({ name, email, phone, password }) {
+      const key = email.trim().toLowerCase();
+      const registered = readRegistered();
+      if (DEMO_USERS[key] || registered[key]) throw new Error('Este e-mail já está cadastrado');
+      await delay(null);
+      const user: AuthUser = {
+        id: `local-${Date.now()}`,
+        email: key,
+        name: name.trim(),
+        role: 'cliente',
+        phone,
+        photoUrl: '',
+      };
+      registered[key] = { password, user };
+      localStorage.setItem(USERS_KEY, JSON.stringify(registered));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+      return user;
     },
 
     async signOut() {

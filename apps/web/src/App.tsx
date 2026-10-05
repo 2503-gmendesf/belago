@@ -17,6 +17,7 @@ import { Config as AdminConfig } from './pages/admin/Config.js';
 import { Perfil as AdminPerfil } from './pages/admin/Perfil.js';
 import { Login } from './pages/Login.js';
 import { Onboarding } from './pages/Onboarding.js';
+import { Register } from './pages/Register.js';
 import { Legal } from './pages/Legal.js';
 import { PlaceholderScreen } from './pages/PlaceholderScreen.js';
 import { Home } from './pages/cliente/Home.js';
@@ -43,7 +44,8 @@ export function App() {
         <Routes>
           <Route path="/" element={<RootRedirect />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/legal" element={<Legal />} />
+          <Route path="/cadastro" element={<Register />} />
+          <Route path="/legal"element={<Legal />} />
 
           <Route element={<RoleRoute role="cliente" />}>
             <Route
