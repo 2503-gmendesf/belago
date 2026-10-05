@@ -16,6 +16,7 @@ import { Financeiro as AdminFinanceiro } from './pages/admin/Financeiro.js';
 import { Config as AdminConfig } from './pages/admin/Config.js';
 import { Perfil as AdminPerfil } from './pages/admin/Perfil.js';
 import { Login } from './pages/Login.js';
+import { Onboarding } from './pages/Onboarding.js';
 import { Legal } from './pages/Legal.js';
 import { PlaceholderScreen } from './pages/PlaceholderScreen.js';
 import { Home } from './pages/cliente/Home.js';
@@ -31,7 +32,8 @@ import { BookingProvider } from './features/booking/BookingContext.js';
 function RootRedirect() {
   const { user, loading } = useAuth();
   if (loading) return null;
-  return <Navigate to={user ? roleHome(user.role) : '/login'} replace />;
+  if (!user) return <Onboarding />;
+  return <Navigate to={roleHome(user.role)} replace />;
 }
 
 export function App() {

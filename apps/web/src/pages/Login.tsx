@@ -1,14 +1,16 @@
 import { useState, type FormEvent } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button.js';
+import { Icon } from '../components/Icon.js';
 import { useAuth } from '../context/AuthContext.js';
 import { useToast } from '../components/ToastProvider.js';
 import { roleHome } from '../routes/RoleRoute.js';
+import './login.css';
 
 const QUICK_LOGINS = [
-  { label: 'Cliente demo', email: 'cliente@belago.app' },
-  { label: 'Profissional demo', email: 'profissional@belago.app' },
-  { label: 'Admin demo', email: 'admin@belago.app' },
+  { label: 'Cliente', icon: 'user', email: 'cliente@belago.app' },
+  { label: 'Profissional', icon: 'scissors', email: 'profissional@belago.app' },
+  { label: 'Administrador', icon: 'shield', email: 'admin@belago.app' },
 ];
 
 export function Login() {
@@ -16,7 +18,8 @@ export function Login() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('123456');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   if (user) return <Navigate to={roleHome(user.role)} replace />;
@@ -40,51 +43,103 @@ export function Login() {
   }
 
   return (
-    <div className="app">
-      <div className="screen stack gap16">
-        <h1 className="h1">Entrar no BelaGo</h1>
-        <form className="stack gap12" onSubmit={handleSubmit}>
+    <div className="app login">
+      <div className="login-top">
+        <button className="icon-btn flat" onClick={() => navigate('/')} aria-label="Voltar">
+          <Icon name="chev-l" />
+        </button>
+        <div className="wordmark">
+          <i />
+          BelaGo
+        </div>
+      </div>
+
+      <div className="login-scroll">
+        <h1 className="h1" style={{ marginTop: 20 }}>
+          Bem-vinda de volta
+        </h1>
+        <p className="muted" style={{ marginTop: 6 }}>
+          Entre para agendar com as melhores profissionais
+        </p>
+
+        <div className="demo">
+          <p className="eyebrow">Acesso rápido — demo</p>
+          {QUICK_LOGINS.map((q) => (
+            <button key={q.email} type="button" disabled={submitting} onClick={() => void attemptLogin(q.email, '123456')}>
+              <Icon name={q.icon} />
+              <div className="grow">
+                <p className="h3">{q.label}</p>
+                <p className="tiny muted">{q.email} · 123456</p>
+              </div>
+              <Icon name="chev-r" className="faint ic-sm" />
+            </button>
+          ))}
+        </div>
+
+        <div className="stack gap8">
+          <Button type="button" variant="sec" onClick={() => toast('Login com Google em breve')}>
+            <Icon name="google" className="fill" />
+            Continuar com Google
+          </Button>
+          <Button type="button" variant="sec" onClick={() => toast('Login com Apple em breve')}>
+            <Icon name="apple" className="fill" />
+            Continuar com Apple
+          </Button>
+        </div>
+
+        <div className="or">ou use seu e-mail</div>
+
+        <form onSubmit={handleSubmit}>
           <div className="field">
             <label htmlFor="login-email">E-mail</label>
             <input
               id="login-email"
               className="input"
               type="email"
+              placeholder="seu@email.com"
+              autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
-          <div className="field">
+          <div className="field login-pass">
             <label htmlFor="login-pass">Senha</label>
             <input
               id="login-pass"
               className="input"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="••••••••"
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <button
+              type="button"
+              className="login-eye"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+            >
+              <Icon name={showPassword ? 'eye-off' : 'eye'} />
+            </button>
+          </div>
+          <div className="login-forgot">
+            <button type="button" className="small muted" onClick={() => toast('Link de recuperação enviado para seu e-mail')}>
+              Esqueceu a senha?
+            </button>
           </div>
           <Button type="submit" disabled={submitting}>
             Entrar
           </Button>
         </form>
-        <div className="demo stack gap8">
-          <p className="eyebrow">Contas demo</p>
-          {QUICK_LOGINS.map((q) => (
-            <Button
-              key={q.email}
-              type="button"
-              variant="sec"
-              size="sm"
-              disabled={submitting}
-              onClick={() => void attemptLogin(q.email, '123456')}
-            >
-              {q.label}
-            </Button>
-          ))}
-        </div>
+
+        <p className="small muted login-register">
+          Não tem conta?{' '}
+          <button type="button" onClick={() => toast('Cadastro em breve')}>
+            Cadastre-se grátis
+          </button>
+        </p>
       </div>
     </div>
   );

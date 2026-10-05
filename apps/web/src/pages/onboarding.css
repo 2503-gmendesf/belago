@@ -1,0 +1,77 @@
+.ob {
+  background: var(--surface);
+}
+
+.ob-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px 0;
+}
+
+.ob-skip {
+  font-weight: 600;
+}
+
+.ob-viewport {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.ob-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.35s ease;
+}
+
+.ob-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  padding: 0 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+.ob-big {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.ob-big .ic {
+  width: 32px;
+  height: 32px;
+  stroke-width: 1.5;
+}
+
+.ob-bottom {
+  padding: 0 24px 32px;
+}
+
+.ob-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.ob-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border2);
+  transition: all 0.25s;
+}
+
+.ob-dot.active {
+  width: 22px;
+  background: var(--ink);
+}

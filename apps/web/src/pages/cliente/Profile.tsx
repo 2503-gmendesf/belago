@@ -37,7 +37,7 @@ export function Profile() {
   async function handleConfirmLogout() {
     await doLogout();
     toast('Até logo');
-    navigate('/login', { replace: true });
+    navigate('/', { replace: true });
   }
 
   async function handleConfirmDelete() {
