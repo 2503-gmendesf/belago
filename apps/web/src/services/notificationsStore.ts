@@ -35,6 +35,27 @@ function seed(): AppNotification[] {
   ];
 }
 
+function seedPro(): AppNotification[] {
+  return [
+    {
+      id: 'n1',
+      type: 'agendamento',
+      title: 'Novo agendamento',
+      body: 'Amanda Ribeiro agendou Design de Sobrancelha.',
+      at: minutesAgo(90),
+      read: false,
+    },
+    {
+      id: 'n2',
+      type: 'sistema',
+      title: 'Comunicado',
+      body: 'Seu perfil está verificado e visível para clientes.',
+      at: minutesAgo(2000),
+      read: true,
+    },
+  ];
+}
+
 function readAll(): Record<string, AppNotification[]> {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -51,7 +72,7 @@ function writeAll(all: Record<string, AppNotification[]>): void {
 export function listForUser(userId: string): AppNotification[] {
   const all = readAll();
   if (!all[userId]) {
-    all[userId] = seed();
+    all[userId] = userId === 'demo-profissional' ? seedPro() : seed();
     writeAll(all);
   }
   return all[userId];

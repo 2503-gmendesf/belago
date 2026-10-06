@@ -19,7 +19,7 @@ import { Login } from './pages/Login.js';
 import { Onboarding } from './pages/Onboarding.js';
 import { Register } from './pages/Register.js';
 import { Legal } from './pages/Legal.js';
-import { PlaceholderScreen } from './pages/PlaceholderScreen.js';
+import { Inicio as ProInicio } from './pages/profissional/Inicio.js';
 import { Home } from './pages/cliente/Home.js';
 import { Search } from './pages/cliente/Search.js';
 import { ProfessionalDetail } from './pages/cliente/ProfessionalDetail.js';
@@ -70,7 +70,7 @@ export function App() {
 
           <Route element={<RoleRoute role="profissional" />}>
             <Route element={<ProfLayout />}>
-              <Route path="/profissional" element={<PlaceholderScreen title="Início" />} />
+              <Route path="/profissional" element={<ProInicio />} />
               <Route path="/profissional/agenda" element={<ProfAgenda />} />
               <Route path="/profissional/financeiro" element={<ProfFinanceiro />} />
               <Route path="/profissional/servicos" element={<ProfServicos />} />
