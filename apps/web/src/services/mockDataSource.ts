@@ -5,6 +5,7 @@ import * as availabilityStore from './availabilityStore.js';
 import * as professionalStore from './professionalStore.js';
 import * as expensesStore from './expensesStore.js';
 import * as adminStore from './adminStore.js';
+import * as notificationsStore from './notificationsStore.js';
 import { ADMIN_FINANCE } from '../features/admin/fixtures.js';
 import type { AuthUser, DataSource } from './types.js';
 
@@ -311,6 +312,14 @@ export function createMockDataSource(): DataSource {
       rawProById(professionalId);
       professionalStore.update(professionalId, { pix, bank });
       return proById(professionalId);
+    },
+
+    async listNotifications(userId) {
+      return notificationsStore.listForUser(userId);
+    },
+
+    async markNotificationsRead(userId) {
+      return notificationsStore.markAllRead(userId);
     },
 
     async listExpenses(professionalId) {

@@ -1,8 +1,9 @@
 .toast {
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 86px;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(390px, calc(100% - 40px));
+  bottom: calc(86px + env(safe-area-inset-bottom, 0px));
   background: var(--ink);
   color: #fff;
   padding: 13px 16px;
@@ -12,15 +13,20 @@
   z-index: 100;
   text-align: center;
   animation: toast-fade 0.2s ease;
+  transition: opacity 0.3s;
+}
+
+.toast-leave {
+  opacity: 0;
 }
 
 @keyframes toast-fade {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translate(-50%, 6px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, 0);
   }
 }

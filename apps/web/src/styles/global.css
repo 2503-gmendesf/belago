@@ -1,7 +1,12 @@
 @import './tokens.css';
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
@@ -21,6 +26,21 @@ body {
 
 #root {
   height: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
 }
 
 .app {
@@ -47,22 +67,62 @@ body {
   }
 }
 
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-bg {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
 .screen {
+  animation: fade 0.2s ease;
   flex: 1;
   overflow-y: auto;
-  padding: 16px;
-  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  overflow-x: hidden;
+  padding: 20px 20px 96px;
+  scrollbar-width: none;
+}
+
+.screen::-webkit-scrollbar {
+  display: none;
 }
 
 .h1 {
   font-size: 26px;
   font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
   margin: 0;
 }
 
 .h2 {
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   margin: 0;
 }
 

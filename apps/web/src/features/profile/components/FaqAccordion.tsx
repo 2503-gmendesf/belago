@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Icon } from '../../../components/Icon.js';
 
 interface FaqAccordionProps {
-  items: Array<[string, string]>;
+  items: Array<[string, ReactNode]>;
 }
 
 export function FaqAccordion({ items }: FaqAccordionProps) {
@@ -16,7 +16,7 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
             {question}
             <Icon name="chevron-down" />
           </button>
-          <p className="faq-a">{answer}</p>
+          <div className="faq-a">{answer}</div>
         </div>
       ))}
     </div>

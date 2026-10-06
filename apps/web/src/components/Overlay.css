@@ -1,7 +1,8 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(10, 10, 10, 0.4);
+  background: rgba(10, 10, 10, 0.45);
+  animation: fade-bg 0.2s ease;
   display: flex;
   align-items: flex-end;
   z-index: 90;
@@ -14,10 +15,29 @@
   border-radius: var(--r-xl) var(--r-xl) 0 0;
   overflow-y: auto;
   padding: 8px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+  animation: sheet-up 0.25s ease;
+  scrollbar-width: none;
 }
 
 .sheet-full {
   max-height: 100%;
   height: 100%;
   border-radius: 0;
+}
+
+.grab {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border2);
+  margin: 6px auto 14px;
+}
+
+.sheet-hd {
+  margin-bottom: 16px;
+}
+
+.icon-btn.flat {
+  border-color: transparent;
+  background: transparent;
 }

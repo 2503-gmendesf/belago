@@ -8,6 +8,7 @@ import type {
   Professional,
   ProServiceInput,
 } from '../features/discovery/types.js';
+import type { AppNotification } from '../features/notifications/types.js';
 import type { CreateExpenseInput, Expense } from '../features/proFinance/types.js';
 import type {
   AdminClient,
@@ -91,6 +92,11 @@ export interface DataSource {
   cancelAppointment(clientId: string, appointmentId: string): Promise<AppointmentView>;
   /** Avalia um atendimento já realizado (nota de 0 a 5 e observação). */
   rateAppointment(clientId: string, appointmentId: string, rating: number, text: string): Promise<AppointmentView>;
+
+  /** Notificações in-app do usuário, da mais recente para a mais antiga. */
+  listNotifications(userId: string): Promise<AppNotification[]>;
+  /** Marca todas as notificações do usuário como lidas e retorna a lista atualizada. */
+  markNotificationsRead(userId: string): Promise<AppNotification[]>;
 
   /** Atualiza nome, e-mail, telefone e foto do usuário logado. */
   updateProfile(userId: string, input: ProfileUpdateInput): Promise<AuthUser>;

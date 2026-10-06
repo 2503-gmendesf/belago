@@ -7,6 +7,8 @@ import { useSearchFilters } from '../../features/discovery/SearchFiltersContext.
 import { ProfessionalCard } from '../../features/discovery/components/ProfessionalCard.js';
 import { CATEGORIES, distanceOf } from '../../features/discovery/utils.js';
 import { Icon } from '../../components/Icon.js';
+import { NotificationsOverlay } from '../../features/notifications/NotificationsOverlay.js';
+import { useNotifications } from '../../features/notifications/useNotifications.js';
 
 type HomeMode = 'near' | 'fav';
 
@@ -17,6 +19,8 @@ export function Home() {
   const { favoriteIds } = useFavorites();
   const { startCategorySearch } = useSearchFilters();
   const [mode, setMode] = useState<HomeMode>('near');
+  const [notifOpen, setNotifOpen] = useState(false);
+  const { notifications, hasUnread, markAllRead } = useNotifications();
 
   function goToCategory(id: Parameters<typeof startCategorySearch>[0]) {
     startCategorySearch(id);
@@ -42,13 +46,17 @@ export function Home() {
             precisa hoje?
           </h1>
         </div>
+        <button className="icon-btn" onClick={() => setNotifOpen(true)} aria-label="Notificações">
+          <Icon name="bell" />
+          {hasUnread && <span className="dot" />}
+        </button>
       </div>
 
       <div className="section">
         <div className="section-hd">
           <h2 className="h2">Serviços</h2>
         </div>
-        <div className="hscroll" style={{ marginTop: 12 }}>
+        <div className="hscroll">
           {CATEGORIES.map((c) => (
             <button key={c.id} className="cat" onClick={() => goToCategory(c.id)}>
               <div className="cat-img">
@@ -64,7 +72,7 @@ export function Home() {
         <div className="section-hd">
           <h2 className="h2">Profissionais</h2>
         </div>
-        <div className="seg" style={{ marginTop: 12 }}>
+        <div className="seg">
           <button className={mode === 'near' ? 'active' : ''} onClick={() => setMode('near')}>
             Mais próximos
           </button>
@@ -85,6 +93,14 @@ export function Home() {
           )}
         </div>
       </div>
+      <NotificationsOverlay
+        open={notifOpen}
+        onClose={() => setNotifOpen(false)}
+        notifications={notifications}
+        onMarkAllRead={() => {
+          void markAllRead().then(() => setNotifOpen(false));
+        }}
+      />
     </div>
   );
 }

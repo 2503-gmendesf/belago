@@ -16,7 +16,10 @@ export function Overlay({ open, onClose, children, full = false }: OverlayProps)
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className={`sheet${full ? ' sheet-full' : ''}`}>{children}</div>
+      <div className={`sheet${full ? ' sheet-full' : ''}`}>
+        {!full && <div className="grab" />}
+        {children}
+      </div>
     </div>
   );
 }

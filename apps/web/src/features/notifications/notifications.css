@@ -1,0 +1,36 @@
+.notif {
+  display: flex;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.notif:last-of-type {
+  border-bottom: none;
+}
+
+.notif-ico {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notif-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.notif.unread .notif-ttl::after {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-left: 8px;
+}

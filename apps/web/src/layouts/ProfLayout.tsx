@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { TabBar, type TabBarItem } from '../components/TabBar.js';
 
 const ITEMS: TabBarItem[] = [
@@ -10,9 +10,10 @@ const ITEMS: TabBarItem[] = [
 ];
 
 export function ProfLayout() {
+  const { pathname } = useLocation();
   return (
     <div className="app">
-      <div className="screen">
+      <div className="screen" key={pathname}>
         <Outlet />
       </div>
       <TabBar items={ITEMS} ariaLabel="Navegação da profissional" />

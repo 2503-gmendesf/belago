@@ -79,3 +79,10 @@ export function plural(n: number, singular: string, pluralForm: string): string 
 }
 
 export { DOW, MON };
+
+export function ago(iso: string): string {
+  const m = Math.max(1, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+  if (m < 60) return `há ${m} min`;
+  if (m < 1440) return `há ${Math.round(m / 60)} h`;
+  return `há ${Math.round(m / 1440)} d`;
+}

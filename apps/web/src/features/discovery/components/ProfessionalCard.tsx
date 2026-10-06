@@ -34,7 +34,7 @@ export function ProfessionalCard({ professional: p }: ProfessionalCardProps) {
         if (e.key === 'Enter') navigate(`/cliente/profissional/${p.id}`);
       }}
     >
-      <div className="avatar">{p.photoUrl ? '' : initials(p.name)}</div>
+      <div className="avatar avatar-md">{p.photoUrl ? '' : initials(p.name)}</div>
       <div className="pro-body">
         <div className="pro-head">
           <p className="h3 ell">{p.name}</p>

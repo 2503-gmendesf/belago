@@ -33,6 +33,12 @@
   overflow: hidden;
 }
 
+.avatar-md {
+  width: 64px;
+  height: 64px;
+  font-size: 20px;
+}
+
 .avatar-lg {
   width: 72px;
   height: 72px;
@@ -83,8 +89,8 @@
 .pro-meta {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin: 2px 0;
+  gap: 10px;
+  margin: 2px 0 6px;
 }
 
 .pro-rating {
@@ -113,27 +119,33 @@
   gap: 12px;
   overflow-x: auto;
   scrollbar-width: none;
-  padding-bottom: 4px;
+  margin: 0 -20px;
+  padding: 2px 20px;
+  scroll-snap-type: x proximity;
+  scroll-padding: 0 20px;
+}
+
+.hscroll::-webkit-scrollbar {
+  display: none;
 }
 
 .cat {
   flex-shrink: 0;
-  width: 84px;
+  width: 112px;
+  scroll-snap-align: start;
+  text-align: left;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--text);
 }
 
 .cat-img {
-  width: 64px;
-  height: 64px;
+  width: 112px;
+  height: 132px;
   border-radius: var(--r-lg);
   background: var(--surface2);
   border: 1px solid var(--border);
@@ -143,14 +155,21 @@
   color: var(--text2);
 }
 
+.cat-img .ic {
+  width: 30px;
+  height: 30px;
+  stroke-width: 1.4;
+}
+
 .section {
-  margin-top: 24px;
+  margin-top: 26px;
 }
 
 .section-hd {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
+  margin-bottom: 12px;
 }
 
 .chips {
@@ -211,6 +230,7 @@
 .seg button.active {
   background: var(--surface);
   color: var(--text);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .search-box {

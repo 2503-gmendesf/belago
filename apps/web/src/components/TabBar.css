@@ -30,3 +30,8 @@
 .tab-btn-active {
   color: var(--ink);
 }
+
+.tab-btn .ic {
+  width: 22px;
+  height: 22px;
+}

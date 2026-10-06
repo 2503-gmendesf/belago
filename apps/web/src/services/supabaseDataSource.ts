@@ -10,6 +10,11 @@ import type {
   Professional,
   ProService,
 } from '../features/discovery/types.js';
+import {
+  NOTIFICATION_ICON,
+  type AppNotification,
+  type NotificationType,
+} from '../features/notifications/types.js';
 import type { CreateExpenseInput, Expense } from '../features/proFinance/types.js';
 import type { AuthUser, DataSource } from './types.js';
 
@@ -117,6 +122,23 @@ function toReview(row: ReviewRow): Professional['reviews'][number] {
 
 export function createSupabaseDataSource(): DataSource {
   const client: SupabaseClient = createClient(env.supabaseUrl, env.supabaseAnonKey);
+
+  async function fetchNotifications(userId: string): Promise<AppNotification[]> {
+    const { data, error } = await client
+      .from('notifications')
+      .select('id, icon, title, body, read, created_at')
+      .eq('profile_id', userId)
+      .order('created_at', { ascending: false });
+    if (error) throw new Error('Não foi possível carregar as notificações');
+    return (data ?? []).map((row): AppNotification => ({
+      id: row.id as string,
+      type: (row.icon && row.icon in NOTIFICATION_ICON ? row.icon : 'sistema') as NotificationType,
+      title: row.title as string,
+      body: row.body as string,
+      at: row.created_at as string,
+      read: Boolean(row.read),
+    }));
+  }
 
   async function toAuthUser(userId: string, fallbackEmail: string): Promise<AuthUser> {
     const { data: profile, error } = await client
@@ -748,6 +770,20 @@ export function createSupabaseDataSource(): DataSource {
       const pro = await fetchProfessional(professionalId);
       if (!pro) throw new Error('Profissional não encontrada');
       return pro;
+    },
+
+    async listNotifications(userId) {
+      return fetchNotifications(userId);
+    },
+
+    async markNotificationsRead(userId) {
+      const { error } = await client
+        .from('notifications')
+        .update({ read: true })
+        .eq('profile_id', userId)
+        .eq('read', false);
+      if (error) throw new Error('Não foi possível atualizar as notificações');
+      return fetchNotifications(userId);
     },
 
     async listExpenses(professionalId) {

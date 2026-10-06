@@ -31,6 +31,10 @@
   display: block;
 }
 
+.faq-a p + p {
+  margin-top: 12px;
+}
+
 .faq-open .ic {
   transform: rotate(180deg);
 }
