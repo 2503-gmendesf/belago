@@ -43,3 +43,4 @@ npx vercel --prod # deploy de produção (dentro do projeto Vercel correto)
 ## Publicação nas lojas (Play Store / App Store)
 
 Ver `docs/` e o projeto BelaGo no Claude para o roadmap completo de publicação, checklist de assets e guia de configuração manual (contas de desenvolvedor, credenciais OAuth, etc.).
+
