@@ -3,16 +3,13 @@
 ## O que é o BelaGo
 BelaGo é um marketplace de beleza ("O Uber da Beleza") que conecta clientes a profissionais de beleza autônomas (cabelo, unhas, sobrancelha, cílios, maquiagem, depilação, penteado, micropigmentação). Foco em BH e região metropolitana (Betim, Contagem, Sabará).
 
-## Migração em andamento (branch `migracao-monorepo`)
-O projeto está sendo migrado do protótipo single-file (`index.html`) para um monorepo TypeScript (`apps/web` + `apps/api`), seguindo `docs/PLANO-MIGRACAO.pdf`. Decisões já tomadas:
+## Monorepo (migração concluída)
+O projeto foi migrado do protótipo single-file para um monorepo TypeScript (`apps/web` + `apps/api`), conforme `docs/PLANO-MIGRACAO.pdf`, e roda na branch `main`. O protótipo original (`index.html`, `legal.html`) está preservado na branch `belago-legado`, apenas como registro. Decisões tomadas:
 - Gerenciador de pacotes: **pnpm** (workspaces). Node fixado em `.nvmrc`.
 - Front: **React + Vite + TypeScript**.
 - API: **Fastify + TypeScript**.
 - Capacitor **continua no roadmap** — `apps/web/dist` deve seguir buildável como app web puro (sem SSR), compatível com empacotamento nativo posterior.
 - O Supabase com RLS cobre o CRUD; a API só existe onde há lógica que não pode rodar no cliente (validação de disponibilidade/comissão, webhooks de pagamento, payouts, exclusão de conta/LGPD, notificações).
-
-### `index.html` legado
-`index.html` (e `legal.html`) permanecem **intactos** até o fim da Fase 4 do plano de migração — servem de referência de comportamento e fallback caso a migração precise ser interrompida. As regras abaixo em "Convenções do protótipo legado" continuam valendo *apenas para esses dois arquivos*. Não adicionar funcionalidade nova a eles; features novas entram já no monorepo.
 
 ---
 
@@ -27,8 +24,6 @@ belago/
 │   └── shared/        tipos, schemas zod, constantes (roles, status, especialidades, CFG)
 ├── supabase/           migrations/ (versionadas) + seed.sql
 ├── docs/
-├── scripts/            smoke-test.mjs (Playwright, roda contra o index.html legado)
-├── index.html, legal.html   protótipo legado (ver acima)
 ├── pnpm-workspace.yaml, tsconfig.base.json, eslint.config.js, .prettierrc.json
 └── CLAUDE.md
 ```
@@ -36,7 +31,6 @@ belago/
 ### Scripts (raiz)
 - `pnpm dev` — sobe `apps/web` (Vite, :5173) e `apps/api` (Fastify, :3333) juntos.
 - `pnpm build` / `pnpm lint` / `pnpm typecheck` — rodam em todos os workspaces.
-- `pnpm smoke` — smoke test Playwright do `index.html` legado (não roda contra o monorepo).
 - `pnpm types:supabase` — regenera `packages/shared/src/database.types.ts` a partir do projeto Supabase real (precisa do `--project-id` e login via `supabase` CLI; não roda em CI).
 
 ### `packages/shared`
@@ -58,11 +52,11 @@ Fastify. Supabase direto com RLS cobre o CRUD; a API só faz o que exige servido
 Estrutura: `app.ts` (Fastify + auth JWT), `routes/`, `repo.ts` (porta de dados), `supabaseRepo.ts` (implementação com `service_role`). Testes Vitest em `test/` usam um `FakeRepo` em memória: `pnpm test`. Config em `apps/api/.env` (ver `.env.example`). O front chama a API via `VITE_API_URL`.
 
 ### `apps/web`
-Vite + React + TS. Ainda não tem roteamento, layouts nem camada de dados (Fase 2 do plano). Ao implementar:
-- Roteamento por papel (`cliente`, `profissional`, `admin`) via React Router, substituindo `goTab()`.
+Vite + React + TS. Estrutura e convenções:
+- Roteamento por papel (`cliente`, `profissional`, `admin`) via React Router.
 - Um layout de tab bar por perfil (`ClienteLayout`, `ProfLayout`, `AdminLayout`) — nunca misturar as três.
 - Design tokens migrados para `tokens.css` (ver paleta abaixo).
-- `AuthContext` no lugar de `currentUser`/`routeUser()`.
+- `AuthContext` para a sessão e o papel do usuário.
 - `services/` com interface `DataSource` (implementações `mock` e `supabase`, alternadas por env).
 - Config via `.env` (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`), nunca `window.BELAGO_CONFIG`.
 
@@ -112,17 +106,6 @@ Sprite de `<symbol>` (traço 1,75px, cantos arredondados, `currentColor`), 24×2
 - Não usar emojis.
 - Não reintroduzir PIN fixo ou senha demo como controle de acesso.
 - Não inserir texto de usuário em HTML sem sanitização/escape.
-- Não remover `index.html`/`legal.html` nem `scripts/smoke-test.mjs` antes do fim da Fase 4.
-
----
-
-## Convenções do protótipo legado (`index.html`, `legal.html` — só estes arquivos)
-- Single-file, sem frameworks, sem bundler, sem arquivos separados.
-- Estado em memória: `DB` (`pros`, `appts`, `expenses`, `notifs`, `favs`) e `ME`.
-- Navegação: `.screen` + `.active`, trocada só via `goTab(id)`; três tab bars mutuamente exclusivas (`.tab-bar`, `#prof-tab-bar`, `#admin-tab-bar`); sub-painéis via `.sub-pane` + `.active` (`switchProfTab`, `switchAdminTab`); `routeUser()` roteia por `currentUser.role`; `doLogout()` volta para `onboard` (`display:flex`).
-- IDs: `s-` (telas), `pt-` (sub-painéis profissional), `at-` (sub-painéis admin), `ov-` (overlays).
-- Utilitários: `toast()`, `goTab()`, `openOv()/closeOv()`, `askConfirm()`, `ic()`, `esc()`, `brl()`, `avatar()`.
-- Todo texto de usuário/banco passa por `esc()`; `onclick` com strings usa `jsArg()`.
 
 ---
 
