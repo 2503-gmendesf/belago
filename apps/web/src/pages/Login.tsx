@@ -3,19 +3,9 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button.js';
 import { Icon } from '../components/Icon.js';
 import { useAuth } from '../context/AuthContext.js';
-import { hasSupabaseConfig } from '../env.js';
 import { useToast } from '../components/ToastProvider.js';
 import { roleHome } from '../routes/RoleRoute.js';
 import './login.css';
-
-// O demo (mock) usa @belago.app; com Supabase, as contas reais de demonstração são @belago.com
-// (criadas por supabase/demo-users.sql).
-const DEMO_DOMAIN = hasSupabaseConfig ? 'belago.com' : 'belago.app';
-const QUICK_LOGINS = [
-  { label: 'Cliente', icon: 'user', email: `cliente@${DEMO_DOMAIN}` },
-  { label: 'Profissional', icon: 'scissors', email: `profissional@${DEMO_DOMAIN}` },
-  { label: 'Administrador', icon: 'shield', email: `admin@${DEMO_DOMAIN}` },
-];
 
 export function Login() {
   const { user, signIn } = useAuth();
@@ -66,21 +56,7 @@ export function Login() {
           Entre para agendar com as melhores profissionais
         </p>
 
-        <div className="demo">
-          <p className="eyebrow">Acesso rápido — demo</p>
-          {QUICK_LOGINS.map((q) => (
-            <button key={q.email} type="button" disabled={submitting} onClick={() => void attemptLogin(q.email, '123456')}>
-              <Icon name={q.icon} />
-              <div className="grow">
-                <p className="h3">{q.label}</p>
-                <p className="tiny muted">{q.email} · 123456</p>
-              </div>
-              <Icon name="chev-r" className="faint ic-sm" />
-            </button>
-          ))}
-        </div>
-
-        <div className="stack gap8">
+        <div className="stack gap8" style={{ marginTop: 24 }}>
           <Button type="button" variant="sec" onClick={() => toast('Login com Google em breve')}>
             <Icon name="google" className="fill" />
             Continuar com Google
