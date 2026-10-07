@@ -78,16 +78,15 @@ interface ProfessionalProfileRow {
   attends_home: boolean;
   photos: string[] | null;
   socials: Professional['socials'] | null;
-  pix_key: string | null;
-  pix_type: string | null;
-  bank_info: ProBankInfo | null;
+  professional_payout_info: { pix_key: string | null; pix_type: string | null; bank_info: ProBankInfo | null } | null;
   profiles: ProfileRow;
   professional_services: ServiceRow[];
 }
 
 const PROFESSIONAL_SELECT = `
   profile_id, specialty, bio, status, rating, reviews_count, city, address, attends_home,
-  photos, socials, pix_key, pix_type, bank_info,
+  photos, socials,
+  professional_payout_info ( pix_key, pix_type, bank_info ),
   profiles!professional_profiles_profile_id_fkey ( name, email, phone, avatar_url ),
   professional_services ( id, name, category, duration_min, price, active )
 `;
@@ -193,8 +192,11 @@ export function createSupabaseDataSource(): DataSource {
       services: row.professional_services.map(toProService),
       reviews,
       availability,
-      pix: { type: (row.pix_type as ProPixInfo['type']) ?? 'cpf', key: row.pix_key ?? '' },
-      bank: row.bank_info ?? { bank: '', agency: '', account: '', type: 'corrente' },
+      pix: {
+        type: (row.professional_payout_info?.pix_type as ProPixInfo['type']) ?? 'cpf',
+        key: row.professional_payout_info?.pix_key ?? '',
+      },
+      bank: row.professional_payout_info?.bank_info ?? { bank: '', agency: '', account: '', type: 'corrente' },
       docs: [],
     };
   }
@@ -878,9 +880,14 @@ export function createSupabaseDataSource(): DataSource {
 
     async savePayout(professionalId, pix, bank) {
       const { error } = await client
-        .from('professional_profiles')
-        .update({ pix_key: pix.key, pix_type: pix.type, bank_info: bank })
-        .eq('profile_id', professionalId);
+        .from('professional_payout_info')
+        .upsert({
+          professional_id: professionalId,
+          pix_key: pix.key,
+          pix_type: pix.type,
+          bank_info: bank,
+          updated_at: new Date().toISOString(),
+        });
       if (error) throw new Error('Não foi possível salvar os dados de recebimento');
       const pro = await fetchProfessional(professionalId);
       if (!pro) throw new Error('Profissional não encontrada');

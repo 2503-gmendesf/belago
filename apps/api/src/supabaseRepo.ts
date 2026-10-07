@@ -219,7 +219,7 @@ export function createSupabaseRepo(db: SupabaseClient): Repo {
       }
 
       await db.from('professional_profiles').update({ status: 'excluida', online: false }).eq('profile_id', userId);
-      await db.from('professional_profiles').update({ pix_key: null, bank_info: null }).eq('profile_id', userId);
+      await db.from('professional_payout_info').delete().eq('professional_id', userId);
       await db.from('professional_documents').delete().eq('professional_id', userId);
       await db.from('addresses').delete().eq('profile_id', userId);
       await db.from('favorites').delete().eq('client_id', userId);
