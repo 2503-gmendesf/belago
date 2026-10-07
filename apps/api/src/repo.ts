@@ -1,4 +1,11 @@
-import type { AvailabilitySlotInput, BusyInterval, PAYMENT_METHOD, Role, Specialty } from '@belago/shared';
+import type {
+  AvailabilitySlotInput,
+  BusyInterval,
+  PAYMENT_METHOD,
+  PlatformRates,
+  Role,
+  Specialty,
+} from '@belago/shared';
 
 export interface AuthUser {
   id: string;
@@ -66,6 +73,8 @@ export interface Repo {
   getService(id: string): Promise<ServiceRecord | null>;
   isMaintenanceMode(): Promise<boolean>;
   isClientBlocked(id: string): Promise<boolean>;
+  /** Taxas configuradas pelo admin (platform_config); na falta, os padrões de `packages/shared`. */
+  getRates(): Promise<PlatformRates>;
   listDaySlots(professionalId: string, date: string): Promise<AvailabilitySlotInput[]>;
   listBusyIntervals(professionalId: string, date: string): Promise<BusyInterval[]>;
   /** Lança `SlotTakenError` se o banco rejeitar por conflito de horário (corrida). */

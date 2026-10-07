@@ -87,6 +87,7 @@ Sprite de `<symbol>` (traço 1,75px, cantos arredondados, `currentColor`), 24×2
 ---
 
 ## Regras de negócio (uma fonte só: `packages/shared/src/constants.ts` → `CFG`)
+`CFG` guarda os valores **padrão**. A API usa as taxas configuradas pelo admin (`platform_config`: comissão, deslocamento, multa) via `repo.getRates()`, caindo em `CFG` se faltar valor; as contas ficam em `rules.ts` (`appointmentFinancials`, `settleFinancials`). O front ainda exibe os valores de `CFG`.
 - Comissão da plataforma **15%**; valores no painel da profissional são líquidos, exceto onde rotulado "bruta".
 - Taxa de deslocamento em domicílio **R$ 20**; multa de cancelamento com menos de **2h**: **30%**.
 - Agendamentos guardam um **snapshot** (nome, categoria, duração, preço) do serviço no momento da contratação. Alterar/excluir o serviço depois não muda agendamentos existentes.

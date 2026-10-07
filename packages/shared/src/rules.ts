@@ -1,13 +1,31 @@
 import { CFG } from './constants.js';
 
+/**
+ * Taxas vigentes da plataforma. Os valores padrão vêm de `CFG`; em produção a API lê as do
+ * admin (tabela `platform_config`) e passa para as funções abaixo.
+ */
+export interface PlatformRates {
+  /** Fração (0.15 = 15%). */
+  commissionRate: number;
+  homeFee: number;
+  /** Fração (0.3 = 30%). */
+  lateCancelPenaltyRate: number;
+}
+
+export const DEFAULT_RATES: PlatformRates = {
+  commissionRate: CFG.commissionRate,
+  homeFee: CFG.homeFee,
+  lateCancelPenaltyRate: CFG.lateCancelPenaltyRate,
+};
+
 /** Preço do serviço + taxa de deslocamento (se houver). */
 export function appointmentTotal(price: number, homeFee: number): number {
   return price + homeFee;
 }
 
 /** Valor líquido para a profissional após a comissão da plataforma. */
-export function netAmount(total: number): number {
-  return total * (1 - CFG.commissionRate);
+export function netAmount(total: number, commissionRate: number = CFG.commissionRate): number {
+  return total * (1 - commissionRate);
 }
 
 /** Verdadeiro quando faltam menos de `CFG.lateCancelHours` para o horário marcado. */
@@ -16,8 +34,8 @@ export function isLateCancellation(startsAt: Date, now: Date = new Date()): bool
 }
 
 /** Multa de cancelamento tardio sobre o valor total do agendamento. */
-export function lateCancelFee(total: number): number {
-  return total * CFG.lateCancelPenaltyRate;
+export function lateCancelFee(total: number, penaltyRate: number = CFG.lateCancelPenaltyRate): number {
+  return total * penaltyRate;
 }
 
 export type AppointmentPhase = 'confirmado' | 'realizado' | 'cancelado';
@@ -32,15 +50,27 @@ export function appointmentPhase(params: { status: string; startsAt: Date; endsA
   return params.endsAt < now ? 'realizado' : 'confirmado';
 }
 
-/** Valores financeiros de um agendamento, calculados no servidor a partir do preço do serviço. */
-export function appointmentFinancials(price: number, location: 'estudio' | 'domicilio') {
-  const homeFee = location === 'domicilio' ? CFG.homeFee : 0;
+/**
+ * Valores de um agendamento a partir do preço, da taxa de deslocamento já definida (snapshot do
+ * agendamento) e da comissão vigente.
+ */
+export function settleFinancials(price: number, homeFee: number, commissionRate: number) {
   const total = appointmentTotal(price, homeFee);
   const round = (n: number) => Math.round(n * 100) / 100;
   return {
     homeFee,
     total: round(total),
-    platformFee: round(total * CFG.commissionRate),
-    net: round(netAmount(total)),
+    platformFee: round(total * commissionRate),
+    net: round(netAmount(total, commissionRate)),
   };
+}
+
+/** Valores financeiros de um novo agendamento, calculados no servidor a partir do preço do serviço. */
+export function appointmentFinancials(
+  price: number,
+  location: 'estudio' | 'domicilio',
+  rates: PlatformRates = DEFAULT_RATES,
+) {
+  const homeFee = location === 'domicilio' ? rates.homeFee : 0;
+  return settleFinancials(price, homeFee, rates.commissionRate);
 }

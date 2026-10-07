@@ -87,6 +87,15 @@ describe('POST /webhooks/payments', () => {
     expect(repo.payments[0]).toMatchObject({ amount: 120, platformFee: 18, netAmount: 102 });
   });
 
+  it('usa a comissão vigente e a taxa de deslocamento gravada no agendamento', async () => {
+    const { send, repo } = await setup();
+    // Agendado quando a taxa era R$ 20; o admin sobe para R$ 50 antes do pagamento.
+    repo.appointments.get(IDS.appt)!.homeFee = 20;
+    repo.rates = { commissionRate: 0.2, homeFee: 50, lateCancelPenaltyRate: 0.3 };
+    expect((await send({ ...event, amount: 120 })).statusCode).toBe(200);
+    expect(repo.payments[0]).toMatchObject({ amount: 120, platformFee: 24, netAmount: 96 });
+  });
+
   it('rejeita evento malformado', async () => {
     const { send } = await setup();
     expect((await send({ ...event, method: 'boleto' })).statusCode).toBe(400);

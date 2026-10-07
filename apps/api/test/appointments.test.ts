@@ -56,6 +56,15 @@ describe('POST /appointments', () => {
     expect(repo.inserted[0]?.address).toBe('Rua A, 10');
   });
 
+  it('usa as taxas configuradas pelo admin, não as constantes', async () => {
+    const { app, repo } = await makeApp();
+    repo.rates = { commissionRate: 0.2, homeFee: 35, lateCancelPenaltyRate: 0.5 };
+    const res = await post(app, body({ location: 'domicilio', address: 'Rua A, 10' }));
+    expect(res.statusCode).toBe(201);
+    expect(res.json()).toMatchObject({ homeFee: 35, total: 135, platformFee: 27, netAmount: 108 });
+    expect(repo.inserted[0]).toMatchObject({ homeFee: 35 });
+  });
+
   it('não grava endereço para atendimento no estúdio', async () => {
     const { app, repo } = await makeApp();
     await post(app, body({ address: 'Rua A, 10' }));

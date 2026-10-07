@@ -1,4 +1,4 @@
-import type { AvailabilitySlotInput, BusyInterval } from '@belago/shared';
+import { DEFAULT_RATES, type AvailabilitySlotInput, type BusyInterval, type PlatformRates } from '@belago/shared';
 import type { FastifyInstance } from 'fastify';
 import { buildApp } from '../src/app.js';
 import {
@@ -37,6 +37,7 @@ export class FakeRepo implements Repo {
   proStatus: string | null = 'ativa';
   maintenance = false;
   clientBlocked = false;
+  rates: PlatformRates = DEFAULT_RATES;
   services = new Map<string, ServiceRecord>([
     [
       IDS.service,
@@ -75,6 +76,9 @@ export class FakeRepo implements Repo {
   }
   async isMaintenanceMode() {
     return this.maintenance;
+  }
+  async getRates() {
+    return this.rates;
   }
   async isClientBlocked() {
     return this.clientBlocked;

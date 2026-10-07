@@ -1,5 +1,5 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import { PAYMENT_METHOD, appointmentFinancials } from '@belago/shared';
+import { PAYMENT_METHOD, settleFinancials } from '@belago/shared';
 import type { FastifyPluginAsync } from 'fastify';
 import { z } from 'zod';
 import { HttpError } from '../errors.js';
@@ -58,7 +58,10 @@ export const webhookRoutes =
       }
 
       // Valor e comissão são recalculados aqui; o que o provedor diz só é conferido, não confiado.
-      const money = appointmentFinancials(appt.price, appt.homeFee > 0 ? 'domicilio' : 'estudio');
+      // O preço e a taxa de deslocamento são o snapshot do agendamento (mudar a taxa na Config
+      // depois do agendamento não pode quebrar o pagamento); a comissão é a vigente no pagamento.
+      const { commissionRate } = await repo.getRates();
+      const money = settleFinancials(appt.price, appt.homeFee, commissionRate);
       if (Math.round(event.amount * 100) !== Math.round(money.total * 100)) {
         throw new HttpError(422, 'Valor pago diverge do valor do agendamento', 'amount_mismatch');
       }

@@ -1,4 +1,4 @@
-import { toMinutes, type AvailabilitySlotInput, type BusyInterval } from '@belago/shared';
+import { DEFAULT_RATES, toMinutes, type AvailabilitySlotInput, type BusyInterval } from '@belago/shared';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Config } from './config.js';
 import {
@@ -70,6 +70,28 @@ export function createSupabaseRepo(db: SupabaseClient): Repo {
     async isMaintenanceMode() {
       const { data } = await db.from('platform_config').select('maintenance_mode').eq('id', 1).maybeSingle();
       return Boolean(data?.maintenance_mode);
+    },
+
+    async getRates() {
+      const { data } = await db
+        .from('platform_config')
+        .select('commission_pct, home_fee, late_cancel_penalty_pct')
+        .eq('id', 1)
+        .maybeSingle();
+      // Valor ausente ou inválido cai no padrão: uma linha mal preenchida não pode zerar a comissão.
+      const pct = (value: unknown, fallback: number) => {
+        const n = Number(value);
+        return value !== null && value !== undefined && Number.isFinite(n) && n >= 0 && n <= 100 ? n / 100 : fallback;
+      };
+      const fee = Number(data?.home_fee);
+      return {
+        commissionRate: pct(data?.commission_pct, DEFAULT_RATES.commissionRate),
+        homeFee:
+          data?.home_fee !== null && data?.home_fee !== undefined && Number.isFinite(fee) && fee >= 0
+            ? fee
+            : DEFAULT_RATES.homeFee,
+        lateCancelPenaltyRate: pct(data?.late_cancel_penalty_pct, DEFAULT_RATES.lateCancelPenaltyRate),
+      };
     },
 
     async isClientBlocked(id) {

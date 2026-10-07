@@ -45,7 +45,7 @@ export const appointmentRoutes =
         throw new HttpError(409, 'Este horário não está mais disponível', 'slot_unavailable');
       }
 
-      const money = appointmentFinancials(service.price, input.location);
+      const money = appointmentFinancials(service.price, input.location, await repo.getRates());
       let created: { id: string };
       try {
         created = await repo.insertAppointment({
