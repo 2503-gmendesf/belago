@@ -88,7 +88,7 @@ interface ProfessionalProfileRow {
 const PROFESSIONAL_SELECT = `
   profile_id, specialty, bio, status, rating, reviews_count, city, address, attends_home,
   photos, socials, pix_key, pix_type, bank_info,
-  profiles:profile_id ( name, email, phone, avatar_url ),
+  profiles!professional_profiles_profile_id_fkey ( name, email, phone, avatar_url ),
   professional_services ( id, name, category, duration_min, price, active )
 `;
 
@@ -350,7 +350,7 @@ export function createSupabaseDataSource(): DataSource {
   async function listAdminProfessionals(): Promise<AdminProfessional[]> {
     const { data, error } = await client
       .from('professional_profiles')
-      .select('profile_id, specialty, city, status, rating, profiles:profile_id ( name ), appointments ( count )')
+      .select('profile_id, specialty, city, status, rating, profiles!professional_profiles_profile_id_fkey ( name ), appointments ( count )')
       .order('created_at', { ascending: false });
     if (error) throw new Error('Não foi possível carregar as profissionais');
     return ((data ?? []) as unknown as AdminProfessionalRow[]).map((row) => ({
@@ -383,7 +383,7 @@ export function createSupabaseDataSource(): DataSource {
   async function listAdminPayouts(): Promise<AdminPayout[]> {
     const { data, error } = await client
       .from('payouts')
-      .select('id, amount, status, professional_profiles ( specialty, profiles:profile_id ( name ) ), payments ( count )')
+      .select('id, amount, status, professional_profiles ( specialty, profiles!professional_profiles_profile_id_fkey ( name ) ), payments ( count )')
       .order('created_at', { ascending: false })
       .limit(50);
     if (error) throw new Error('Não foi possível carregar os repasses');
@@ -401,7 +401,7 @@ export function createSupabaseDataSource(): DataSource {
     const { data, error } = await client
       .from('disputes')
       .select(
-        'id, reason, created_at, appointment:appointment_id ( price, home_fee, client:client_id ( name ), professional:professional_id ( profiles:profile_id ( name ) ) )',
+        'id, reason, created_at, appointment:appointment_id ( price, home_fee, client:client_id ( name ), professional:professional_id ( profiles!professional_profiles_profile_id_fkey ( name ) ) )',
       )
       .eq('status', 'aberta')
       .order('created_at', { ascending: false });
@@ -617,7 +617,7 @@ export function createSupabaseDataSource(): DataSource {
       const { data, error } = await client
         .from('appointments')
         .select(
-          '*, reviews ( rating, comment ), professional:professional_id ( profiles:profile_id ( name ) )',
+          '*, reviews ( rating, comment ), professional:professional_id ( profiles!professional_profiles_profile_id_fkey ( name ) )',
         )
         .eq('client_id', clientId)
         .order('scheduled_date', { ascending: false });
@@ -638,7 +638,7 @@ export function createSupabaseDataSource(): DataSource {
       const { data } = await client
         .from('appointments')
         .select(
-          '*, reviews ( rating, comment ), professional:professional_id ( profiles:profile_id ( name ) )',
+          '*, reviews ( rating, comment ), professional:professional_id ( profiles!professional_profiles_profile_id_fkey ( name ) )',
         )
         .eq('client_id', clientId)
         .eq('professional_id', input.professionalId)
@@ -656,7 +656,7 @@ export function createSupabaseDataSource(): DataSource {
         .eq('id', appointmentId)
         .eq('client_id', clientId)
         .select(
-          '*, reviews ( rating, comment ), professional:professional_id ( profiles:profile_id ( name ) )',
+          '*, reviews ( rating, comment ), professional:professional_id ( profiles!professional_profiles_profile_id_fkey ( name ) )',
         )
         .single();
       if (error || !data) throw new Error('Não foi possível cancelar o agendamento');
@@ -676,7 +676,7 @@ export function createSupabaseDataSource(): DataSource {
       const { data } = await client
         .from('appointments')
         .select(
-          '*, reviews ( rating, comment ), professional:professional_id ( profiles:profile_id ( name ) )',
+          '*, reviews ( rating, comment ), professional:professional_id ( profiles!professional_profiles_profile_id_fkey ( name ) )',
         )
         .eq('id', appointmentId)
         .eq('client_id', clientId)
