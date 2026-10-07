@@ -12,7 +12,8 @@ import { HelpOverlay } from '../../features/profile/components/HelpOverlay.js';
 import { LegalOverlay } from '../../features/profile/components/LegalOverlay.js';
 import { DeleteAccountOverlay } from '../../features/profile/components/DeleteAccountOverlay.js';
 import { LogoutOverlay } from '../../features/profile/components/LogoutOverlay.js';
-import { FAQ_PRO } from '../../features/profile/faqData.js';
+import { faqPro } from '../../features/profile/faqData.js';
+import { useRates } from '../../context/ratesContext.js';
 import type { Professional, ProBankInfo, ProPixInfo } from '../../features/discovery/types.js';
 import type { ProProfileBasicInput, ProPresentationInput } from '../../services/types.js';
 
@@ -29,6 +30,7 @@ function initials(name: string): string {
 export function Perfil() {
   const { user, doLogout } = useAuth();
   const { toast } = useToast();
+  const rates = useRates();
   const navigate = useNavigate();
 
   const [pro, setPro] = useState<Professional | null>(null);
@@ -231,7 +233,7 @@ export function Perfil() {
         onSave={handleSavePayout}
         submitting={submitting}
       />
-      <HelpOverlay open={helpOpen} onClose={() => setHelpOpen(false)} faq={FAQ_PRO} />
+      <HelpOverlay open={helpOpen} onClose={() => setHelpOpen(false)} faq={faqPro(rates)} />
       <LegalOverlay
         open={legalOpen}
         onClose={() => setLegalOpen(false)}

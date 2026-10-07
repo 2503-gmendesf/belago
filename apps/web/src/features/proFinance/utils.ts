@@ -1,4 +1,3 @@
-import { CFG } from '@belago/shared';
 import { addDays, parseISODate, todayISO } from '../../lib/format.js';
 import { appointmentStart, phaseOf, totalOf } from '../appointments/utils.js';
 import type { ProAppointmentView } from '../appointments/types.js';
@@ -42,6 +41,7 @@ export function calcFinance(
   appointments: ProAppointmentView[],
   expenses: Expense[],
   [from, to]: [Date, Date],
+  commissionRate: number,
 ): FinCalc {
   const revenue = appointments.filter(
     (a) => phaseOf(a) === 'realizado' && appointmentStart(a) >= from && appointmentStart(a) <= to,
@@ -51,7 +51,7 @@ export function calcFinance(
     return d >= from && d <= to;
   });
   const gross = revenue.reduce((s, a) => s + totalOf(a), 0);
-  const commission = gross * CFG.commissionRate;
+  const commission = gross * commissionRate;
   const expensesTotal = exp.reduce((s, e) => s + e.val, 0);
   return { revenue, expenses: exp, gross, commission, expensesTotal, net: gross - commission - expensesTotal };
 }

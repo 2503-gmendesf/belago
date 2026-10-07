@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Icon } from '../../components/Icon.js';
 import { useAuth } from '../../context/AuthContext.js';
+import { useRates } from '../../context/ratesContext.js';
 import { useToast } from '../../components/ToastProvider.js';
 import { dataSource } from '../../services/index.js';
 import { ExpenseFormOverlay } from '../../features/proFinance/components/ExpenseFormOverlay.js';
@@ -69,7 +70,11 @@ export function Financeiro() {
   }
 
   const period = useMemo(() => resolveRange(range, from, to), [range, from, to]);
-  const calc = useMemo(() => (period ? calcFinance(appointments, expenses, period) : null), [appointments, expenses, period]);
+  const { commissionRate } = useRates();
+  const calc = useMemo(
+    () => (period ? calcFinance(appointments, expenses, period, commissionRate) : null),
+    [appointments, expenses, period, commissionRate],
+  );
   const chart = useMemo(() => (calc && period ? buildBins(calc, period) : null), [calc, period]);
 
   const movements: Movement[] = useMemo(() => {

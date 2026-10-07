@@ -23,6 +23,6 @@ export function isLateToCancel(a: AppointmentView): boolean {
   return isLateCancellation(appointmentStart(a));
 }
 
-export function cancelFeeOf(a: AppointmentView): number {
-  return lateCancelFee(totalOf(a));
+export function cancelFeeOf(a: AppointmentView, penaltyRate: number): number {
+  return lateCancelFee(totalOf(a), penaltyRate);
 }

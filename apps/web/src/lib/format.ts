@@ -74,6 +74,11 @@ export function brl(n: number): string {
   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(n || 0);
 }
 
+/** Fração em percentual para texto (0.15 -> "15", 0.125 -> "12,5"), sem ruído de ponto flutuante. */
+export function pctLabel(rate: number): string {
+  return String(Math.round(rate * 10_000) / 100).replace('.', ',');
+}
+
 export function plural(n: number, singular: string, pluralForm: string): string {
   return `${n} ${n === 1 ? singular : pluralForm}`;
 }

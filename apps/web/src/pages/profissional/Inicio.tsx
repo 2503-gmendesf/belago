@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CFG } from '@belago/shared';
+import { netAmount } from '@belago/shared';
 import { Icon } from '../../components/Icon.js';
 import { useAuth } from '../../context/AuthContext.js';
+import { useRates } from '../../context/ratesContext.js';
 import { dataSource } from '../../services/index.js';
-import { brl, isoFromDate, addDays } from '../../lib/format.js';
+import { brl, isoFromDate, addDays, pctLabel } from '../../lib/format.js';
 import { appointmentStart, phaseOf, totalOf } from '../../features/appointments/utils.js';
 import { ProAppointmentCard } from '../../features/proAgenda/components/ProAppointmentCard.js';
 import { NotificationsOverlay } from '../../features/notifications/NotificationsOverlay.js';
@@ -13,16 +14,13 @@ import type { ProAppointmentView } from '../../features/appointments/types.js';
 
 const DAY_MS = 86400000;
 
-function netOf(a: ProAppointmentView): number {
-  return totalOf(a) * (1 - CFG.commissionRate);
-}
-
-function sumNet(list: ProAppointmentView[]): number {
-  return list.reduce((s, a) => s + netOf(a), 0);
+function sumNet(list: ProAppointmentView[], commissionRate: number): number {
+  return list.reduce((s, a) => s + netAmount(totalOf(a), commissionRate), 0);
 }
 
 export function Inicio() {
   const { user } = useAuth();
+  const { commissionRate } = useRates();
   const [appointments, setAppointments] = useState<ProAppointmentView[]>([]);
   const [loading, setLoading] = useState(true);
   const [notifOpen, setNotifOpen] = useState(false);
@@ -79,7 +77,7 @@ export function Inicio() {
           </div>
           <div className="kpi kpi-dark">
             <p className="eyebrow">Valor recebido</p>
-            <p className="v num">{brl(sumNet(done))}</p>
+            <p className="v num">{brl(sumNet(done, commissionRate))}</p>
           </div>
         </div>
       </div>
@@ -95,11 +93,11 @@ export function Inicio() {
           </div>
           <div className="kpi">
             <p className="small muted">Valor a receber</p>
-            <p className="v num">{brl(sumNet(next))}</p>
+            <p className="v num">{brl(sumNet(next, commissionRate))}</p>
           </div>
         </div>
         <p className="tiny faint" style={{ marginTop: 10 }}>
-          Valores líquidos, já descontada a comissão de {Math.round(CFG.commissionRate * 100)}%.
+          Valores líquidos, já descontada a comissão de {pctLabel(commissionRate)}%.
         </p>
       </div>
 

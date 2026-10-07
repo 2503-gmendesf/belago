@@ -18,6 +18,30 @@ export const DEFAULT_RATES: PlatformRates = {
   lateCancelPenaltyRate: CFG.lateCancelPenaltyRate,
 };
 
+/**
+ * Converte a linha de `platform_config` (percentuais em 0–100, taxa em R$) nas taxas usadas pelas
+ * contas. Valor ausente ou inválido cai no padrão: uma linha mal preenchida não pode zerar a comissão.
+ */
+export function ratesFromConfig(
+  row:
+    | { commission_pct?: unknown; home_fee?: unknown; late_cancel_penalty_pct?: unknown }
+    | null
+    | undefined,
+): PlatformRates {
+  const valid = (value: unknown, max: number): number | null => {
+    if (value === null || value === undefined || value === '') return null;
+    const n = Number(value);
+    return Number.isFinite(n) && n >= 0 && n <= max ? n : null;
+  };
+  const commission = valid(row?.commission_pct, 100);
+  const penalty = valid(row?.late_cancel_penalty_pct, 100);
+  return {
+    commissionRate: commission === null ? DEFAULT_RATES.commissionRate : commission / 100,
+    homeFee: valid(row?.home_fee, Number.POSITIVE_INFINITY) ?? DEFAULT_RATES.homeFee,
+    lateCancelPenaltyRate: penalty === null ? DEFAULT_RATES.lateCancelPenaltyRate : penalty / 100,
+  };
+}
+
 /** Preço do serviço + taxa de deslocamento (se houver). */
 export function appointmentTotal(price: number, homeFee: number): number {
   return price + homeFee;

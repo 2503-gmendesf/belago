@@ -6,14 +6,16 @@ import { Button } from '../../components/Button.js';
 import { Overlay } from '../../components/Overlay.js';
 import { useToast } from '../../components/ToastProvider.js';
 import { useAuth } from '../../context/AuthContext.js';
+import { useRates } from '../../context/ratesContext.js';
 import { dataSource } from '../../services/index.js';
 import { useBooking } from '../../features/booking/BookingContext.js';
 import { activeServices } from '../../features/discovery/utils.js';
-import { brl, fmtDayLong, fmtDayShort, fromMinutes, toMinutes } from '../../lib/format.js';
+import { brl, fmtDayLong, fmtDayShort, fromMinutes, pctLabel, toMinutes } from '../../lib/format.js';
 import type { Professional } from '../../features/discovery/types.js';
 import type { AppointmentView } from '../../features/appointments/types.js';
 
 export function Booking() {
+  const rates = useRates();
   const { booking, update, setStep } = useBooking();
   const { user } = useAuth();
   const { toast } = useToast();
@@ -214,7 +216,7 @@ export function Booking() {
               </div>
               {booking.location === 'domicilio' && (
                 <div className="field" style={{ marginTop: 12 }}>
-                  <label>Seu endereço (taxa de {brl(CFG.homeFee)})</label>
+                  <label>Seu endereço (taxa de {brl(rates.homeFee)})</label>
                   <input
                     className="input"
                     placeholder="Rua, número, bairro"
@@ -270,19 +272,19 @@ export function Booking() {
               {booking.location === 'domicilio' && (
                 <div className="kv">
                   <span>Taxa de deslocamento</span>
-                  <span className="num">{brl(CFG.homeFee)}</span>
+                  <span className="num">{brl(rates.homeFee)}</span>
                 </div>
               )}
               <div className="kv">
                 <span>Total</span>
                 <span className="num" style={{ fontSize: 17 }}>
-                  {brl(service.price + (booking.location === 'domicilio' ? CFG.homeFee : 0))}
+                  {brl(service.price + (booking.location === 'domicilio' ? rates.homeFee : 0))}
                 </span>
               </div>
             </div>
             <p className="tiny muted" style={{ margin: '12px 4px 18px' }}>
               Cancelamento sem custo até {CFG.lateCancelHours}h antes do horário. Depois disso, pode haver cobrança de{' '}
-              {CFG.lateCancelPenaltyRate * 100}%.
+              {pctLabel(rates.lateCancelPenaltyRate)}%.
             </p>
             <Button disabled={submitting} onClick={confirm}>
               Confirmar agendamento

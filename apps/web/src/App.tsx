@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext.js';
 import { ToastProvider } from './components/ToastProvider.js';
+import { RatesProvider } from './context/RatesProvider.js';
 import { RoleRoute, roleHome } from './routes/RoleRoute.js';
 import { ClienteLayout } from './layouts/ClienteLayout.js';
 import { ProfLayout } from './layouts/ProfLayout.js';
@@ -41,56 +42,58 @@ export function App() {
   return (
     <AuthProvider>
       <ToastProvider>
-        <Routes>
-          <Route path="/" element={<RootRedirect />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/cadastro" element={<Register />} />
-          <Route path="/legal"element={<Legal />} />
+        <RatesProvider>
+          <Routes>
+            <Route path="/" element={<RootRedirect />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/cadastro" element={<Register />} />
+            <Route path="/legal" element={<Legal />} />
 
-          <Route element={<RoleRoute role="cliente" />}>
-            <Route
-              element={
-                <FavoritesProvider>
-                  <SearchFiltersProvider>
-                    <BookingProvider>
-                      <ClienteLayout />
-                    </BookingProvider>
-                  </SearchFiltersProvider>
-                </FavoritesProvider>
-              }
-            >
-              <Route path="/cliente" element={<Home />} />
-              <Route path="/cliente/explorar" element={<Search />} />
-              <Route path="/cliente/profissional/:id" element={<ProfessionalDetail />} />
-              <Route path="/cliente/agendar" element={<Booking />} />
-              <Route path="/cliente/agenda" element={<Appointments />} />
-              <Route path="/cliente/perfil" element={<Profile />} />
+            <Route element={<RoleRoute role="cliente" />}>
+              <Route
+                element={
+                  <FavoritesProvider>
+                    <SearchFiltersProvider>
+                      <BookingProvider>
+                        <ClienteLayout />
+                      </BookingProvider>
+                    </SearchFiltersProvider>
+                  </FavoritesProvider>
+                }
+              >
+                <Route path="/cliente" element={<Home />} />
+                <Route path="/cliente/explorar" element={<Search />} />
+                <Route path="/cliente/profissional/:id" element={<ProfessionalDetail />} />
+                <Route path="/cliente/agendar" element={<Booking />} />
+                <Route path="/cliente/agenda" element={<Appointments />} />
+                <Route path="/cliente/perfil" element={<Profile />} />
+              </Route>
             </Route>
-          </Route>
 
-          <Route element={<RoleRoute role="profissional" />}>
-            <Route element={<ProfLayout />}>
-              <Route path="/profissional" element={<ProInicio />} />
-              <Route path="/profissional/agenda" element={<ProfAgenda />} />
-              <Route path="/profissional/financeiro" element={<ProfFinanceiro />} />
-              <Route path="/profissional/servicos" element={<ProfServicos />} />
-              <Route path="/profissional/perfil" element={<ProfPerfil />} />
+            <Route element={<RoleRoute role="profissional" />}>
+              <Route element={<ProfLayout />}>
+                <Route path="/profissional" element={<ProInicio />} />
+                <Route path="/profissional/agenda" element={<ProfAgenda />} />
+                <Route path="/profissional/financeiro" element={<ProfFinanceiro />} />
+                <Route path="/profissional/servicos" element={<ProfServicos />} />
+                <Route path="/profissional/perfil" element={<ProfPerfil />} />
+              </Route>
             </Route>
-          </Route>
 
-          <Route element={<RoleRoute role="admin" />}>
-            <Route element={<AdminLayout />}>
-              <Route path="/admin" element={<AdminPainel />} />
-              <Route path="/admin/profissionais" element={<AdminProfissionais />} />
-              <Route path="/admin/clientes" element={<AdminClientes />} />
-              <Route path="/admin/financeiro" element={<AdminFinanceiro />} />
-              <Route path="/admin/config" element={<AdminConfig />} />
-              <Route path="/admin/perfil" element={<AdminPerfil />} />
+            <Route element={<RoleRoute role="admin" />}>
+              <Route element={<AdminLayout />}>
+                <Route path="/admin" element={<AdminPainel />} />
+                <Route path="/admin/profissionais" element={<AdminProfissionais />} />
+                <Route path="/admin/clientes" element={<AdminClientes />} />
+                <Route path="/admin/financeiro" element={<AdminFinanceiro />} />
+                <Route path="/admin/config" element={<AdminConfig />} />
+                <Route path="/admin/perfil" element={<AdminPerfil />} />
+              </Route>
             </Route>
-          </Route>
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </RatesProvider>
       </ToastProvider>
     </AuthProvider>
   );

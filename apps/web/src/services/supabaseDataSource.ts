@@ -1,5 +1,5 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import { freeTimesForDate, type Role } from '@belago/shared';
+import { freeTimesForDate, ratesFromConfig, type Role } from '@belago/shared';
 import { env } from '../env.js';
 import type { AppointmentLocation, AppointmentView } from '../features/appointments/types.js';
 import type {
@@ -942,6 +942,16 @@ export function createSupabaseDataSource(): DataSource {
 
     // Painel administrativo: leituras e edições passam pelo RLS (o admin tem acesso); só repasses
     // (gerar/processar) vão pela API, que usa service_role.
+    async getPlatformRates() {
+      // platform_config tem leitura pública. Se falhar, ratesFromConfig(null) devolve os padrões.
+      const { data } = await client
+        .from('platform_config')
+        .select('commission_pct, home_fee, late_cancel_penalty_pct')
+        .eq('id', 1)
+        .maybeSingle();
+      return ratesFromConfig(data);
+    },
+
     async getAdminOverview(): Promise<AdminOverview> {
       const today = todayISO();
       const yesterday = addDays(today, -1);

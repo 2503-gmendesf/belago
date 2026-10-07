@@ -2,7 +2,8 @@ import { Overlay } from '../../../components/Overlay.js';
 import { Button } from '../../../components/Button.js';
 import { Icon } from '../../../components/Icon.js';
 import { CFG } from '@belago/shared';
-import { brl } from '../../../lib/format.js';
+import { useRates } from '../../../context/ratesContext.js';
+import { brl, pctLabel } from '../../../lib/format.js';
 import { cancelFeeOf, isLateToCancel } from '../utils.js';
 import type { AppointmentView } from '../types.js';
 
@@ -14,6 +15,7 @@ interface CancelOverlayProps {
 }
 
 export function CancelOverlay({ appointment: a, onClose, onConfirm, submitting }: CancelOverlayProps) {
+  const { lateCancelPenaltyRate } = useRates();
   return (
     <Overlay open={a !== null} onClose={onClose}>
       {a && (
@@ -25,7 +27,7 @@ export function CancelOverlay({ appointment: a, onClose, onConfirm, submitting }
             <h2 className="h2">Cancelar agendamento?</h2>
             <p className="muted small" style={{ margin: '8px 0 20px' }}>
               {isLateToCancel(a)
-                ? `Faltam menos de ${CFG.lateCancelHours}h para o horário. Pode haver cobrança de ${CFG.lateCancelPenaltyRate * 100}% (${brl(cancelFeeOf(a))}).`
+                ? `Faltam menos de ${CFG.lateCancelHours}h para o horário. Pode haver cobrança de ${pctLabel(lateCancelPenaltyRate)}% (${brl(cancelFeeOf(a, lateCancelPenaltyRate))}).`
                 : `Você pode cancelar sem custo até ${CFG.lateCancelHours}h antes do horário.`}
             </p>
           </div>

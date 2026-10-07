@@ -1,4 +1,4 @@
-import type { Role } from '@belago/shared';
+import type { PlatformRates, Role } from '@belago/shared';
 import type { AppointmentView, CreateAppointmentInput, ProAppointmentView } from '../features/appointments/types.js';
 import type {
   ProAvailabilitySlot,
@@ -137,6 +137,9 @@ export interface DataSource {
   listExpenses(professionalId: string): Promise<Expense[]>;
   /** Registra uma nova despesa. */
   createExpense(professionalId: string, input: CreateExpenseInput): Promise<Expense>;
+
+  /** Taxas vigentes (comissão, deslocamento, multa), configuradas pelo admin. Leitura pública. */
+  getPlatformRates(): Promise<PlatformRates>;
 
   /** Números do painel do admin (clientes, profissionais, agendamentos, GMV, concentração por cidade). */
   getAdminOverview(): Promise<AdminOverview>;

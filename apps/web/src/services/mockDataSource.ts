@@ -1,3 +1,4 @@
+import { DEFAULT_RATES } from '@belago/shared';
 import { DEFAULT_FAVORITE_IDS, PROFESSIONALS } from '../features/discovery/fixtures.js';
 import { activeServices, availableTimes, nextAvailableDays } from '../features/discovery/utils.js';
 import * as appointmentsStore from './appointmentsStore.js';
@@ -329,6 +330,11 @@ export function createMockDataSource(): DataSource {
     async createExpense(professionalId, input) {
       await delay(null, 150);
       return expensesStore.create(professionalId, input);
+    },
+
+    async getPlatformRates() {
+      // O demo calcula tudo com os padrões (appointmentsStore usa CFG), então a tela mostra os mesmos.
+      return DEFAULT_RATES;
     },
 
     async getAdminOverview() {
