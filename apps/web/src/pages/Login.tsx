@@ -3,14 +3,18 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button.js';
 import { Icon } from '../components/Icon.js';
 import { useAuth } from '../context/AuthContext.js';
+import { hasSupabaseConfig } from '../env.js';
 import { useToast } from '../components/ToastProvider.js';
 import { roleHome } from '../routes/RoleRoute.js';
 import './login.css';
 
+// O demo (mock) usa @belago.app; com Supabase, as contas reais de demonstração são @belago.com
+// (criadas por supabase/demo-users.sql).
+const DEMO_DOMAIN = hasSupabaseConfig ? 'belago.com' : 'belago.app';
 const QUICK_LOGINS = [
-  { label: 'Cliente', icon: 'user', email: 'cliente@belago.app' },
-  { label: 'Profissional', icon: 'scissors', email: 'profissional@belago.app' },
-  { label: 'Administrador', icon: 'shield', email: 'admin@belago.app' },
+  { label: 'Cliente', icon: 'user', email: `cliente@${DEMO_DOMAIN}` },
+  { label: 'Profissional', icon: 'scissors', email: `profissional@${DEMO_DOMAIN}` },
+  { label: 'Administrador', icon: 'shield', email: `admin@${DEMO_DOMAIN}` },
 ];
 
 export function Login() {
