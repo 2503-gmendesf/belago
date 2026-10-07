@@ -19,6 +19,9 @@ export const appointmentRoutes =
       if (input.professionalId === user.id) {
         throw new HttpError(400, 'Não é possível agendar consigo mesma', 'invalid_request');
       }
+      if (await repo.isClientBlocked(user.id)) {
+        throw new HttpError(403, 'Sua conta está bloqueada. Fale com o suporte.', 'blocked');
+      }
       if (await repo.isMaintenanceMode()) {
         throw new HttpError(503, 'Agendamentos temporariamente indisponíveis', 'maintenance');
       }

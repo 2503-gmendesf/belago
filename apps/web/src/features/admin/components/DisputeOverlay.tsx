@@ -7,7 +7,7 @@ import type { AdminDispute, DisputeResolution } from '../types.js';
 interface DisputeOverlayProps {
   dispute: AdminDispute | null;
   onClose: () => void;
-  onResolve: (id: number, resolution: DisputeResolution) => void;
+  onResolve: (id: string, resolution: DisputeResolution) => void;
   submitting: boolean;
 }
 

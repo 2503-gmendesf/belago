@@ -152,6 +152,8 @@ export interface DataSource {
   getAdminFinance(period: AdminFinancePeriod): Promise<AdminFinanceSnapshot>;
   /** Repasses pendentes/processados às profissionais. */
   listAdminPayouts(): Promise<AdminPayout[]>;
+  /** Gera os repasses pendentes a partir dos pagamentos ainda não repassados. */
+  generateAdminPayouts(): Promise<AdminPayout[]>;
   /** Processa um repasse individual. */
   processAdminPayout(id: string): Promise<AdminPayout[]>;
   /** Processa todos os repasses pendentes. */
@@ -159,7 +161,7 @@ export interface DataSource {
   /** Disputas de pagamento abertas. */
   listAdminDisputes(): Promise<AdminDispute[]>;
   /** Resolve uma disputa (reembolso ou manutenção do pagamento). */
-  resolveAdminDispute(id: number, resolution: DisputeResolution): Promise<AdminDispute[]>;
+  resolveAdminDispute(id: string, resolution: DisputeResolution): Promise<AdminDispute[]>;
   /** Configuração vigente da plataforma (taxas, verificação, manutenção). */
   getAdminConfig(): Promise<AdminConfig>;
   /** Salva as taxas e prazos da plataforma. */

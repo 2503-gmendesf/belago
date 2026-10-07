@@ -114,6 +114,13 @@ describe('POST /appointments', () => {
     expect((await post(app, body())).statusCode).toBe(503);
   });
 
+  it('recusa agendamento de cliente bloqueada', async () => {
+    const { app, repo } = await makeApp();
+    repo.clientBlocked = true;
+    expect((await post(app, body())).statusCode).toBe(403);
+    expect(repo.inserted).toHaveLength(0);
+  });
+
   it('falha ao notificar não derruba o agendamento', async () => {
     const { app, repo } = await makeApp();
     repo.notifyFails = true;

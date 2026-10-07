@@ -20,14 +20,25 @@ export function Financeiro() {
   const [snapshot, setSnapshot] = useState<AdminFinanceSnapshot | null>(null);
   const [payouts, setPayouts] = useState<AdminPayout[]>([]);
   const [disputes, setDisputes] = useState<AdminDispute[]>([]);
-  const [disputeId, setDisputeId] = useState<number | null>(null);
+  const [disputeId, setDisputeId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [loadFailed, setLoadFailed] = useState(false);
+
+  const fail = useCallback(
+    (e: unknown, fallback: string) => toast(e instanceof Error ? e.message : fallback),
+    [toast],
+  );
 
   const reload = useCallback(() => {
-    dataSource.getAdminFinance(period).then(setSnapshot);
-    dataSource.listAdminPayouts().then(setPayouts);
-    dataSource.listAdminDisputes().then(setDisputes);
-  }, [period]);
+    setLoadFailed(false);
+    const onLoadError = (e: unknown) => {
+      setLoadFailed(true);
+      fail(e, 'Não foi possível carregar o financeiro');
+    };
+    dataSource.getAdminFinance(period).then(setSnapshot).catch(onLoadError);
+    dataSource.listAdminPayouts().then(setPayouts).catch(onLoadError);
+    dataSource.listAdminDisputes().then(setDisputes).catch(onLoadError);
+  }, [period, fail]);
 
   useEffect(() => {
     reload();
@@ -36,11 +47,27 @@ export function Financeiro() {
   const pendingValue = useMemo(() => payouts.filter((p) => !p.done).reduce((s, p) => s + p.value, 0), [payouts]);
   const dispute = disputes.find((d) => d.id === disputeId) ?? null;
 
+  async function handleGenerate() {
+    try {
+      const before = payouts.filter((p) => !p.done).length;
+      const next = await dataSource.generateAdminPayouts();
+      const created = next.filter((p) => !p.done).length - before;
+      toast(created > 0 ? 'Repasses gerados' : 'Nenhum pagamento a repassar');
+      reload();
+    } catch (e) {
+      fail(e, 'Não foi possível gerar os repasses');
+    }
+  }
+
   async function handleProcessPayout(id: string) {
-    const payout = payouts.find((p) => p.id === id);
-    await dataSource.processAdminPayout(id);
-    toast(`PIX enviado para ${payout?.name ?? ''}`);
-    reload();
+    try {
+      const payout = payouts.find((p) => p.id === id);
+      await dataSource.processAdminPayout(id);
+      toast(`Repasse de ${payout?.name ?? 'profissional'} marcado como processado`);
+      reload();
+    } catch (e) {
+      fail(e, 'Não foi possível processar o repasse');
+    }
   }
 
   async function handleProcessAll() {
@@ -48,24 +75,42 @@ export function Financeiro() {
       toast('Nenhum repasse pendente');
       return;
     }
-    await dataSource.processAllAdminPayouts();
-    toast('Todos os repasses processados');
+    try {
+      await dataSource.processAllAdminPayouts();
+      toast('Todos os repasses processados');
+    } catch (e) {
+      fail(e, 'Não foi possível processar os repasses');
+    }
     reload();
   }
 
-  async function handleResolve(id: number, resolution: DisputeResolution) {
+  async function handleResolve(id: string, resolution: DisputeResolution) {
     setSubmitting(true);
     try {
       await dataSource.resolveAdminDispute(id, resolution);
       setDisputeId(null);
       toast(resolution === 'reembolso' ? 'Reembolso registrado' : 'Pagamento mantido');
       reload();
+    } catch (e) {
+      fail(e, 'Não foi possível resolver a disputa');
     } finally {
       setSubmitting(false);
     }
   }
 
-  if (!snapshot) return <p className="small muted">Carregando…</p>;
+  if (!snapshot) {
+    return loadFailed ? (
+      <div className="empty">
+        <Icon name="alert" />
+        <p>Não foi possível carregar o financeiro.</p>
+        <Button variant="sec" size="sm" style={{ width: 'auto' }} onClick={reload}>
+          Tentar de novo
+        </Button>
+      </div>
+    ) : (
+      <p className="small muted">Carregando…</p>
+    );
+  }
 
   const max = Math.max(1, ...snapshot.weekly.flat());
 
@@ -131,10 +176,21 @@ export function Financeiro() {
       <div className="section">
         <div className="section-hd">
           <h2 className="h2">Repasses pendentes</h2>
-          <Button variant="sec" size="sm" style={{ width: 'auto' }} onClick={handleProcessAll}>
-            Processar todos
-          </Button>
+          <div className="gap8" style={{ display: 'flex' }}>
+            <Button variant="sec" size="sm" style={{ width: 'auto' }} onClick={handleGenerate}>
+              Gerar repasses
+            </Button>
+            <Button variant="sec" size="sm" style={{ width: 'auto' }} onClick={handleProcessAll}>
+              Processar todos
+            </Button>
+          </div>
         </div>
+        {!payouts.length && (
+          <div className="empty">
+            <Icon name="wallet" />
+            <p>Nenhum repasse gerado.</p>
+          </div>
+        )}
         <div className="list">
           {payouts.map((p) => (
             <div className="li" key={p.id} style={{ opacity: p.done ? 0.45 : 1 }}>

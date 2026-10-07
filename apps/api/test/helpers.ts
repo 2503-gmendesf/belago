@@ -36,6 +36,7 @@ export const FUTURE_DATE = '2999-01-10';
 export class FakeRepo implements Repo {
   proStatus: string | null = 'ativa';
   maintenance = false;
+  clientBlocked = false;
   services = new Map<string, ServiceRecord>([
     [
       IDS.service,
@@ -74,6 +75,9 @@ export class FakeRepo implements Repo {
   }
   async isMaintenanceMode() {
     return this.maintenance;
+  }
+  async isClientBlocked() {
+    return this.clientBlocked;
   }
   async listDaySlots() {
     return this.slots;

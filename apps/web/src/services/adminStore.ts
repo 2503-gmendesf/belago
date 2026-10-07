@@ -97,8 +97,9 @@ export function listDisputes(): AdminDispute[] {
   return clone(state.disputes);
 }
 
-export function resolveDispute(id: number): AdminDispute[] {
-  state.disputes = state.disputes.filter((d) => d.id !== id);
+export function resolveDispute(id: string): AdminDispute[] {
+  // String(): o localStorage de versões antigas guardou ids numéricos.
+  state.disputes = state.disputes.filter((d) => String(d.id) !== id);
   persist();
   return clone(state.disputes);
 }

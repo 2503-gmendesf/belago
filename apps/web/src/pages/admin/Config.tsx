@@ -29,25 +29,43 @@ export function Config() {
   const [config, setConfig] = useState<AdminConfig | null>(null);
   const [rates, setRates] = useState({ commissionPct: '', depositMin: '', payoutDays: '', homeFee: '', lateFeePct: '' });
   const [pushOpen, setPushOpen] = useState(false);
+  const [loadFailed, setLoadFailed] = useState(false);
 
   const reload = useCallback(() => {
-    dataSource.getAdminConfig().then((c) => {
-      setConfig(c);
-      setRates({
-        commissionPct: String(c.commissionPct),
-        depositMin: String(c.depositMin),
-        payoutDays: String(c.payoutDays),
-        homeFee: String(c.homeFee),
-        lateFeePct: String(c.lateFeePct),
+    dataSource
+      .getAdminConfig()
+      .then((c) => {
+        setConfig(c);
+        setRates({
+          commissionPct: String(c.commissionPct),
+          depositMin: String(c.depositMin),
+          payoutDays: String(c.payoutDays),
+          homeFee: String(c.homeFee),
+          lateFeePct: String(c.lateFeePct),
+        });
+      })
+      .catch((e: unknown) => {
+        setLoadFailed(true);
+        toast(e instanceof Error ? e.message : 'Não foi possível carregar as configurações');
       });
-    });
-  }, []);
+  }, [toast]);
 
   useEffect(() => {
     reload();
   }, [reload]);
 
-  if (!config) return <p className="small muted">Carregando…</p>;
+  if (!config) {
+    return loadFailed ? (
+      <div className="empty">
+        <Icon name="alert" />
+        <p>Não foi possível carregar as configurações.</p>
+      </div>
+    ) : (
+      <p className="small muted">Carregando…</p>
+    );
+  }
+
+  const fail = (e: unknown, fallback: string) => toast(e instanceof Error ? e.message : fallback);
 
   async function handleSaveRates() {
     const parsed = {
@@ -62,20 +80,32 @@ export function Config() {
       toast('Confira os valores informados');
       return;
     }
-    await dataSource.saveAdminConfig(parsed);
-    toast('Taxas salvas');
-    reload();
+    try {
+      await dataSource.saveAdminConfig(parsed);
+      toast('Taxas salvas');
+      reload();
+    } catch (e) {
+      fail(e, 'Não foi possível salvar as taxas');
+    }
   }
 
   async function handleToggle(key: keyof AdminConfigToggles) {
-    await dataSource.toggleAdminConfigFlag(key);
-    reload();
+    try {
+      await dataSource.toggleAdminConfigFlag(key);
+      reload();
+    } catch (e) {
+      fail(e, 'Não foi possível salvar a opção');
+    }
   }
 
   async function handleMaintenance() {
-    const updated = await dataSource.toggleAdminMaintenance();
-    toast(updated.maintenance ? 'Modo manutenção ativado' : 'Modo manutenção desativado');
-    reload();
+    try {
+      const updated = await dataSource.toggleAdminMaintenance();
+      toast(updated.maintenance ? 'Modo manutenção ativado' : 'Modo manutenção desativado');
+      reload();
+    } catch (e) {
+      fail(e, 'Não foi possível alterar o modo manutenção');
+    }
   }
 
   return (

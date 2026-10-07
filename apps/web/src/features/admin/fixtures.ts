@@ -40,9 +40,9 @@ export const ADMIN_PAYOUTS: AdminPayout[] = [
 ];
 
 export const ADMIN_DISPUTES: AdminDispute[] = [
-  { id: 1, clientName: 'Rafaela S.', professionalName: 'Fernanda C.', value: 180, reason: 'Profissional não compareceu', date: '23/08' },
-  { id: 2, clientName: 'Juliana M.', professionalName: 'Ana P.', value: 60, reason: 'Qualidade do serviço', date: '22/08' },
-  { id: 3, clientName: 'Carla T.', professionalName: 'Mariana L.', value: 150, reason: 'Cancelamento tardio', date: '20/08' },
+  { id: 'ad1', clientName: 'Rafaela S.', professionalName: 'Fernanda C.', value: 180, reason: 'Profissional não compareceu', date: '23/08' },
+  { id: 'ad2', clientName: 'Juliana M.', professionalName: 'Ana P.', value: 60, reason: 'Qualidade do serviço', date: '22/08' },
+  { id: 'ad3', clientName: 'Carla T.', professionalName: 'Mariana L.', value: 150, reason: 'Cancelamento tardio', date: '20/08' },
 ];
 
 export const ADMIN_FINANCE: Record<AdminFinancePeriod, AdminFinanceSnapshot> = {

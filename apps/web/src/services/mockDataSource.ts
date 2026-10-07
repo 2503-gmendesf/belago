@@ -380,6 +380,11 @@ export function createMockDataSource(): DataSource {
       return adminStore.listPayouts();
     },
 
+    async generateAdminPayouts() {
+      // O demo já nasce com repasses gerados.
+      return adminStore.listPayouts();
+    },
+
     async processAdminPayout(id) {
       await delay(null, 200);
       return adminStore.processPayout(id);

@@ -21,8 +21,11 @@ export function Clientes() {
   const [query, setQuery] = useState('');
 
   const reload = useCallback(() => {
-    dataSource.listAdminClients().then(setClients);
-  }, []);
+    dataSource
+      .listAdminClients()
+      .then(setClients)
+      .catch((e: unknown) => toast(e instanceof Error ? e.message : 'Não foi possível carregar as clientes'));
+  }, [toast]);
 
   useEffect(() => {
     reload();
@@ -44,9 +47,13 @@ export function Clientes() {
   }, [clients, query]);
 
   async function handleToggle(client: AdminClient) {
-    await dataSource.toggleAdminClientBlock(client.id);
-    toast(`${client.name} ${client.status === 'bloqueada' ? 'desbloqueado' : 'bloqueado'}`);
-    reload();
+    try {
+      await dataSource.toggleAdminClientBlock(client.id);
+      toast(`${client.name} ${client.status === 'bloqueada' ? 'desbloqueado' : 'bloqueado'}`);
+      reload();
+    } catch (e) {
+      toast(e instanceof Error ? e.message : 'Não foi possível alterar o bloqueio');
+    }
   }
 
   return (

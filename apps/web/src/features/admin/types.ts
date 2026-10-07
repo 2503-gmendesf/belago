@@ -45,7 +45,7 @@ export interface AdminPayout {
 }
 
 export interface AdminDispute {
-  id: number;
+  id: string;
   clientName: string;
   professionalName: string;
   value: number;

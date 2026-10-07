@@ -72,6 +72,11 @@ export function createSupabaseRepo(db: SupabaseClient): Repo {
       return Boolean(data?.maintenance_mode);
     },
 
+    async isClientBlocked(id) {
+      const { data } = await db.from('profiles').select('blocked').eq('id', id).maybeSingle();
+      return Boolean(data?.blocked);
+    },
+
     async listDaySlots(professionalId, date) {
       const { data, error } = await db
         .from('availability_slots')

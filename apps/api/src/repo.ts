@@ -65,6 +65,7 @@ export interface Repo {
   getProfessionalStatus(id: string): Promise<string | null>;
   getService(id: string): Promise<ServiceRecord | null>;
   isMaintenanceMode(): Promise<boolean>;
+  isClientBlocked(id: string): Promise<boolean>;
   listDaySlots(professionalId: string, date: string): Promise<AvailabilitySlotInput[]>;
   listBusyIntervals(professionalId: string, date: string): Promise<BusyInterval[]>;
   /** Lança `SlotTakenError` se o banco rejeitar por conflito de horário (corrida). */

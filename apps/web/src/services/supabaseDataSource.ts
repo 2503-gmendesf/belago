@@ -2,7 +2,20 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { freeTimesForDate, type Role } from '@belago/shared';
 import { env } from '../env.js';
 import type { AppointmentLocation, AppointmentView } from '../features/appointments/types.js';
-import type { AdminOverview, AdminProfAction, AdminProfessional, AdminProfStatus } from '../features/admin/types.js';
+import type {
+  AdminClient,
+  AdminConfig,
+  AdminConfigToggles,
+  AdminDispute,
+  AdminFinancePeriod,
+  AdminFinanceSnapshot,
+  AdminOverview,
+  AdminPayout,
+  AdminProfAction,
+  AdminProfessional,
+  AdminProfStatus,
+  DisputeResolution,
+} from '../features/admin/types.js';
 import { addDays, isoFromDate, todayISO, toMinutes } from '../lib/format.js';
 import type {
   ProAvailabilitySlot,
@@ -18,12 +31,6 @@ import {
 } from '../features/notifications/types.js';
 import type { CreateExpenseInput, Expense } from '../features/proFinance/types.js';
 import type { AuthUser, DataSource } from './types.js';
-
-const NOT_IMPLEMENTED = 'Ainda não migrado para o Supabase (painel do admin).';
-
-function admin404(): never {
-  throw new Error(NOT_IMPLEMENTED);
-}
 
 interface ProfileRow {
   name: string;
@@ -355,6 +362,88 @@ export function createSupabaseDataSource(): DataSource {
       rating: Number(row.rating),
       appointmentsCount: row.appointments?.[0]?.count ?? 0,
     }));
+  }
+
+  async function listAdminClients(): Promise<AdminClient[]> {
+    const { data, error } = await client
+      .from('profiles')
+      .select('id, name, email, blocked, appointments ( count )')
+      .eq('role', 'cliente')
+      .order('created_at', { ascending: false });
+    if (error) throw new Error('Não foi possível carregar as clientes');
+    return ((data ?? []) as unknown as AdminClientRow[]).map((row) => ({
+      id: row.id,
+      name: row.name,
+      email: row.email,
+      appointmentsCount: row.appointments?.[0]?.count ?? 0,
+      status: row.blocked ? 'bloqueada' : 'ativa',
+    }));
+  }
+
+  async function listAdminPayouts(): Promise<AdminPayout[]> {
+    const { data, error } = await client
+      .from('payouts')
+      .select('id, amount, status, professional_profiles ( specialty, profiles:profile_id ( name ) ), payments ( count )')
+      .order('created_at', { ascending: false })
+      .limit(50);
+    if (error) throw new Error('Não foi possível carregar os repasses');
+    return ((data ?? []) as unknown as AdminPayoutRow[]).map((row) => ({
+      id: row.id,
+      name: row.professional_profiles?.profiles?.name ?? 'Profissional',
+      count: row.payments?.[0]?.count ?? 0,
+      spec: row.professional_profiles?.specialty ?? '',
+      value: Number(row.amount),
+      done: row.status === 'processado',
+    }));
+  }
+
+  async function listAdminDisputes(): Promise<AdminDispute[]> {
+    const { data, error } = await client
+      .from('disputes')
+      .select(
+        'id, reason, created_at, appointment:appointment_id ( price, home_fee, client:client_id ( name ), professional:professional_id ( profiles:profile_id ( name ) ) )',
+      )
+      .eq('status', 'aberta')
+      .order('created_at', { ascending: false });
+    if (error) throw new Error('Não foi possível carregar as disputas');
+    return ((data ?? []) as unknown as AdminDisputeRow[]).map((row) => {
+      const [, month, day] = row.created_at.slice(0, 10).split('-');
+      return {
+        id: row.id,
+        clientName: row.appointment?.client?.name ?? 'Cliente',
+        professionalName: row.appointment?.professional?.profiles?.name ?? 'Profissional',
+        value: Number(row.appointment?.price ?? 0) + Number(row.appointment?.home_fee ?? 0),
+        reason: row.reason,
+        date: `${day}/${month}`,
+      };
+    });
+  }
+
+  const CONFIG_SELECT =
+    'commission_pct, min_deposit, payout_days, home_fee, late_cancel_penalty_pct, maintenance_mode, toggles';
+
+  function toAdminConfig(row: PlatformConfigRow): AdminConfig {
+    return {
+      commissionPct: Number(row.commission_pct),
+      depositMin: Number(row.min_deposit),
+      payoutDays: row.payout_days,
+      homeFee: Number(row.home_fee),
+      lateFeePct: Number(row.late_cancel_penalty_pct),
+      maintenance: row.maintenance_mode,
+      toggles: { verify: true, identity: true, certs: false, reviews: true, portfolio: false, ...row.toggles },
+    };
+  }
+
+  async function getAdminConfig(): Promise<AdminConfig> {
+    const { data, error } = await client.from('platform_config').select(CONFIG_SELECT).eq('id', 1).maybeSingle();
+    if (error || !data) throw new Error('Não foi possível carregar as configurações');
+    return toAdminConfig(data as unknown as PlatformConfigRow);
+  }
+
+  async function updateAdminConfig(patch: Record<string, unknown>): Promise<AdminConfig> {
+    const { data, error } = await client.from('platform_config').update(patch).eq('id', 1).select(CONFIG_SELECT).single();
+    if (error || !data) throw new Error('Não foi possível salvar as configurações');
+    return toAdminConfig(data as unknown as PlatformConfigRow);
   }
 
   return {
@@ -851,8 +940,8 @@ export function createSupabaseDataSource(): DataSource {
       };
     },
 
-    // Painel administrativo: Painel e Profissionais já leem o banco (o RLS libera o admin).
-    // O restante (clientes, financeiro, repasses, disputas, config) ainda não foi migrado.
+    // Painel administrativo: leituras e edições passam pelo RLS (o admin tem acesso); só repasses
+    // (gerar/processar) vão pela API, que usa service_role.
     async getAdminOverview(): Promise<AdminOverview> {
       const today = todayISO();
       const yesterday = addDays(today, -1);
@@ -942,18 +1031,167 @@ export function createSupabaseDataSource(): DataSource {
       return listAdminProfessionals();
     },
 
-    listAdminClients: admin404,
-    toggleAdminClientBlock: admin404,
-    getAdminFinance: admin404,
-    listAdminPayouts: admin404,
-    processAdminPayout: admin404,
-    processAllAdminPayouts: admin404,
-    listAdminDisputes: admin404,
-    resolveAdminDispute: admin404,
-    getAdminConfig: admin404,
-    saveAdminConfig: admin404,
-    toggleAdminConfigFlag: admin404,
-    toggleAdminMaintenance: admin404,
+    listAdminClients,
+
+    async toggleAdminClientBlock(id) {
+      const { error } = await client.rpc('admin_toggle_client_blocked', { p_id: id });
+      if (error) throw new Error('Não foi possível alterar o bloqueio da cliente');
+      return listAdminClients();
+    },
+
+    async getAdminFinance(period: AdminFinancePeriod): Promise<AdminFinanceSnapshot> {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = now.getMonth();
+      let start: Date;
+      let end: Date;
+      let buckets: number;
+      let bucketOf: (d: Date) => number;
+      if (period === 'semana') {
+        start = new Date(y, m, now.getDate() - 6);
+        end = new Date(y, m, now.getDate() + 1);
+        buckets = 1;
+        bucketOf = () => 0;
+      } else if (period === 'mes') {
+        start = new Date(y, m, 1);
+        end = new Date(y, m + 1, 1);
+        buckets = 4;
+        bucketOf = (d) => Math.min(3, Math.floor((d.getDate() - 1) / 7));
+      } else if (period === 'trim') {
+        const first = new Date(y, m - 2, 1);
+        start = first;
+        end = new Date(y, m + 1, 1);
+        buckets = 3;
+        bucketOf = (d) => (d.getFullYear() - first.getFullYear()) * 12 + d.getMonth() - first.getMonth();
+      } else {
+        start = new Date(y, 0, 1);
+        end = new Date(y + 1, 0, 1);
+        buckets = 4;
+        bucketOf = (d) => Math.floor(d.getMonth() / 3);
+      }
+
+      const { data, error } = await client
+        .from('payments')
+        .select('amount, platform_fee, net_amount, paid_at, payouts ( status )')
+        .gte('paid_at', start.toISOString())
+        .lt('paid_at', end.toISOString());
+      if (error) throw new Error('Não foi possível carregar o financeiro');
+
+      const rows = (data ?? []) as unknown as FinancePaymentRow[];
+      const weekly: Array<[number, number]> = Array.from({ length: buckets }, () => [0, 0]);
+      let gmv = 0;
+      let platform = 0;
+      let paid = 0;
+      let pending = 0;
+      for (const row of rows) {
+        const fee = Number(row.platform_fee);
+        const net = Number(row.net_amount);
+        gmv += Number(row.amount);
+        platform += fee;
+        if (row.payouts?.status === 'processado') paid += net;
+        else pending += net;
+        const bucket = weekly[bucketOf(new Date(row.paid_at))];
+        if (bucket) {
+          bucket[0] += fee;
+          bucket[1] += net;
+        }
+      }
+      return { gmv, platform, paid, pending, avgFee: rows.length ? platform / rows.length : 0, weekly };
+    },
+
+    listAdminPayouts,
+
+    async generateAdminPayouts() {
+      const { data, error } = await client
+        .from('payments')
+        .select('paid_at, appointments!inner ( professional_id, status )')
+        .is('payout_id', null)
+        .not('paid_at', 'is', null)
+        .neq('appointments.status', 'cancelado');
+      if (error) throw new Error('Não foi possível consultar os pagamentos a repassar');
+
+      // Uma profissional por repasse; o período começa no pagamento mais antigo ainda não repassado.
+      const firstPaid = new Map<string, string>();
+      for (const row of (data ?? []) as unknown as UnpaidPaymentRow[]) {
+        const proId = row.appointments.professional_id;
+        const day = row.paid_at.slice(0, 10);
+        const current = firstPaid.get(proId);
+        if (!current || day < current) firstPaid.set(proId, day);
+      }
+
+      // periodEnd = amanhã: create_payout compara paid_at (UTC) com o fim do dia, e "hoje" local pode já ser amanhã em UTC.
+      const periodEnd = addDays(todayISO(), 1);
+      let failures = 0;
+      let firstError: Error | null = null;
+      for (const [professionalId, periodStart] of firstPaid) {
+        try {
+          await callApi('POST', '/payouts', { professionalId, periodStart, periodEnd });
+        } catch (e) {
+          failures += 1;
+          firstError ??= e instanceof Error ? e : new Error('Não foi possível gerar o repasse');
+        }
+      }
+      if (failures && failures === firstPaid.size && firstError) throw firstError;
+      return listAdminPayouts();
+    },
+
+    async processAdminPayout(id) {
+      await callApi('POST', `/payouts/${id}/process`);
+      return listAdminPayouts();
+    },
+
+    async processAllAdminPayouts() {
+      const pending = (await listAdminPayouts()).filter((p) => !p.done);
+      let failures = 0;
+      for (const payout of pending) {
+        try {
+          await callApi('POST', `/payouts/${payout.id}/process`);
+        } catch {
+          failures += 1;
+        }
+      }
+      if (failures) throw new Error(`${failures} repasse(s) não puderam ser processados`);
+      return listAdminPayouts();
+    },
+
+    listAdminDisputes,
+
+    async resolveAdminDispute(id, resolution: DisputeResolution) {
+      const { data, error } = await client
+        .from('disputes')
+        .update({
+          status: resolution === 'reembolso' ? 'resolvida' : 'rejeitada',
+          resolution,
+          resolved_at: new Date().toISOString(),
+        })
+        .eq('id', id)
+        .eq('status', 'aberta')
+        .select('id');
+      if (error || !data?.length) throw new Error('Não foi possível resolver a disputa');
+      return listAdminDisputes();
+    },
+
+    getAdminConfig,
+
+    async saveAdminConfig(rates) {
+      return updateAdminConfig({
+        commission_pct: rates.commissionPct,
+        min_deposit: rates.depositMin,
+        payout_days: rates.payoutDays,
+        home_fee: rates.homeFee,
+        late_cancel_penalty_pct: rates.lateFeePct,
+      });
+    },
+
+    async toggleAdminConfigFlag(key) {
+      const current = await getAdminConfig();
+      return updateAdminConfig({ toggles: { ...current.toggles, [key]: !current.toggles[key] } });
+    },
+
+    async toggleAdminMaintenance() {
+      const current = await getAdminConfig();
+      return updateAdminConfig({ maintenance_mode: !current.maintenance });
+    },
   };
 }
 
@@ -965,6 +1203,57 @@ interface AdminProfessionalRow {
   rating: number | string;
   profiles: { name: string } | null;
   appointments: Array<{ count: number }> | null;
+}
+
+interface AdminClientRow {
+  id: string;
+  name: string;
+  email: string;
+  blocked: boolean;
+  appointments: Array<{ count: number }> | null;
+}
+
+interface AdminPayoutRow {
+  id: string;
+  amount: number | string;
+  status: 'pendente' | 'processado';
+  professional_profiles: { specialty: string; profiles: { name: string } | null } | null;
+  payments: Array<{ count: number }> | null;
+}
+
+interface AdminDisputeRow {
+  id: string;
+  reason: string;
+  created_at: string;
+  appointment: {
+    price: number | string;
+    home_fee: number | string;
+    client: { name: string } | null;
+    professional: { profiles: { name: string } | null } | null;
+  } | null;
+}
+
+interface FinancePaymentRow {
+  amount: number | string;
+  platform_fee: number | string;
+  net_amount: number | string;
+  paid_at: string;
+  payouts: { status: 'pendente' | 'processado' } | null;
+}
+
+interface UnpaidPaymentRow {
+  paid_at: string;
+  appointments: { professional_id: string };
+}
+
+interface PlatformConfigRow {
+  commission_pct: number | string;
+  min_deposit: number | string;
+  payout_days: number;
+  home_fee: number | string;
+  late_cancel_penalty_pct: number | string;
+  maintenance_mode: boolean;
+  toggles: Partial<AdminConfigToggles> | null;
 }
 
 interface OverviewAppointmentRow {
