@@ -331,6 +331,26 @@ export function createMockDataSource(): DataSource {
       return expensesStore.create(professionalId, input);
     },
 
+    async getAdminOverview() {
+      return {
+        clients: 3421,
+        clientsWeek: 89,
+        professionals: 847,
+        professionalsWeek: 12,
+        appointmentsToday: 234,
+        appointmentsYesterday: 198,
+        gmvMonth: 48320,
+        gmvPrevMonth: 39285,
+        zones: [
+          ['Centro BH', 124],
+          ['Betim', 78],
+          ['Contagem', 45],
+          ['Norte BH', 31],
+          ['Sul BH', 28],
+        ],
+      };
+    },
+
     async listAdminProfessionals() {
       return adminStore.listProfessionals();
     },

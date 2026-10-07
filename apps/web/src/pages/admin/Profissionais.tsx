@@ -44,8 +44,11 @@ export function Profissionais() {
   const filter = (searchParams.get('filtro') as AdminProfStatus | 'todas') ?? 'todas';
 
   const reload = useCallback(() => {
-    dataSource.listAdminProfessionals().then(setProfessionals);
-  }, []);
+    dataSource
+      .listAdminProfessionals()
+      .then(setProfessionals)
+      .catch((e: unknown) => toast(e instanceof Error ? e.message : 'Não foi possível carregar as profissionais'));
+  }, [toast]);
 
   useEffect(() => {
     reload();
@@ -81,6 +84,8 @@ export function Profissionais() {
       setSelected(null);
       toast(`${pro?.name ?? 'Profissional'} ${ACTION_MESSAGES[action]}`);
       reload();
+    } catch (e) {
+      toast(e instanceof Error ? e.message : 'Não foi possível concluir a ação');
     } finally {
       setSubmitting(false);
     }

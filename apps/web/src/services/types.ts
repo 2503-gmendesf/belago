@@ -16,6 +16,7 @@ import type {
   AdminDispute,
   AdminFinancePeriod,
   AdminFinanceSnapshot,
+  AdminOverview,
   AdminPayout,
   AdminProfAction,
   AdminProfessional,
@@ -137,6 +138,8 @@ export interface DataSource {
   /** Registra uma nova despesa. */
   createExpense(professionalId: string, input: CreateExpenseInput): Promise<Expense>;
 
+  /** Números do painel do admin (clientes, profissionais, agendamentos, GMV, concentração por cidade). */
+  getAdminOverview(): Promise<AdminOverview>;
   /** Profissionais cadastradas na plataforma, para moderação do admin. */
   listAdminProfessionals(): Promise<AdminProfessional[]>;
   /** Aplica uma ação de moderação (aprovar, suspender, reativar, excluir, advertir, solicitar documentos). */

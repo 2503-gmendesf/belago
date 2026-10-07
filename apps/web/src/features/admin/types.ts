@@ -10,6 +10,19 @@ export interface AdminProfessional {
   appointmentsCount: number;
 }
 
+export interface AdminOverview {
+  clients: number;
+  clientsWeek: number;
+  professionals: number;
+  professionalsWeek: number;
+  appointmentsToday: number;
+  appointmentsYesterday: number;
+  gmvMonth: number;
+  gmvPrevMonth: number;
+  /** [cidade, agendamentos no mês], do maior para o menor. */
+  zones: Array<[string, number]>;
+}
+
 export type AdminProfAction = 'aprovar' | 'solicitar' | 'advertir' | 'suspender' | 'reativar' | 'excluir';
 
 export type AdminClientStatus = 'ativa' | 'bloqueada';

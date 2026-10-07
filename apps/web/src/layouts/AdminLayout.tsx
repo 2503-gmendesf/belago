@@ -1,4 +1,5 @@
 import { Outlet, useLocation } from 'react-router-dom';
+import { ErrorBoundary } from '../components/ErrorBoundary.js';
 import { TabBar, type TabBarItem } from '../components/TabBar.js';
 
 const ITEMS: TabBarItem[] = [
@@ -15,7 +16,9 @@ export function AdminLayout() {
   return (
     <div className="app">
       <div className="screen" key={pathname}>
-        <Outlet />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
       </div>
       <TabBar items={ITEMS} ariaLabel="Navegação do admin" />
     </div>

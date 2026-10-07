@@ -2,17 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../components/Icon.js';
 import { useToast } from '../../components/ToastProvider.js';
+import { brl } from '../../lib/format.js';
 import { dataSource } from '../../services/index.js';
-import type { AdminDispute, AdminProfessional } from '../../features/admin/types.js';
-
-const ZONES: Array<[string, number]> = [
-  ['Centro BH', 124],
-  ['Betim', 78],
-  ['Contagem', 45],
-  ['Norte BH', 31],
-  ['Sul BH', 28],
-];
-const ZONE_MAX = 124;
+import type { AdminDispute, AdminOverview, AdminProfessional } from '../../features/admin/types.js';
 
 const ACTIVITY: Array<[string, string, string]> = [
   ['check-c', 'Bruna Oliveira concluiu a verificação', 'há 2 min · Maquiagem · Contagem'],
@@ -22,18 +14,33 @@ const ACTIVITY: Array<[string, string, string]> = [
   ['dollar', 'Repasse de R$ 1.240 processado', 'há 1 h · 12 profissionais · PIX'],
 ];
 
+function compare(current: number, previous: number, label: string): string {
+  if (previous <= 0) return `sem dados ${label}`;
+  const pct = Math.round(((current - previous) / previous) * 100);
+  return `${Math.abs(pct)}% ${pct >= 0 ? 'acima' : 'abaixo'} ${label}`;
+}
+
 export function Painel() {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [overview, setOverview] = useState<AdminOverview | null>(null);
   const [professionals, setProfessionals] = useState<AdminProfessional[]>([]);
   const [disputes, setDisputes] = useState<AdminDispute[]>([]);
 
   useEffect(() => {
-    dataSource.listAdminProfessionals().then(setProfessionals);
-    dataSource.listAdminDisputes().then(setDisputes);
-  }, []);
+    const fail = (e: unknown) => toast(e instanceof Error ? e.message : 'Não foi possível carregar o painel');
+    dataSource.getAdminOverview().then(setOverview).catch(fail);
+    dataSource.listAdminProfessionals().then(setProfessionals).catch(fail);
+    // Disputas ainda não migradas para o Supabase: sem elas o contador fica em 0.
+    Promise.resolve()
+      .then(() => dataSource.listAdminDisputes())
+      .then(setDisputes)
+      .catch(() => undefined);
+  }, [toast]);
 
   const pendingCount = professionals.filter((p) => p.status === 'pendente').length;
+  const zones = overview?.zones ?? [];
+  const zoneMax = Math.max(1, ...zones.map(([, value]) => value));
 
   return (
     <div>
@@ -43,30 +50,30 @@ export function Painel() {
       <div className="kpis-2" style={{ marginTop: 16 }}>
         <div className="kpi">
           <p className="small muted">Clientes</p>
-          <p className="v num">3.421</p>
+          <p className="v num">{overview ? overview.clients.toLocaleString('pt-BR') : '—'}</p>
           <p className="tiny faint" style={{ marginTop: 2 }}>
-            +89 esta semana
+            {overview ? `+${overview.clientsWeek} esta semana` : ' '}
           </p>
         </div>
         <div className="kpi">
           <p className="small muted">Profissionais ativas</p>
-          <p className="v num">847</p>
+          <p className="v num">{overview ? overview.professionals.toLocaleString('pt-BR') : '—'}</p>
           <p className="tiny faint" style={{ marginTop: 2 }}>
-            +12 esta semana
+            {overview ? `+${overview.professionalsWeek} esta semana` : ' '}
           </p>
         </div>
         <div className="kpi">
           <p className="small muted">Agendamentos hoje</p>
-          <p className="v num">234</p>
+          <p className="v num">{overview ? overview.appointmentsToday.toLocaleString('pt-BR') : '—'}</p>
           <p className="tiny faint" style={{ marginTop: 2 }}>
-            18% acima de ontem
+            {overview ? compare(overview.appointmentsToday, overview.appointmentsYesterday, 'de ontem') : ' '}
           </p>
         </div>
         <div className="kpi">
           <p className="small muted">GMV do mês</p>
-          <p className="v num">R$ 48.320</p>
+          <p className="v num">{overview ? brl(overview.gmvMonth) : '—'}</p>
           <p className="tiny faint" style={{ marginTop: 2 }}>
-            23% acima do mês anterior
+            {overview ? compare(overview.gmvMonth, overview.gmvPrevMonth, 'do mês anterior') : ' '}
           </p>
         </div>
       </div>
@@ -108,15 +115,16 @@ export function Painel() {
         <p className="tiny muted" style={{ marginBottom: 12 }}>
           Região de BH e entorno · este mês
         </p>
-        {ZONES.map(([name, value]) => (
+        {zones.map(([name, value]) => (
           <div className="zone-row" key={name}>
             <span className="small zone-name">{name}</span>
             <div className="zone-track">
-              <div className="zone-fill" style={{ width: `${(value / ZONE_MAX) * 100}%` }} />
+              <div className="zone-fill" style={{ width: `${(value / zoneMax) * 100}%` }} />
             </div>
             <span className="small num muted zone-value">{value}</span>
           </div>
         ))}
+        {overview && !zones.length && <p className="small muted">Nenhum atendimento neste mês.</p>}
       </div>
 
       <div className="section">

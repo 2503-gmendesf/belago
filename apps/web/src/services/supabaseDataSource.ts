@@ -2,7 +2,8 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { freeTimesForDate, type Role } from '@belago/shared';
 import { env } from '../env.js';
 import type { AppointmentLocation, AppointmentView } from '../features/appointments/types.js';
-import { isoFromDate, toMinutes } from '../lib/format.js';
+import type { AdminOverview, AdminProfAction, AdminProfessional, AdminProfStatus } from '../features/admin/types.js';
+import { addDays, isoFromDate, todayISO, toMinutes } from '../lib/format.js';
 import type {
   ProAvailabilitySlot,
   ProBankInfo,
@@ -329,6 +330,31 @@ export function createSupabaseDataSource(): DataSource {
       .eq('profile_id', userId)
       .maybeSingle();
     if (!data) throw new Error('Usuário não é uma profissional');
+  }
+
+  async function countRows(
+    query: PromiseLike<{ count: number | null; error: { message: string } | null }>,
+  ): Promise<number> {
+    const { count, error } = await query;
+    if (error) throw new Error('Não foi possível carregar os números do painel');
+    return count ?? 0;
+  }
+
+  async function listAdminProfessionals(): Promise<AdminProfessional[]> {
+    const { data, error } = await client
+      .from('professional_profiles')
+      .select('profile_id, specialty, city, status, rating, profiles:profile_id ( name ), appointments ( count )')
+      .order('created_at', { ascending: false });
+    if (error) throw new Error('Não foi possível carregar as profissionais');
+    return ((data ?? []) as unknown as AdminProfessionalRow[]).map((row) => ({
+      id: row.profile_id,
+      name: row.profiles?.name ?? 'Profissional',
+      spec: row.specialty,
+      city: row.city ?? '—',
+      status: row.status as AdminProfStatus,
+      rating: Number(row.rating),
+      appointmentsCount: row.appointments?.[0]?.count ?? 0,
+    }));
   }
 
   return {
@@ -825,12 +851,97 @@ export function createSupabaseDataSource(): DataSource {
       };
     },
 
-    // Painel administrativo (moderação, financeiro da plataforma, repasses, disputas e
-    // configuração) fica fora do escopo da Fase 4 — o "ponto de partida" do plano só lista
-    // profissionais/serviços/perfil/agendamentos/exclusão de conta como integrados; admin
-    // entra junto com os endpoints de POST /payouts e afins na Fase 5 (API).
-    listAdminProfessionals: admin404,
-    adminProfessionalAction: admin404,
+    // Painel administrativo: Painel e Profissionais já leem o banco (o RLS libera o admin).
+    // O restante (clientes, financeiro, repasses, disputas, config) ainda não foi migrado.
+    async getAdminOverview(): Promise<AdminOverview> {
+      const today = todayISO();
+      const yesterday = addDays(today, -1);
+      const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const now = new Date();
+      const prevMonthStart = isoFromDate(new Date(now.getFullYear(), now.getMonth() - 1, 1));
+      const monthStart = isoFromDate(new Date(now.getFullYear(), now.getMonth(), 1));
+      const nextMonthStart = isoFromDate(new Date(now.getFullYear(), now.getMonth() + 1, 1));
+
+      const head = { count: 'exact', head: true } as const;
+      const [clients, clientsWeek, professionals, professionalsWeek, appointmentsToday, appointmentsYesterday, gmvRows] =
+        await Promise.all([
+          countRows(client.from('profiles').select('id', head).eq('role', 'cliente')),
+          countRows(client.from('profiles').select('id', head).eq('role', 'cliente').gte('created_at', weekAgo)),
+          countRows(client.from('professional_profiles').select('profile_id', head).eq('status', 'ativa')),
+          countRows(
+            client
+              .from('professional_profiles')
+              .select('profile_id', head)
+              .eq('status', 'ativa')
+              .gte('created_at', weekAgo),
+          ),
+          countRows(
+            client.from('appointments').select('id', head).eq('scheduled_date', today).neq('status', 'cancelado'),
+          ),
+          countRows(
+            client.from('appointments').select('id', head).eq('scheduled_date', yesterday).neq('status', 'cancelado'),
+          ),
+          client
+            .from('appointments')
+            .select('price, home_fee, scheduled_date, professional_profiles ( city )')
+            .in('status', ['confirmado', 'realizado'])
+            .gte('scheduled_date', prevMonthStart)
+            .lt('scheduled_date', nextMonthStart),
+        ]);
+      if (gmvRows.error) throw new Error('Não foi possível carregar os números do painel');
+
+      let gmvMonth = 0;
+      let gmvPrevMonth = 0;
+      const byCity = new Map<string, number>();
+      for (const row of (gmvRows.data ?? []) as unknown as OverviewAppointmentRow[]) {
+        const value = Number(row.price) + Number(row.home_fee);
+        if (row.scheduled_date >= monthStart) {
+          gmvMonth += value;
+          const city = row.professional_profiles?.city || 'Sem cidade';
+          byCity.set(city, (byCity.get(city) ?? 0) + 1);
+        } else {
+          gmvPrevMonth += value;
+        }
+      }
+      const zones = [...byCity.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
+
+      return {
+        clients,
+        clientsWeek,
+        professionals,
+        professionalsWeek,
+        appointmentsToday,
+        appointmentsYesterday,
+        gmvMonth,
+        gmvPrevMonth,
+        zones,
+      };
+    },
+
+    listAdminProfessionals,
+
+    async adminProfessionalAction(id: string, action: AdminProfAction) {
+      if (action === 'advertir' || action === 'solicitar') {
+        // O RLS de notifications só deixa o dono gravar; o envio para outra usuária fica para a API.
+        throw new Error('Avisos à profissional ainda não estão disponíveis.');
+      }
+      const patch: Record<AdminProfAction, { status: AdminProfStatus; verified_at?: string } | null> = {
+        aprovar: { status: 'ativa', verified_at: new Date().toISOString() },
+        reativar: { status: 'ativa' },
+        suspender: { status: 'suspensa' },
+        excluir: { status: 'excluida' },
+        advertir: null,
+        solicitar: null,
+      };
+      const { data, error } = await client
+        .from('professional_profiles')
+        .update(patch[action]!)
+        .eq('profile_id', id)
+        .select('profile_id');
+      if (error || !data?.length) throw new Error('Não foi possível atualizar a profissional');
+      return listAdminProfessionals();
+    },
+
     listAdminClients: admin404,
     toggleAdminClientBlock: admin404,
     getAdminFinance: admin404,
@@ -844,6 +955,23 @@ export function createSupabaseDataSource(): DataSource {
     toggleAdminConfigFlag: admin404,
     toggleAdminMaintenance: admin404,
   };
+}
+
+interface AdminProfessionalRow {
+  profile_id: string;
+  specialty: string;
+  city: string | null;
+  status: string;
+  rating: number | string;
+  profiles: { name: string } | null;
+  appointments: Array<{ count: number }> | null;
+}
+
+interface OverviewAppointmentRow {
+  price: number | string;
+  home_fee: number | string;
+  scheduled_date: string;
+  professional_profiles: { city: string | null } | null;
 }
 
 interface AppointmentRow {
